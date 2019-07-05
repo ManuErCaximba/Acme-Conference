@@ -19,8 +19,8 @@
 	<!-- User accounts -->
 
 	<bean id="userAccount1" class="security.UserAccount">
-		<property name="username" value="admin" />
-		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="username" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -31,32 +31,77 @@
 	</bean>
 
 	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="customer" />
-		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
+		<property name="username" value="reviewer1" />
+		<property name="password" value="6ce19528a40dde9521d97cf7ba264eca" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="REVIEWER" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="super" />
-		<property name="password" value="1b3231655cebb7a1f783eddf27d254ca" />
+		<property name="username" value="reviewer2" />
+		<property name="password" value="2693b57f0f59df94caacefb811e99851" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="ADMIN" />
-				</bean>
-				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="REVIEWER" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	
-	<!-- Other domain beans come here -->	
-	
+	-->
+
+	<!-- Other domain beans come here -->
+
+	<!-- ADMIN -->
+
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="admin1" />
+		<property name="surname" value="admin1" />
+		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
+		<property name="email" value="admin1@gmail.com" />
+		<property name="phoneNumber" value="666778899" />
+		<property name="address" value="C/admin1/Nº5" />
+	</bean>
+
+	<!-- REVIEWER -->
+
+	<bean id="reviewer1" class="domain.Reviewer">
+		<property name="name" value="reviewer1" />
+		<property name="surname" value="reviewer1" />
+		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
+		<property name="email" value="reviewer1@gmail.com" />
+		<property name="phoneNumber" value="666889900" />
+		<property name="address" value="C/reviewer1/Nº5" />
+		<property name="keywords">
+			<list>
+				<value>reviewer1</value>
+				<value>good</value>
+				<value>sexy</value>
+				<value>science</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="reviewer2" class="domain.Reviewer">
+		<property name="name" value="reviewer2" />
+		<property name="surname" value="reviewer2" />
+		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
+		<property name="email" value="reviewer2@gmail.com" />
+		<property name="phoneNumber" value="666889900" />
+		<property name="address" value="C/reviewer2/Nº5" />
+		<property name="keywords">
+			<list>
+				<value>reviewer1</value>
+				<value>good</value>
+				<value>sexy</value>
+				<value>science</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>
