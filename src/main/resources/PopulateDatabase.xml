@@ -28,7 +28,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
+    </bean>
 
 	<bean id="userAccount2" class="security.UserAccount">
 		<property name="username" value="reviewer1" />
@@ -53,24 +53,26 @@
 			</list>
 		</property>
 	</bean>
-	-->
 
 	<!-- Other domain beans come here -->
 
 	<!-- ADMIN -->
 
 	<bean id="administrator1" class="domain.Administrator">
+		<property name="userAccount" ref="userAccount1"/>
 		<property name="name" value="admin1" />
 		<property name="surname" value="admin1" />
 		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
 		<property name="email" value="admin1@gmail.com" />
 		<property name="phoneNumber" value="666778899" />
 		<property name="address" value="C/admin1/Nº5" />
+
 	</bean>
 
 	<!-- REVIEWER -->
 
 	<bean id="reviewer1" class="domain.Reviewer">
+		<property name="userAccount" ref="userAccount2"/>
 		<property name="name" value="reviewer1" />
 		<property name="surname" value="reviewer1" />
 		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
@@ -88,6 +90,7 @@
 	</bean>
 
 	<bean id="reviewer2" class="domain.Reviewer">
+		<property name="userAccount" ref="userAccount3"/>
 		<property name="name" value="reviewer2" />
 		<property name="surname" value="reviewer2" />
 		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
@@ -96,7 +99,7 @@
 		<property name="address" value="C/reviewer2/Nº5" />
 		<property name="keywords">
 			<list>
-				<value>reviewer1</value>
+				<value>reviewer2</value>
 				<value>good</value>
 				<value>sexy</value>
 				<value>science</value>
