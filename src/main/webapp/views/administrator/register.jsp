@@ -10,76 +10,44 @@
     <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
     <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
     <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-    <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+    <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 </head>
 <body>
 <security:authorize access="hasRole('ADMIN')">
+
     <spring:message code="actor.firstMessage" />
-    <form:form id="myform" action="administrator/administrator/create.do" modelAttribute="administratorForm">
+
+    <form:form id="myform" action="administrator/register.do" modelAttribute="administratorForm">
 
         <form:hidden path="id" />
+
+        <br>
         <fieldset>
-            <legend><spring:message code="actor.PersonalData" /></legend>
-            *
-            <acme:textbox code="actor.username" path="username"/>
-            <br />
 
-            <form:label path="password" >
-                <spring:message code="actor.password" />*
-            </form:label>
-            <form:password path="password" id="password"/>
-            <form:errors cssClass="error" path="password" />
-            <br />
+            <legend><spring:message code="actor.accountData" /></legend>
 
-            <form:label path="confirmPass">
-                <spring:message code="actor.confirmPass" />*
-            </form:label>
-            <form:password path="confirmPass" id="confirmPassword"/>
-            <form:errors cssClass="error" path="password" />
-            <br />
+            <acme:textboxbsa code="actor.username" path="username"/>
+            <acme:textboxbsa code="actor.password" path="password"/>
+            <acme:textboxbsa code="actor.confirmPass" path="confirmPass"/>
 
-            *
-            <acme:textbox code="actor.name" path="name"/>
-            <br />
-            *
-            <acme:textbox code="actor.surname" path="surname"/>
-            <br />
-
-            <acme:textbox code="actor.photo" path="photo"/>
-            <br />
-            *
-            <acme:textbox code="actor.email" path="email"/>
-            <br />
-            *
-            <acme:textbox code="actor.phoneNumber" path="phoneNumber"/>
-            <br />
-
-            <acme:textbox code="actor.address" path="address"/>
-            <br />
-            *
-            <acme:textbox code="actor.vatNumber" path="vatNumber"/>
-            <br />
         </fieldset>
+
+        <br>
         <fieldset>
-            <legend><spring:message code="actor.CreditCard" /></legend>
-            *
-            <acme:textbox code="credit.holderName" path="holderName"/>
-            <br />
-            *
-            <acme:textbox code="credit.brandName" path="brandName"/>
-            <br />
-            *
-            <acme:textbox code="credit.number" path="number"/>
-            <br />
-            *
-            <acme:textbox code="credit.expiration" path="expiration" placeholder="MM/YY"/>
-            <br />
-            *
-            <acme:textbox code="credit.cvvCode" path="cvvCode"/>
-            <br />
-            
+
+            <legend><spring:message code="actor.personalData" /></legend>
+
+            <acme:textboxbsa code="actor.name" path="name"/>
+            <acme:textboxbs code="actor.middleName" path="middleName"/>
+            <acme:textboxbsa code="actor.surname" path="surname"/>
+            <acme:textboxbs code="actor.phoneNumber" path="phoneNumber"/>
+            <acme:textboxbsa code="actor.email" path="email"/>
+            <acme:textboxbs code="actor.photo" path="photo"/>
+            <acme:textboxbs code="actor.address" path="address"/>
+
         </fieldset>
+
         <script type="text/javascript">
             function phoneValidation(){
                 var phoneNumber = document.getElementById("phoneNumber").value;
@@ -104,23 +72,19 @@
             }
         </script>
 
+        <br>
 
         <div class=terms>
             <input type="checkbox" required name="terms">
-            <label for="terms"><spring:message code="terms" /></label>
+            <label for="terms"><spring:message code="terms"/></label>
         </div>
 
-        <input type="button" name="save"
-               value="<spring:message code="actor.save"/>"
-               onclick="phoneValidation();"
-        />&nbsp;
-
-        <input type="button" name="cancel"
-               value="<spring:message code="messageBox.goBack" />"
-               onclick="javascript: relativeRedir('/');" />
-        <br />
+        <br>
+        <acme:submit name="save" code="button.save"/>
+        <acme:cancel code="button.cancel" url="/"/>
 
     </form:form>
+
 </security:authorize>
 </body>
 </html>
