@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -53,5 +54,17 @@ public class SponsorService {
 		sponsor.setUserAccount(userAccount);
 
 		return sponsor;
+	}
+
+	public Sponsor save(final Sponsor sponsor) {
+		Assert.notNull(sponsor);
+		Sponsor result;
+		if (sponsor.getId() == 0) {
+			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			final String res = encoder.encodePassword(sponsor.getUserAccount().getPassword(), null);
+			sponsor.getUserAccount().setPassword(res);
+		}
+		result = this.sponsorRepository.save(sponsor);
+		return result;
 	}
 }
