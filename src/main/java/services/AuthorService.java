@@ -6,11 +6,15 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import domain.Actor;
+import forms.AuthorForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import repositories.AuthorRepository;
 import security.Authority;
 import security.UserAccount;
@@ -23,6 +27,11 @@ public class AuthorService {
 	@Autowired
 	private AuthorRepository	authorRepository;
 
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private Validator validator;
 
 	public Author create() {
 		Author author;
@@ -65,6 +74,57 @@ public class AuthorService {
 			author.getUserAccount().setPassword(res);
 		}
 		result = this.authorRepository.save(author);
+		return result;
+	}
+
+	public void delete(final Author s) {
+
+		final Actor actor = this.actorService.getActorLogged();
+		Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+		Assert.notNull(s);
+		Assert.isTrue(actor.getId() != 0);
+
+		this.authorRepository.delete(s);
+	}
+
+	public Author reconstruct(final Author s, final BindingResult binding) {
+
+		Author result;
+		if (s.getId() == 0) {
+			this.validator.validate(s, binding);
+			result = s;
+		} else {
+			result = this.authorRepository.findOne(s.getId());
+
+			result.setName(s.getName());
+			result.setPhoto(s.getPhoto());
+			result.setPhoneNumber(s.getPhoneNumber());
+			result.setEmail(s.getEmail());
+			result.setAddress(s.getAddress());
+			result.setSurname(s.getSurname());
+
+			this.validator.validate(s, binding);
+		}
+		return result;
+	}
+
+	//Objeto formulario
+	public Author reconstruct(final AuthorForm s, final BindingResult binding) {
+
+		final Author result = this.create();
+		result.setAddress(s.getAddress());
+		result.setEmail(s.getEmail());
+		result.setId(s.getId());
+		result.setName(s.getName());
+		result.setPhoneNumber(s.getPhoneNumber());
+		result.setPhoto(s.getPhoto());
+		result.setSurname(s.getSurname());
+		result.getUserAccount().setPassword(s.getPassword());
+		result.getUserAccount().setUsername(s.getUsername());
+		result.setVersion(s.getVersion());
+		result.setMiddleName(s.getMiddleName());
+
+		this.validator.validate(result, binding);
 		return result;
 	}
 
