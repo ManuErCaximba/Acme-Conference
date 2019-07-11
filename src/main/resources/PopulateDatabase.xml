@@ -89,6 +89,18 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="sponsor2" />
+		<property name="password" value="3dc67f80a03324e01b1640f45d107485" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="SPONSOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- Other domain beans come here -->
@@ -176,6 +188,17 @@
 		<property name="email" value="sponsor1@gmail.com" />
 		<property name="phoneNumber" value="684144461" />
 		<property name="address" value="C/sponsor 1" />
+
+	</bean>
+	
+	<bean id="sponsor2" class="domain.Sponsor">
+		<property name="userAccount" ref="userAccount7"/>
+		<property name="name" value="sponsor2" />
+		<property name="surname" value="sponsor2" />
+		<property name="photo" value="https://image.shutterstock.com/image-photo/stock-image-man-shouting-pointing-600w-50205055.jpg" />
+		<property name="email" value="sponsor2@gmail.com" />
+		<property name="phoneNumber" value="684144465" />
+		<property name="address" value="C/sponsor 2" />
 
 	</bean>
 
