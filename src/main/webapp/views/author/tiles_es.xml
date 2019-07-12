@@ -16,8 +16,8 @@
       
 <tiles-definitions>
 
-	<definition name="author/register" extends="master.page">
-		<put-attribute name="title" value="Registrarse como un author" />
+	<definition name="author/create" extends="master.page">
+		<put-attribute name="title" value="Registro" />
 		<put-attribute name="body" value="/views/author/register.jsp" />
 	</definition>
 	
