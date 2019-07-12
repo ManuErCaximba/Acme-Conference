@@ -22,6 +22,10 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
+		<bean class="converters.AuthorToStringConverter"/>
+		<bean class="converters.StringToAuthorConverter" />
+		<bean class="converters.SponsorToStringConverter" />
+		<bean class="converters.StringToSponsorConverter" />
 	</util:list>
 	
 </beans>

@@ -21,11 +21,11 @@
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p>
 
 <security:authorize access="isAnonymous()">
-    <input type="button" name="registerCustomer"
+    <input type="button" name="registerAuthor"
            value="<spring:message code="welcome.register.author" />"
            onclick="javascript: relativeRedir('author/create.do');" />&nbsp;
 
-    <input type="button" name="registerHandyWorker"
+    <input type="button" name="registerSponsor"
            value="<spring:message code="welcome.register.sponsor" />"
            onclick="javascript: relativeRedir('sponsor/create.do');" />
 

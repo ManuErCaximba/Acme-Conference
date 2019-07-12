@@ -1,5 +1,8 @@
+
+
 package controllers.sponsor;
 
+import controllers.AbstractController;
 import domain.Sponsor;
 import forms.SponsorForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +17,25 @@ import services.SponsorService;
 
 import javax.validation.Valid;
 
+;
+
 @Controller
 @RequestMapping("sponsor")
-public class SponsorController {
+public class SponsorController extends AbstractController {
+
+    @Autowired
+    private AdministratorService	administratorService;
 
     @Autowired
     private SponsorService sponsorService;
 
     @Autowired
-    private ActorService actorService;
+    private ActorService			actorService;
 
-    @Autowired
-    private AdministratorService administratorService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView create() {
 
         ModelAndView result;
@@ -74,7 +82,7 @@ public class SponsorController {
 
         final ModelAndView result;
 
-        result = new ModelAndView("sponsor/register");
+        result = new ModelAndView("sponsor/create");
         result.addObject("sponsorForm", sponsorForm);
         result.addObject("message", messageCode);
 
