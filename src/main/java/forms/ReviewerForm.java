@@ -1,11 +1,12 @@
 package forms;
 
-import domain.Administrator;
+import domain.Reviewer;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
 
-public class AdministratorForm {
+public class ReviewerForm {
 
     private int id;
     private int version;
@@ -21,20 +22,22 @@ public class AdministratorForm {
     private String username;
     private String password;
     private String confirmPass;
+    
+    private String keywordsString;
 
-    public AdministratorForm(Administrator administrator){
-        this.id = administrator.getId();
-        this.version = administrator.getVersion();
-        this.name = administrator.getName();
-        this.middleName = administrator.getMiddleName();
-        this.surname = administrator.getSurname();
-        this.photo = administrator.getPhoto();
-        this.email = administrator.getEmail();
-        this.phoneNumber = administrator.getPhoneNumber();
-        this.address = administrator.getAddress();
+    public ReviewerForm(Reviewer reviewer){
+        this.id = reviewer.getId();
+        this.version = reviewer.getVersion();
+        this.name = reviewer.getName();
+        this.middleName = reviewer.getMiddleName();
+        this.surname = reviewer.getSurname();
+        this.photo = reviewer.getPhoto();
+        this.email = reviewer.getEmail();
+        this.phoneNumber = reviewer.getPhoneNumber();
+        this.address = reviewer.getAddress();
     }
 
-    public AdministratorForm(){
+    public ReviewerForm(){
     }
 
     public int getId() {
@@ -134,5 +137,14 @@ public class AdministratorForm {
 
     public void setConfirmPass(String confirmPass) {
         this.confirmPass = confirmPass;
+    }
+
+    @NotBlank
+    public String getKeywordsString() {
+        return keywordsString;
+    }
+
+    public void setKeywordsString(String keywordsString) {
+        this.keywordsString = keywordsString;
     }
 }

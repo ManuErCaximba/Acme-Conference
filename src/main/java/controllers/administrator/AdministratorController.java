@@ -1,5 +1,6 @@
 package controllers.administrator;
 
+import controllers.AbstractController;
 import domain.Administrator;
 import forms.AdministratorForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.AdministratorService;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("administrator")
-public class AdministratorController {
+public class AdministratorController extends AbstractController {
 
     @Autowired
     private AdministratorService administratorService;
@@ -32,8 +35,8 @@ public class AdministratorController {
         return result;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(final AdministratorForm administratorForm, final BindingResult binding) {
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ModelAndView save(@Valid final AdministratorForm administratorForm, final BindingResult binding) {
         ModelAndView result;
         Administrator admin;
 
@@ -51,9 +54,7 @@ public class AdministratorController {
                 this.administratorService.save(admin);
                 result = new ModelAndView("redirect:/");
             } catch (final Throwable oops) {
-                if (binding.hasErrors())
-                    result = this.createEditModelAndView(administratorForm, "error.duplicated");
-                result = this.createEditModelAndView(administratorForm, "error.commit.error");
+                result = this.createEditModelAndView(administratorForm);
             }
         return result;
     }

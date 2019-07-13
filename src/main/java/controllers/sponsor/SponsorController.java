@@ -54,7 +54,7 @@ public class SponsorController extends AbstractController {
         if (this.actorService.existUsername(sponsorForm.getUsername()) == false) {
             binding.rejectValue("username", "error.username");
             result = this.createEditModelAndView(sponsorForm);
-        } else if (this.administratorService.checkPass(sponsorForm.getPassword(), sponsorForm.getConfirmPass()) == false) {
+        } else if (!sponsorForm.getPassword().equals(sponsorForm.getConfirmPass())) {
             binding.rejectValue("password", "error.password");
             result = this.createEditModelAndView(sponsorForm);
         } else if (binding.hasErrors())

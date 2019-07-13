@@ -1,18 +1,24 @@
 package services;
 
 import domain.Actor;
+import domain.Administrator;
 import domain.Reviewer;
+import forms.ReviewerForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import repositories.ReviewerRepository;
 import security.Authority;
+import security.LoginService;
 import security.UserAccount;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional
@@ -71,10 +77,68 @@ public class ReviewerService {
     }
 
     public Reviewer save(Reviewer reviewer){
-        return this.reviewerRepository.save(reviewer);
+        UserAccount userAccount;
+        userAccount = LoginService.getPrincipal();
+        Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
+        Assert.notNull(reviewer);
+        Reviewer result;
+        final char[] c = reviewer.getPhoneNumber().toCharArray();
+        /*
+        if ((!administrator.getPhoneNumber().equals(null) && !administrator.getPhoneNumber().equals("")))
+            if (c[0] != '+') {
+                final String i = this.configurationService.findAll().get(0).getCountryCode();
+                administrator.setPhoneNumber("+" + i + " " + administrator.getPhoneNumber());
+            }
+        */
+        if (reviewer.getId() == 0) {
+            final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+            final String res = encoder.encodePassword(reviewer.getUserAccount().getPassword(), null);
+            reviewer.getUserAccount().setPassword(res);
+        }
+        result = this.reviewerRepository.save(reviewer);
+        return result;
     }
 
     public void delete(Reviewer reviewer){
+        final Actor actor = this.actorService.getActorLogged();
+        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
+        Assert.notNull(reviewer);
+        Assert.isTrue(actor.getId() != 0);
+
         this.reviewerRepository.delete(reviewer);
+    }
+
+    //Objeto formulario
+    public Reviewer reconstruct(final ReviewerForm reviewerForm, final BindingResult binding) {
+
+        final Reviewer result = this.create();
+
+        result.setId(reviewerForm.getId());
+        result.setVersion(reviewerForm.getVersion());
+
+        result.getUserAccount().setPassword(reviewerForm.getPassword());
+        result.getUserAccount().setUsername(reviewerForm.getUsername());
+
+        result.setEmail(reviewerForm.getEmail());
+        result.setPhoto(reviewerForm.getPhoto());
+        result.setPhoneNumber(reviewerForm.getPhoneNumber());
+        result.setAddress(reviewerForm.getAddress());
+        result.setName(reviewerForm.getName());
+        result.setMiddleName(reviewerForm.getMiddleName());
+        result.setSurname(reviewerForm.getSurname());
+
+        String keywordString = reviewerForm.getKeywordsString();
+
+        String[] keywords = keywordString.split(",");
+        List<String> keywordsTrimpeadas = new ArrayList<>();
+        for(String k: keywords){
+            k.trim();
+            keywordsTrimpeadas.add(k);
+        }
+
+        result.setKeywords(keywordsTrimpeadas);
+
+        this.validator.validate(result, binding);
+        return result;
     }
 }

@@ -14,11 +14,11 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('ADMIN')">
+<security:authorize access="hasRole('REVIEWER')">
 
     <spring:message code="actor.firstMessage" />
 
-    <form:form id="myform" action="administrator/register.do" modelAttribute="administratorForm">
+    <form:form id="myform" action="reviewer/register.do" modelAttribute="reviewerForm">
 
         <form:hidden path="id" />
 
@@ -45,6 +45,13 @@
             <acme:textboxbsa code="actor.email" path="email"/>
             <acme:textboxbs code="actor.photo" path="photo"/>
             <acme:textboxbs code="actor.address" path="address"/>
+
+            <form:label path="keywordString">
+                <spring:message code="actor.name" />
+            </form:label>
+            <form:input path="name" />
+            <form:errors cssClass="error" path="name" />
+            <br/>
 
         </fieldset>
 

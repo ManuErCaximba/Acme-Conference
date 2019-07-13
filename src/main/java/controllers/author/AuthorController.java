@@ -53,7 +53,7 @@ public class AuthorController extends AbstractController {
         if (this.actorService.existUsername(authorForm.getUsername()) == false) {
             binding.rejectValue("username", "error.username");
             result = this.createEditModelAndView(authorForm);
-        } else if (this.administratorService.checkPass(authorForm.getPassword(), authorForm.getConfirmPass()) == false) {
+        } else if (!authorForm.getPassword().equals(authorForm.getConfirmPass())) {
             binding.rejectValue("password", "error.password");
             result = this.createEditModelAndView(authorForm);
         } else if (binding.hasErrors())
