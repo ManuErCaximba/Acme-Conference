@@ -14,8 +14,6 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('REVIEWER')">
-
     <spring:message code="actor.firstMessage" />
 
     <form:form id="myform" action="reviewer/register.do" modelAttribute="reviewerForm">
@@ -46,11 +44,15 @@
             <acme:textboxbs code="actor.photo" path="photo"/>
             <acme:textboxbs code="actor.address" path="address"/>
 
-            <form:label path="keywordString">
-                <spring:message code="actor.name" />
+            <br>
+            <form:label path="keywordsString">
+                <b><spring:message code="actor.keyword" /> *</b>
+                <br>
+                <spring:message code="actor.keyword2"/>
+                <br>
             </form:label>
-            <form:input path="name" />
-            <form:errors cssClass="error" path="name" />
+            <form:textarea path="keywordsString" />
+            <form:errors cssClass="error" path="keywordsString" />
             <br/>
 
         </fieldset>
@@ -113,6 +115,5 @@
 
     </form:form>
 
-</security:authorize>
 </body>
 </html>

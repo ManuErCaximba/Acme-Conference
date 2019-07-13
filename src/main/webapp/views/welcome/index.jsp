@@ -29,4 +29,8 @@
            value="<spring:message code="welcome.register.sponsor" />"
            onclick="javascript: relativeRedir('sponsor/create.do');" />
 
+    <input type="button" name="registerReviewer"
+           value="<spring:message code="welcome.register.reviewer" />"
+           onclick="javascript: relativeRedir('reviewer/register.do');" />
+
 </security:authorize>

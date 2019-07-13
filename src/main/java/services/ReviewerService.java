@@ -54,8 +54,6 @@ public class ReviewerService {
     }
 
     public Reviewer create(){
-        final Actor actor = this.actorService.getActorLogged();
-        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
 
         final Reviewer reviewer = new Reviewer();
         final Collection<String> keywords;
@@ -77,9 +75,6 @@ public class ReviewerService {
     }
 
     public Reviewer save(Reviewer reviewer){
-        UserAccount userAccount;
-        userAccount = LoginService.getPrincipal();
-        Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
         Assert.notNull(reviewer);
         Reviewer result;
         final char[] c = reviewer.getPhoneNumber().toCharArray();

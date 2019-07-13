@@ -10,41 +10,53 @@
 
 package controllers;
 
+import domain.Actor;
+import domain.Administrator;
+import domain.Reviewer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import security.LoginService;
+import security.UserAccount;
+import services.*;
 
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends AbstractController {
 
-	// Action-1 ---------------------------------------------------------------		
+	@Autowired
+	private ActorService actorService;
 
-	@RequestMapping("/action-1")
-	public ModelAndView action1() {
-		ModelAndView result;
+	@Autowired
+	private ReviewerService reviewerService;
 
-		result = new ModelAndView("profile/action-1");
+
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView myInformation() {
+		final ModelAndView result = new ModelAndView("profile/display");
+		final Actor user = this.actorService.getActorLogged();
+		final UserAccount userAccount = LoginService.getPrincipal();
+
+		String username = user.getUserAccount().getUsername();
+
+		result.addObject("actor", user);
+		result.addObject("nickname", username);
+
+		if (userAccount.getAuthorities().iterator().next().getAuthority().equals("REVIEWER")) {
+			Reviewer reviewer;
+			reviewer = this.reviewerService.findOne(user.getId());
+			Assert.notNull(reviewer);
+			result.addObject("keywords", reviewer.getKeywords());
+		}
 
 		return result;
 	}
 
-	// Action-2 ---------------------------------------------------------------		
-
-	@RequestMapping("/action-2")
-	public ModelAndView action2() {
-		ModelAndView result;
-
-		result = new ModelAndView("profile/action-2");
-
-		return result;
-	}
-
-	// Action-2 ---------------------------------------------------------------		
-
-	@RequestMapping("/action-3")
-	public ModelAndView action3() {
-		throw new RuntimeException("Oops! An *expected* exception was thrown. This is normal behaviour.");
+	private ModelAndView forbiddenOperation() {
+		return new ModelAndView("redirect:/");
 	}
 
 }
