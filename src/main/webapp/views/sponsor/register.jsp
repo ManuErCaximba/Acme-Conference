@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,66 +10,99 @@
     <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
     <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
     <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-    <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+    <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 </head>
 <body>
 <spring:message code="actor.firstMessage" />
-<form:form id="myform" action="sponsor/create.do" modelAttribute="sponsorForm">
+
+<form:form id="myform" action="reviewer/register.do" modelAttribute="sponsorForm">
 
     <form:hidden path="id" />
+
+    <br>
     <fieldset>
-        <legend><spring:message code="actor.personalData" /></legend>
-        *
-        <acme:textbox code="actor.username" path="username"/>
-        <br />
 
-        <form:label path="password" >
-            <spring:message code="actor.password" />*
-        </form:label>
-        <form:password path="password" id="password"/>
-        <form:errors cssClass="error" path="password" />
-        <br />
+        <legend><spring:message code="actor.accountData" /></legend>
 
-        <form:label path="confirmPass">
-            <spring:message code="actor.confirmPass" />*
-        </form:label>
-        <form:password path="confirmPass" id="confirmPassword"/>
-        <form:errors cssClass="error" path="password" />
-        <br />
-
-        *
-        <acme:textbox code="actor.name" path="name"/>
-        <br />
-        *
-        <acme:textbox code="actor.surname" path="surname"/>
-        <br />
-
-        <acme:textbox code="actor.middleName" path="middleName"/>
-        <br />
-
-        <acme:textbox code="actor.photo" path="photo"/>
-        <br />
-        *
-        <acme:textbox code="actor.email" path="email"/>
-        <br />
-        *
-        <acme:textbox code="actor.phoneNumber" path="phoneNumber"/>
-        <br />
-
-        <acme:textbox code="actor.address" path="address"/>
-        <br />
+        <acme:textboxbsa code="actor.username" path="username"/>
+        <acme:passboxbsa code="actor.password" path="password"/>
+        <acme:passboxbsa code="actor.confirmPass" path="confirmPass"/>
 
     </fieldset>
 
+    <br>
+    <fieldset>
 
-    <acme:submit name="save" code="button.save"/>&nbsp;
+        <legend><spring:message code="actor.personalData" /></legend>
 
-    <input type="button" name="cancel"
-           value="<spring:message code="button.cancel" />"
-           onclick="javascript: relativeRedir('/');" />
-    <br />
+        <acme:textboxbsa code="actor.name" path="name"/>
+        <acme:textboxbs code="actor.middleName" path="middleName"/>
+        <acme:textboxbsa code="actor.surname" path="surname"/>
+        <acme:textboxbs code="actor.phoneNumber" path="phoneNumber"/>
+        <acme:textboxbsa code="actor.email" path="email"/>
+        <acme:textboxbs code="actor.photo" path="photo"/>
+        <acme:textboxbs code="actor.address" path="address"/>
+
+    </fieldset>
+
+    <script type="text/javascript">
+
+        function phoneValidation(form) {
+            if(!form.terms.checked) {
+                alert('<spring:message code="accept.terms"/>');
+                form.terms.focus();
+                return false;
+            } else {
+                var phoneNumber = document.getElementById("phoneNumber").value;
+                var regexPN = /^(\d\d\d\d+)$/;
+                var regex1 = /^((\+[1-9][0-9]{0,2}) \(([1-9][0-9]{0,2})\) (\d\d\d\d+))$/;
+                var regex2 = /^(\+[1-9][0-9]{0,2}) (\d\d\d\d+)$/;
+
+                if (!(phoneNumber == null || phoneNumber == '')) {
+                    if (regexPN.test(phoneNumber)) {
+                        return document.getElementById("myform").submit();
+                    } else if (regex1.test(phoneNumber)) {
+                        return document.getElementById("myform").submit();
+                    } else if (regex2.test(phoneNumber)) {
+                        return document.getElementById("myform").submit();
+                    } else {
+                        var confirm = window.confirm('<spring:message code = "actor.confirm"/>');
+                        if (!confirm) {
+                            return window.history.back();
+                        } else {
+                            return document.getElementById("myform").submit();
+                        }
+                    }
+                } else {
+                    return document.getElementById("myform").submit();
+                }
+            }
+        }
+
+    </script>
+
+    <br>
+
+    <input type="checkbox" name="terms">
+    <label for="terms">
+        <spring:message code="terms1"/>
+        <a href="gdpr/display.do">
+            <spring:message code="terms2"/>
+        </a>
+    </label>
+
+    <br>
+    <br>
+
+    <input type="button" name="save"
+           value="<spring:message code="button.save"/>"
+           onclick="phoneValidation(form);"
+    />&nbsp;
+
+    <acme:cancel code="button.cancel" url="/"/>
 
 </form:form>
+
 </body>
 </html>
