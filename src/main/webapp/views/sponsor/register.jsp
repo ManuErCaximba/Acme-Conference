@@ -16,7 +16,7 @@
 <body>
 <spring:message code="actor.firstMessage" />
 
-<form:form id="myform" action="reviewer/register.do" modelAttribute="sponsorForm">
+<form:form id="myform" action="sponsor/create.do" modelAttribute="sponsorForm">
 
     <form:hidden path="id" />
 

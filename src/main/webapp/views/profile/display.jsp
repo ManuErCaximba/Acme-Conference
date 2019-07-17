@@ -66,7 +66,7 @@
     <acme:cancel url="/reviewer/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 <security:authorize access="hasRole('SPONSOR')">
-    <acme:cancel url="/sponsor/edit.do" code="master.page.profile.edit"/>
+    <acme:cancel url="/sponsor/sponsor/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 <security:authorize access="hasRole('AUTHOR')">
     <acme:cancel url="/author/edit.do" code="master.page.profile.edit"/>

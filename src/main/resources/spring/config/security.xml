@@ -50,6 +50,8 @@
 		<security:intercept-url pattern="/sponsor/create.do" access="permitAll" />
 		<security:intercept-url pattern="/author/create.do" access="permitAll" />
 
+		<security:intercept-url pattern="/sponsor/sponsor/**" access="hasRole('SPONSOR')"/>
+
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
