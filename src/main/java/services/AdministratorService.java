@@ -103,7 +103,7 @@ public class AdministratorService {
         this.administratorRepository.delete(administrator);
     }
 
-    /*
+
     public Administrator reconstruct(final Administrator admin, final BindingResult binding) {
 
         Administrator result;
@@ -124,7 +124,7 @@ public class AdministratorService {
         }
         return result;
     }
-    */
+
 
 
     //Objeto formulario

@@ -15,8 +15,9 @@
 
 </head>
 <body>
+<fieldset>
+    <legend><spring:message code="actor.personalData" /></legend>
 <security:authorize access="hasRole('SPONSOR')">
-    <spring:message code="actor.firstMessage" />
     <form:form action="sponsor/sponsor/edit.do" modelAttribute="sponsor">
 
         <form:hidden path="id" />
@@ -69,6 +70,7 @@
         <form:input path="address" />
         <form:errors cssClass="error" path="address" />
         <br />
+</fieldset>
 
         <input type="submit" name="update"
                value="<spring:message code="button.save" />" />&nbsp;

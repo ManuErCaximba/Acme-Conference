@@ -3,10 +3,12 @@
 package controllers.author;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Author;
 import forms.AuthorForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -84,6 +86,52 @@ public class AuthorController extends AbstractController {
         result = new ModelAndView("author/create");
         result.addObject("authorForm", authorForm);
         result.addObject("message", messageCode);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/author/edit", method = RequestMethod.GET)
+    public ModelAndView edit() {
+        ModelAndView result;
+
+        final Actor user = this.actorService.getActorLogged();
+        final Author a= this.authorService.findOne(user.getId());
+        Assert.notNull(a);
+        result = this.editModelAndView(a);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/author/edit", method = RequestMethod.POST, params = "update")
+    public ModelAndView update(@Valid Author a, final BindingResult binding) {
+
+        ModelAndView result;
+
+        if (binding.hasErrors())
+            result = this.editModelAndView(a);
+        else
+            try {
+                a = this.authorService.reconstruct(a, binding);
+                this.authorService.save(a);
+                result = new ModelAndView("redirect:/profile/display.do");
+            } catch (final Throwable oops) {
+                result = this.editModelAndView(a, "actor.commit.error");
+            }
+        return result;
+    }
+
+    protected ModelAndView editModelAndView(final Author a) {
+        ModelAndView result;
+        result = this.editModelAndView(a, null);
+        return result;
+    }
+
+    protected ModelAndView editModelAndView(final Author a, final String messageCode) {
+        ModelAndView result;
+
+        result = new ModelAndView("author/author/edit");
+        result.addObject("author", a);
+        result.addObject("messageCode", messageCode);
 
         return result;
     }
