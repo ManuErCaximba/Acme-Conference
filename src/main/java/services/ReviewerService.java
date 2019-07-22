@@ -103,6 +103,31 @@ public class ReviewerService {
         this.reviewerRepository.delete(reviewer);
     }
 
+    public Reviewer reconstruct(final Reviewer s, final BindingResult binding) {
+
+        Reviewer result;
+        if (s.getId() == 0) {
+            this.validator.validate(s, binding);
+            result = s;
+        } else {
+            result = this.reviewerRepository.findOne(s.getId());
+
+            result.setName(s.getName());
+            result.setPhoto(s.getPhoto());
+            result.setPhoneNumber(s.getPhoneNumber());
+            result.setEmail(s.getEmail());
+            result.setAddress(s.getAddress());
+            result.setSurname(s.getSurname());
+            result.setKeywords(s.getKeywords());
+
+            this.validator.validate(s, binding);
+        }
+        return result;
+    }
+
+
+
+
     //Objeto formulario
     public Reviewer reconstruct(final ReviewerForm reviewerForm, final BindingResult binding) {
 

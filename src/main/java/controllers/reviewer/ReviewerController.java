@@ -1,10 +1,12 @@
 package controllers.reviewer;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Reviewer;
 import forms.ReviewerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,4 +78,49 @@ public class ReviewerController extends AbstractController {
         return result;
     }
 
+    @RequestMapping(value = "/reviewer/edit", method = RequestMethod.GET)
+    public ModelAndView edit() {
+        ModelAndView result;
+
+        final Actor user = this.actorService.getActorLogged();
+        final Reviewer a= this.reviewerService.findOne(user.getId());
+        Assert.notNull(a);
+        result = this.editModelAndView(a);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/reviewer/edit", method = RequestMethod.POST, params = "update")
+    public ModelAndView update(@Valid Reviewer a, final BindingResult binding) {
+
+        ModelAndView result;
+
+        if (binding.hasErrors())
+            result = this.editModelAndView(a);
+        else
+            try {
+                a = this.reviewerService.reconstruct(a, binding);
+                this.reviewerService.save(a);
+                result = new ModelAndView("redirect:/profile/display.do");
+            } catch (final Throwable oops) {
+                result = this.editModelAndView(a, "actor.commit.error");
+            }
+        return result;
+    }
+
+    protected ModelAndView editModelAndView(final Reviewer a) {
+        ModelAndView result;
+        result = this.editModelAndView(a, null);
+        return result;
+    }
+
+    protected ModelAndView editModelAndView(final Reviewer a, final String messageCode) {
+        ModelAndView result;
+
+        result = new ModelAndView("reviewer/reviewer/edit");
+        result.addObject("reviewer", a);
+        result.addObject("messageCode", messageCode);
+
+        return result;
+    }
 }

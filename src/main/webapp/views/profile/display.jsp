@@ -63,16 +63,16 @@
 
 <!-- Buttons -->
 <security:authorize access="hasRole('REVIEWER')">
-    <acme:cancel url="/reviewer/edit.do" code="master.page.profile.edit"/>
+    <acme:cancel url="/reviewer/reviewer/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 <security:authorize access="hasRole('SPONSOR')">
-    <acme:cancel url="/sponsor/edit.do" code="master.page.profile.edit"/>
+    <acme:cancel url="/sponsor/sponsor/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 <security:authorize access="hasRole('AUTHOR')">
-    <acme:cancel url="/author/edit.do" code="master.page.profile.edit"/>
+    <acme:cancel url="/author/author/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 <security:authorize access="hasRole('ADMIN')">
-    <acme:cancel url="/administrator/edit.do" code="master.page.profile.edit"/>
+    <acme:cancel url="/administrator/administrator/edit.do" code="master.page.profile.edit"/>
 </security:authorize>
 </body>
 </html>
