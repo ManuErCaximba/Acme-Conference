@@ -18,7 +18,7 @@
 <fieldset>
     <legend><spring:message code="actor.personalData" /></legend>
     <security:authorize access="hasRole('REVIEWER')">
-    <form:form action="reviewer/reviewe/edit.do" modelAttribute="reviewer">
+    <form:form action="reviewer/reviewer/edit.do" modelAttribute="reviewer">
 
     <form:hidden path="id" />
 
@@ -72,7 +72,6 @@
     <br />
 
     <br>
-    <br>
     <form:label path="keywordsString">
         <b><spring:message code="actor.keyword" /> *</b>
         <br>
@@ -81,7 +80,6 @@
     </form:label>
     <form:textarea path="keywordsString" />
     <form:errors cssClass="error" path="keywordsString" />
-    <br/>
     <br/>
 </fieldset>
 
