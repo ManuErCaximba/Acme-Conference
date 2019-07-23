@@ -3,9 +3,9 @@ package domain;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.Valid;
+import java.util.Collection;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -35,17 +35,28 @@ public class Category extends DomainEntity {
         this.nameEs = nameEs;
     }
 
-    public boolean equalsES(final Category obj) {
-        boolean res = false;
-        if (this.getNameEs().equals(obj.getNameEs()))
-            res = true;
-        return res;
+    //Relationships
+    private Collection<Category> childs;
+    private Category parents;
+
+
+    @Valid
+    @OneToMany(mappedBy = "parents")
+    public Collection<Category> getChilds() {
+        return this.childs;
     }
 
-    public boolean equalsEN(final Category obj) {
-        boolean res = false;
-        if (this.getNameEn().equals(obj.getNameEn()))
-            res = true;
-        return res;
+    @Valid
+    @ManyToOne(optional = true)
+    public Category getParents() {
+        return this.parents;
+    }
+
+    public void setChilds(final Collection<Category> childs) {
+        this.childs = childs;
+    }
+
+    public void setParents(final Category parents) {
+        this.parents = parents;
     }
 }

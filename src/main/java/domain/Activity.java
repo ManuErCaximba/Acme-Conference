@@ -1,11 +1,13 @@
 package domain;
 
+import datatypes.Url;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Date;
@@ -19,7 +21,7 @@ public class Activity extends DomainEntity {
     private int duration;
     private String room;
     private String summary;
-    private Collection<String> attachments;
+    private Collection<Url> attachments;
 
     @NotBlank
     @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
@@ -71,12 +73,45 @@ public class Activity extends DomainEntity {
         this.summary = summary;
     }
 
-    //TODO: URL datatype?
-    public Collection<String> getAttachments() {
+    @Valid
+    @ElementCollection(fetch = FetchType.EAGER) //TODO: ?
+    public Collection<Url> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(Collection<String> attachments) {
+    public void setAttachments(Collection<Url> attachments) {
         this.attachments = attachments;
+    }
+
+    //Relationships
+    private Conference conference;
+    private Collection<Comment> comments;
+    private Collection<Actor> actors;
+
+    @ManyToOne
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
+    @OneToMany
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @ManyToMany()
+    public Collection<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(Collection<Actor> actors) {
+        this.actors = actors;
     }
 }

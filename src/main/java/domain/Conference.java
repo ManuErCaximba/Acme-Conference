@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -132,5 +133,47 @@ public class Conference extends DomainEntity {
 
     public void setFinal(boolean aFinal) {
         isFinal = aFinal;
+    }
+
+    //Relationships
+    private Administrator administrator;
+    private Category category;
+    private Collection<Registration> registrations;
+    private Collection<Comment> comments;
+
+    @ManyToOne(optional = false)
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
+    }
+
+    @ManyToOne(optional = false)
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @OneToMany
+    public Collection<Registration> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(Collection<Registration> registrations) {
+        this.registrations = registrations;
+    }
+
+    @OneToMany
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
     }
 }

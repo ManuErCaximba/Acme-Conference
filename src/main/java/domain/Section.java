@@ -1,11 +1,11 @@
 package domain;
 
+import datatypes.Url;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.Collection;
 
 @Entity
@@ -13,7 +13,7 @@ import java.util.Collection;
 public class Section extends DomainEntity{
     private String title;
     private String summary;
-    private Collection<String> pictures;
+    private Collection<Url> pictures;
 
     @NotBlank
     @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
@@ -35,11 +35,25 @@ public class Section extends DomainEntity{
         this.summary = summary;
     }
 
-    public Collection<String> getPictures() {
+    @Valid
+    @ElementCollection(fetch = FetchType.EAGER)
+    public Collection<Url> getPictures() {
         return pictures;
     }
 
-    public void setPictures(Collection<String> pictures) {
+    public void setPictures(Collection<Url> pictures) {
         this.pictures = pictures;
+    }
+
+    //Relationships
+    private Tutorial tutorial;
+
+    @ManyToOne(optional = false)
+    public Tutorial getTutorial() {
+        return tutorial;
+    }
+
+    public void setTutorial(Tutorial tutorial) {
+        this.tutorial = tutorial;
     }
 }
