@@ -27,9 +27,6 @@ public class ConferenceService {
     private ActorService actorService;
 
     @Autowired
-    private AdministratorService administratorService;
-
-    @Autowired
     private Validator validator;
 
     public Conference create(){
@@ -45,10 +42,7 @@ public class ConferenceService {
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(conference);
         Conference res;
-        if(conference.getId() == 0){
-            Administrator admin = this.administratorService.findOne(this.actorService.getActorLogged().getId());
-            conference.setAdministrator(admin);
-        }
+
         conference.setFinal(true);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
         Assert.isTrue(conference.getNotificationDeadline().before(conference.getCameraReadyDeadline()));
@@ -65,10 +59,7 @@ public class ConferenceService {
         Assert.notNull(conference);
         Assert.isTrue(conference.isFinal() == false);
         Conference res;
-        if(conference.getId() == 0){
-            Administrator admin = this.administratorService.findOne(this.actorService.getActorLogged().getId());
-            conference.setAdministrator(admin);
-        }
+
         conference.setFinal(false);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
         Assert.isTrue(conference.getNotificationDeadline().before(conference.getCameraReadyDeadline()));
@@ -102,7 +93,7 @@ public class ConferenceService {
         return res;
     }
 
-    //Reconstruct TODO: Actualizo Admin?
+
     public Conference reconstruct(Conference conference, BindingResult binding){
         Conference result;
         if (conference.getId() == 0){

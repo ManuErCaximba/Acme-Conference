@@ -136,19 +136,9 @@ public class Conference extends DomainEntity {
     }
 
     //Relationships
-    private Administrator administrator;
     private Category category;
     private Collection<Registration> registrations;
     private Collection<Comment> comments;
-
-    @ManyToOne(optional = false)
-    public Administrator getAdministrator() {
-        return administrator;
-    }
-
-    public void setAdministrator(Administrator administrator) {
-        this.administrator = administrator;
-    }
 
     @ManyToOne(optional = false)
     public Category getCategory() {
