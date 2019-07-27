@@ -1,4 +1,4 @@
-package datatypes;
+package datatype;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;

@@ -1,6 +1,6 @@
 package domain;
 
-import datatypes.CreditCard;
+import datatype.CreditCard;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;

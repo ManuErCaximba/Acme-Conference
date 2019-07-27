@@ -1,33 +1,62 @@
-package domain;
+package forms;
 
-import org.hibernate.validator.constraints.NotBlank;
+import domain.Configuration;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Configuration extends DomainEntity {
+public class ConfigurationForm {
 
-    private String systemName;
-    private String banner;
-    private String welcomeEs;
-    private String welcomeEn;
-    private int defaultCC;
-    private Collection<String> creditCardMakes;
-    private Collection<String> topicsEs;
-    private Collection<String> topicsEn;
-    private Collection<String> voidWordsEs;
-    private Collection<String> voidWordsEn;
+    private int					id;
+    private int					version;
+    private String              systemName;
+    private String              banner;
+    private String              welcomeEs;
+    private String              welcomeEn;
+    private int                 defaultCC;
+    private Collection<String>  creditCardMakes;
+    private Collection<String>  topicsEs;
+    private Collection<String>  topicsEn;
+    private Collection<String>  voidWordsEs;
+    private Collection<String>  voidWordsEn;
 
-    @NotBlank
-    @SafeHtml(whitelistType = WhiteListType.NONE)
+
+    public ConfigurationForm(final Configuration config) {
+        this.id = config.getId();
+        this.version = config.getVersion();
+        this.systemName = config.getSystemName();
+        this.banner = config.getBanner();
+        this.welcomeEn = config.getWelcomeEn();
+        this.welcomeEs = config.getWelcomeEs();
+        this.defaultCC = config.getDefaultCC();
+        this.creditCardMakes = config.getCreditCardMakes();
+        this.topicsEn = config.getTopicsEn();
+        this.topicsEs = config.getTopicsEs();
+        this.voidWordsEs = config.getVoidWordsEs();
+        this.voidWordsEn = config.getVoidWordsEn();
+    }
+
+    public ConfigurationForm() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public String getSystemName() {
         return systemName;
     }
@@ -36,8 +65,6 @@ public class Configuration extends DomainEntity {
         this.systemName = systemName;
     }
 
-    @NotBlank
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public String getBanner() {
         return banner;
     }
@@ -46,8 +73,6 @@ public class Configuration extends DomainEntity {
         this.banner = banner;
     }
 
-    @NotBlank
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public String getWelcomeEs() {
         return welcomeEs;
     }
@@ -56,8 +81,6 @@ public class Configuration extends DomainEntity {
         this.welcomeEs = welcomeEs;
     }
 
-    @NotBlank
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public String getWelcomeEn() {
         return welcomeEn;
     }
@@ -66,8 +89,6 @@ public class Configuration extends DomainEntity {
         this.welcomeEn = welcomeEn;
     }
 
-    @NotNull
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getDefaultCC() {
         return defaultCC;
     }
@@ -76,7 +97,6 @@ public class Configuration extends DomainEntity {
         this.defaultCC = defaultCC;
     }
 
-    @ElementCollection
     public Collection<String> getCreditCardMakes() {
         return creditCardMakes;
     }
@@ -85,7 +105,6 @@ public class Configuration extends DomainEntity {
         this.creditCardMakes = creditCardMakes;
     }
 
-    @ElementCollection
     public Collection<String> getTopicsEs() {
         return topicsEs;
     }
@@ -94,7 +113,6 @@ public class Configuration extends DomainEntity {
         this.topicsEs = topicsEs;
     }
 
-    @ElementCollection
     public Collection<String> getTopicsEn() {
         return topicsEn;
     }
@@ -103,7 +121,6 @@ public class Configuration extends DomainEntity {
         this.topicsEn = topicsEn;
     }
 
-    @ElementCollection
     public Collection<String> getVoidWordsEs() {
         return voidWordsEs;
     }
@@ -112,7 +129,6 @@ public class Configuration extends DomainEntity {
         this.voidWordsEs = voidWordsEs;
     }
 
-    @ElementCollection
     public Collection<String> getVoidWordsEn() {
         return voidWordsEn;
     }

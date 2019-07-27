@@ -1,6 +1,6 @@
 package domain;
 
-import datatypes.Url;
+import datatype.Url;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 

@@ -29,6 +29,7 @@
 		<value>/views/sponsor/tiles.xml</value>
 		<value>/views/gdpr/tiles.xml</value>
 		<value>/views/reviewer/tiles.xml</value>
+		<value>/views/sponsorship/tiles.xml</value>
 	</util:list>
 
 </beans>

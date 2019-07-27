@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- * pom.xml * * Copyright (C) 2019 Universidad de Sevilla * * The use 
-	of this project is hereby constrained to the conditions of the * TDG Licence, 
+<!-- * pom.xml * * Copyright (C) 2018 Universidad de Sevilla * * The use
+	of this project is hereby constrained to the conditions of the * TDG Licence,
 	a copy of which you may download from * http://www.tdg-seville.info/License.html -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Artifact identification and properties -->
 
 	<groupId>Design-and-Testing</groupId>
-	<artifactId>Sample-Project</artifactId>
+	<artifactId>Acme-Conference</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
@@ -22,8 +22,9 @@
 
 	<!-- Indexing information -->
 
-	<name>Sample Project</name>
-	<url>http://www.sample-project.com</url>
+	<name>Acme-Conference</name>
+	<url>http://www.acme-conference.com</url>
+	<description>Acme Conference</description>
 
 	<!-- Build commands -->
 
@@ -75,17 +76,6 @@
 					<server>tomcat-development-server</server>
 					<port>8080</port>
 					<path>/${project.artifactId}</path>
-				</configuration>
-			</plugin>
-
-			<!-- Surefire -->
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.1</version>
-				<configuration>
-					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 
@@ -223,7 +213,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.26</version>
+			<version>5.1.45</version>
 		</dependency>
 
 		<!-- Hibernate -->
@@ -231,7 +221,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.0.Final</version>
+			<version>4.3.6.Final</version>
 		</dependency>
 
 		<dependency>
@@ -313,7 +303,21 @@
 			<version>1.7.4</version>
 		</dependency>
 
-	</dependencies>
+		<!-- HTMLSafe Validator -->
 
-	<description>This system allows people share their favourite Shouts.</description>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<!-- Google Gson -->
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
+	</dependencies>
 </project> 
