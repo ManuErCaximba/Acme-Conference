@@ -2,6 +2,7 @@ package services;
 
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import repositories.ActorRepository;
@@ -82,13 +83,13 @@ public class ActorService {
 
     public Actor getActorLogged() {
         UserAccount userAccount;
-        Actor actor;
+        Actor actor = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        userAccount = LoginService.getPrincipal();
-        Assert.notNull(userAccount);
-
-        actor = this.findByUserAccount(userAccount);
-        Assert.notNull(actor);
+        if(principal instanceof UserAccount) {
+            userAccount = (UserAccount) principal;
+            actor = this.findByUserAccount(userAccount);
+        }
 
         return actor;
     }

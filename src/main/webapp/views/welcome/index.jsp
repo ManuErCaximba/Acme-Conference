@@ -16,7 +16,16 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<jstl:choose>
+    <jstl:when test="${language == 'es'}">
+        <p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" />
+            <jstl:out value="${configuration.welcomeEs}"/></p>
+    </jstl:when>
+    <jstl:otherwise>
+        <p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" />
+            <jstl:out value="${configuration.welcomeEn}"/></p>
+    </jstl:otherwise>
+</jstl:choose>
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p>
 

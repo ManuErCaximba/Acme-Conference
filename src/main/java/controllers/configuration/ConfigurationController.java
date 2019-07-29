@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import services.ActorService;
-import services.AdministratorService;
 import services.ConfigurationService;
 
 import javax.validation.Valid;
@@ -22,12 +20,6 @@ public class ConfigurationController extends AbstractController {
     @Autowired
     private ConfigurationService configurationService;
 
-    @Autowired
-    private AdministratorService administratorService;
-
-    @Autowired
-    private ActorService actorService;
-
     // Show --------------------------------------------------------------------------
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public ModelAndView show() {
@@ -37,6 +29,38 @@ public class ConfigurationController extends AbstractController {
         try {
             result = new ModelAndView("configuration/administrator/show");
             result.addObject("configuration", configuration);
+        } catch (final Exception e) {
+            result = new ModelAndView("redirect:/");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/showVoidWordsEs", method = RequestMethod.GET)
+    public ModelAndView showVoidWordsEs() {
+        ModelAndView result;
+        final Configuration configuration = this.configurationService.findAll().iterator().next();
+
+        try {
+            result = new ModelAndView("configuration/administrator/showVoidWordsEs");
+            result.addObject("voidWordsEs", configuration.getVoidWordsEs());
+            result.addObject("requestURI", "configuration/administrator/showVoidWordsEs.do");
+        } catch (final Exception e) {
+            result = new ModelAndView("redirect:/");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/showVoidWordsEn", method = RequestMethod.GET)
+    public ModelAndView showVoidWordsEn() {
+        ModelAndView result;
+        final Configuration configuration = this.configurationService.findAll().iterator().next();
+
+        try {
+            result = new ModelAndView("configuration/administrator/showVoidWordsEn");
+            result.addObject("voidWordsEn", configuration.getVoidWordsEn());
+            result.addObject("requestURI", "configuration/administrator/showVoidWordsEn.do");
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -60,7 +84,7 @@ public class ConfigurationController extends AbstractController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(@ModelAttribute("configurationForm") @Valid Configuration config, final BindingResult binding) {
+    public ModelAndView save(@ModelAttribute("configuration") @Valid Configuration config, final BindingResult binding) {
         ModelAndView result;
         Configuration configuration;
 

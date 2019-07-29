@@ -45,7 +45,14 @@
             <legend><spring:message code="sponsorship.creditCard" /></legend>
 
             <acme:textboxbsa code="sponsorship.holderName" path="holderName"/>
-            <acme:textboxbsa code="sponsorship.brandName" path="brandName"/>
+
+            <form:label path="brandName">
+                <b><spring:message code="sponsorship.brandName" /> *</b>
+            </form:label>
+            <br>
+            <form:select path="brandName" items="${configuration.creditCardMakes}"/>
+            <form:errors cssClass="error" path="brandName"/>
+
             <acme:textboxbsa code="sponsorship.number" path="number"/>
             <acme:textboxbsa code="sponsorship.expirationMonth" path="expirationMonth"/>
 

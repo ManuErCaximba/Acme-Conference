@@ -14,78 +14,56 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('ADMIN')">
+<security:authorize access="hasRole('SPONSOR')">
 
-    <form:form id="sponsorshipForm" action="configuration/administrator/save.do" modelAttribute="configuration">
+    <spring:message code="actor.firstMessage" />
+
+    <form:form id="sponsorshipForm" action="sponsorship/sponsor/save.do" modelAttribute="sponsorshipForm">
 
         <form:hidden path="id" />
+
+        <jstl:if test="${errorNumber == 1}">
+            <form:errors cssClass="error" path="expirationYear" element="div" /> <div id="error.expirationYear" class="error"><spring:message code="error.expirationYear"/></div>
+        </jstl:if>
+        <jstl:if test="${errorNumber == 2}">
+            <form:errors cssClass="error" path="expirationMonth" element="div" /> <div id="error.expirationMonth" class="error"><spring:message code="error.expirationMonth"/></div>
+        </jstl:if>
 
         <br>
         <fieldset>
 
-            <legend><spring:message code="configuration.data" /></legend>
+            <legend><spring:message code="sponsorship.data" /></legend>
 
-            <acme:textboxbsa code="configuration.systemName" path="systemName"/>
-            <acme:textboxbsa code="configuration.banner" path="banner"/>
+            <acme:textboxbsa code="sponsorship.banner" path="banner"/>
+            <acme:textboxbsa code="sponsorship.target" path="targetURL"/>
 
-            <acme:textboxbsa code="configuration.welcomeEs" path="welcomeEs"/>
-            <acme:textboxbsa code="configuration.welcomeEn" path="welcomeEn"/>
-            <acme:textboxbsa code="configuration.defaultCC" path="defaultCC"/>
+        </fieldset>
 
-            <br>
-            <form:label path="creditCardMakes">
-                <b><spring:message code="configuration.creditCardMakes" /> *</b>
-                <br>
-                <spring:message code="configuration.creditCardMakes"/>
-                <br>
+        <br>
+        <fieldset>
+
+            <legend><spring:message code="sponsorship.creditCard" /></legend>
+
+            <acme:textboxbsa code="sponsorship.holderName" path="holderName"/>
+
+            <form:label path="brandName">
+                <b><spring:message code="sponsorship.brandName" /> *</b>
             </form:label>
-            <form:textarea path="creditCardMakes" />
-            <form:errors cssClass="error" path="creditCardMakes" />
-            <br/>
-
             <br>
-            <form:label path="topicEs">
-                <b><spring:message code="configuration.topicEs" /> *</b>
-                <br>
-                <spring:message code="configuration.topicEs"/>
-                <br>
-            </form:label>
-            <form:textarea path="topicEs" />
-            <form:errors cssClass="error" path="topicEs" />
-            <br/>
+            <form:select path="brandName" items="${configuration.creditCardMakes}"/>
+            <form:errors cssClass="error" path="brandName"/>
 
-            <br>
-            <form:label path="topicEn">
-                <b><spring:message code="configuration.topicEn" /> *</b>
-                <br>
-                <spring:message code="configuration.topicEn"/>
-                <br>
-            </form:label>
-            <form:textarea path="topicEn" />
-            <form:errors cssClass="error" path="topicEn" />
-            <br/>
+            <acme:textboxbsa code="sponsorship.number" path="number"/>
+            <acme:textboxbsa code="sponsorship.expirationMonth" path="expirationMonth"/>
 
-            <br>
-            <form:label path="voidWordsEs">
-                <b><spring:message code="configuration.voidWordsEs" /> *</b>
-                <br>
-                <spring:message code="configuration.voidWordsEs"/>
-                <br>
+            <form:label path="expirationYear">
+                <b><spring:message code="sponsorship.expirationYear" /> *</b>
             </form:label>
-            <form:textarea path="voidWordsEs" />
-            <form:errors cssClass="error" path="voidWordsEs" />
-            <br/>
+            <br>
+            <form:input path="expirationYear" placeholder="YYYY"/>
+            <form:errors cssClass="error" path="expirationYear"/>
 
-            <br>
-            <form:label path="voidWordsEn">
-                <b><spring:message code="configuration.voidWordsEn" /> *</b>
-                <br>
-                <spring:message code="configuration.voidWordsEn"/>
-                <br>
-            </form:label>
-            <form:textarea path="voidWordsEn" />
-            <form:errors cssClass="error" path="voidWordsEn" />
-            <br/>
+            <acme:textboxbsa code="sponsorship.CVV" path="CVV"/>
 
         </fieldset>
 

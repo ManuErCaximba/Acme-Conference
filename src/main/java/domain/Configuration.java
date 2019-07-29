@@ -1,6 +1,7 @@
 package domain;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
@@ -67,7 +68,6 @@ public class Configuration extends DomainEntity {
     }
 
     @NotNull
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getDefaultCC() {
         return defaultCC;
     }
@@ -77,6 +77,7 @@ public class Configuration extends DomainEntity {
     }
 
     @ElementCollection
+    @NotEmpty
     public Collection<String> getCreditCardMakes() {
         return creditCardMakes;
     }
@@ -86,6 +87,7 @@ public class Configuration extends DomainEntity {
     }
 
     @ElementCollection
+    @NotEmpty
     public Collection<String> getTopicsEs() {
         return topicsEs;
     }
@@ -95,6 +97,7 @@ public class Configuration extends DomainEntity {
     }
 
     @ElementCollection
+    @NotEmpty
     public Collection<String> getTopicsEn() {
         return topicsEn;
     }

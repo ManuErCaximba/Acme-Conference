@@ -6,6 +6,8 @@ import domain.Paper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import repositories.PaperRepository;
 
 import javax.transaction.Transactional;
@@ -24,6 +26,8 @@ public class PaperService {
     private ActorService actorService;
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private Validator validator;
 
     //CRUD Methods
     public Paper create(){
@@ -64,5 +68,25 @@ public class PaperService {
         Assert.notNull(paper);
 
         this.paperRepository.delete(paper);
+    }
+
+    //Other methods
+    public Collection<Paper> findAllByAuthor(int authorId){
+        return this.paperRepository.findAllByAuthor(authorId);
+    }
+
+    public Paper reconstruct(Paper paper, BindingResult binding){
+        Paper result;
+
+        result = paper;
+
+        if(paper.getId() != 0) {
+            Author author = (Author) this.actorService.getActorLogged();
+            result.setAuthor(author);
+        }
+
+        this.validator.validate(result, binding);
+
+        return result;
     }
 }

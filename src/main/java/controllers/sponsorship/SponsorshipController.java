@@ -1,6 +1,7 @@
 package controllers.sponsorship;
 
 import controllers.AbstractController;
+import domain.Configuration;
 import domain.Sponsor;
 import domain.Sponsorship;
 import forms.SponsorshipForm;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
+import services.ConfigurationService;
 import services.SponsorshipService;
 
 import javax.validation.Valid;
@@ -29,6 +31,9 @@ public class SponsorshipController extends AbstractController {
 
     @Autowired
     private ActorService actorService;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     // List --------------------------------------------------------------------------
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -100,6 +105,7 @@ public class SponsorshipController extends AbstractController {
         ModelAndView result;
         Sponsorship sponsorship;
         Calendar now = Calendar.getInstance();
+        Configuration configuration = this.configurationService.findAll().iterator().next();
 
         try {
             if (binding.hasErrors())
@@ -109,6 +115,8 @@ public class SponsorshipController extends AbstractController {
             else if (sponsorshipForm.getExpirationYear() == now.get(Calendar.YEAR) &&
                     sponsorshipForm.getExpirationMonth() < now.get(Calendar.MONTH))
                 result = this.createEditModelAndView(sponsorshipForm, null, 2);
+            else if (!configuration.getCreditCardMakes().contains(sponsorshipForm.getBrandName()))
+                result = this.createEditModelAndView(sponsorshipForm, null, null);
             else {
                 sponsorship = this.sponsorshipService.reconstruct(sponsorshipForm, binding);
                 this.sponsorshipService.save(sponsorship);
@@ -152,6 +160,7 @@ public class SponsorshipController extends AbstractController {
     protected ModelAndView createEditModelAndView(final SponsorshipForm sponsorshipForm, final String message,
                                                   final Integer errorNumber) {
         ModelAndView result;
+        Configuration configuration = this.configurationService.findAll().iterator().next();
 
         if(sponsorshipForm.getId() == 0)
             result = new ModelAndView("sponsorship/sponsor/create");
@@ -161,6 +170,7 @@ public class SponsorshipController extends AbstractController {
         result.addObject("sponsorshipForm", sponsorshipForm);
         result.addObject("message", message);
         result.addObject("errorNumber", errorNumber);
+        result.addObject("configuration", configuration);
 
         return result;
     }

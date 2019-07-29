@@ -21,7 +21,7 @@
 
     <b><spring:message code="configuration.banner"/>:</b>
     <br />
-    <a><img src="${configuration.banner}" alt="Photo" height="300" width="600"/></a>
+    <a><img src="${configuration.banner}" alt="Photo" height="120" width="800"/></a>
     <br>
 
     <p><acme:showtext code="configuration.welcomeEn" value="${configuration.welcomeEn}" fieldset="false"/></p>
@@ -48,7 +48,7 @@
     <tr>
         <th><spring:message code="configuration.topicEs" /></th>
     </tr>
-    <jstl:forEach items="${configuration.topicEs}"
+    <jstl:forEach items="${configuration.topicsEs}"
                   var="x">
         <tr>
             <td><jstl:out value="${x}"/></td>
@@ -60,31 +60,7 @@
     <tr>
         <th><spring:message code="configuration.topicEn" /></th>
     </tr>
-    <jstl:forEach items="${configuration.creditCardMakes}"
-                  var="x">
-        <tr>
-            <td><jstl:out value="${x}"/></td>
-        </tr>
-    </jstl:forEach>
-</table>
-
-<table>
-    <tr>
-        <th><spring:message code="configuration.voidWordsEs" /></th>
-    </tr>
-    <jstl:forEach items="${configuration.voidWordsEs}"
-                  var="x">
-        <tr>
-            <td><jstl:out value="${x}"/></td>
-        </tr>
-    </jstl:forEach>
-</table>
-
-<table>
-    <tr>
-        <th><spring:message code="configuration.voidWordsEn" /></th>
-    </tr>
-    <jstl:forEach items="${configuration.voidWordsEn}"
+    <jstl:forEach items="${configuration.topicsEn}"
                   var="x">
         <tr>
             <td><jstl:out value="${x}"/></td>
@@ -93,6 +69,9 @@
 </table>
 
 <br>
-<acme:cancel code="button.cancel" url="/"/>
+<acme:cancel code="button.goBack" url="/"/>
+<acme:cancel code="button.edit" url="configuration/administrator/edit.do"/>
+<acme:cancel code="button.showVoidWordsEs" url="configuration/administrator/showVoidWordsEs.do"/>
+<acme:cancel code="button.showVoidWordsEn" url="configuration/administrator/showVoidWordsEn.do"/>
 </body>
 </html>

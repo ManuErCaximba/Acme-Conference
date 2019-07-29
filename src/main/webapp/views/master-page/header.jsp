@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Sample Co., Inc." /></a>
+	<a href="#"><img src="${configuration.banner}" alt="${configuration.systemName}" /></a>
 </div>
 
 <div>
@@ -27,6 +27,7 @@
 					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register" /></a></li>
 				</ul>
 			</li>
+			<li><a href="configuration/administrator/show.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="hasRole('SPONSOR')">
@@ -35,6 +36,16 @@
 					<li class="arrow"></li>
 					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorship.list" /></a></li>
 					<li><a href="sponsorship/sponsor/create.do"><spring:message code="master.page.sponsorship.create" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('AUTHOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.paper" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="paper/author/list.do"><spring:message code="master.page.paper.list" /></a></li>
+					<li><a href="paper/author/create.do"><spring:message code="master.page.paper.create" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

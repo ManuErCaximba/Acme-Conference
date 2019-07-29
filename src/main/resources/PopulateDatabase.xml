@@ -225,11 +225,27 @@
 
 	<bean id="creditCard1" class="datatype.CreditCard">
 		<property name="holderName" value="CREDIT"/>
-		<property name="brandName" value="CREDIT" />
+		<property name="brandName" value="VISA" />
 		<property name="number" value="01234567890123456789" />
 		<property name="expirationMonth" value="12" />
-		<property name="expirationYear" value="21" />
+		<property name="expirationYear" value="2021" />
 		<property name="CVV" value="666" />
+	</bean>
+
+	<!-- PAPER -->
+
+	<bean id="paper1" class="domain.Paper">
+		<property name="title" value="paper1"/>
+		<property name="summary" value="Esto es el paper1" />
+		<property name="documentURL" value="https://si.ua.es/es/documentos/documentacion/pdf-s/mozilla12-pdf.pdf" />
+		<property name="author" ref="author1" />
+	</bean>
+
+	<bean id="paper2" class="domain.Paper">
+		<property name="title" value="paper2"/>
+		<property name="summary" value="Esto es el paper2" />
+		<property name="documentURL" value="http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf" />
+		<property name="author" ref="author1" />
 	</bean>
 
 	<!-- CONFIGURATION -->
@@ -237,8 +253,8 @@
 	<bean id="configuration1" class="domain.Configuration">
 		<property name="systemName" value="Acme Conference"/>
 		<property name="banner" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
-		<property name="welcomeEs" value="Welcome to Acme Conference! Your scientific event manager" />
-		<property name="welcomeEn" value="¡Bienvenidos a Acme Conference! Su gestor de eventos científicos" />
+		<property name="welcomeEn" value="Welcome to Acme Conference! Your scientific event manager" />
+		<property name="welcomeEs" value="¡Bienvenidos a Acme Conference! Su gestor de eventos científicos" />
 		<property name="defaultCC" value="34" />
 		<property name="creditCardMakes">
 			<list>
