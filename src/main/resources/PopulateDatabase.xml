@@ -232,6 +232,251 @@
 		<property name="CVV" value="666" />
 	</bean>
 
+	<!-- CONFERENCE -->
+	<bean id="conference1" class="domain.Conference">
+		<property name="title" value="conference1"/>
+		<property name="acronym" value="CF1"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value=""/>
+		<property name="notificationDeadline" value="" />
+		<property name="cameraReadyDeadline" value="" />
+		<property name="startDate" value="" />
+		<property name="endDate" value="" />
+		<property name="summary" value="" />
+		<property name="fee" value="2" />
+		<property name="final" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+				<value>comment1</value>
+			</list>
+		</property>
+
+	</bean>
+
+
+	<!-- CATEGORY -->
+	<bean id="category" class = "domain.Category">
+		<property name="nameEn" value="CONFERENCE"/>
+		<property name="nameEs" value="CONFERENCIA"/>
+		<property name="parents"><null/></property>
+		<property name="childs">
+			<list>
+				<ref bean = "ComputerScience"/>
+				<ref bean = "SoftwareEngineering"/>
+				<ref bean = "Physics"/>
+				<ref bean = "Biology"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ComputerScience" class = "domain.Category">
+		<property name="nameEn" value="Computer science"/>
+		<property name="nameEs" value="Ciencias de la computación"/>
+		<property name="parents" ref="category"/>
+		<property name="childs">
+			<list>
+				<ref bean = "ArtificialIntelligence"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SoftwareEngineering" class = "domain.Category">
+		<property name="nameEn" value="Sofware engineering"/>
+		<property name="nameEs" value="Ingeniería de sofware"/>
+		<property name="parents" ref="category"/>
+		<property name="childs">
+			<list>
+				<ref bean = "BigData"/>
+				<ref bean = "BigProcessing"/>
+				<ref bean = "Methods"/>
+				<ref bean = "Tools"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Physics" class = "domain.Category">
+		<property name="nameEn" value="Physics"/>
+		<property name="nameEs" value="Física"/>
+		<property name="parents" ref="category"/>
+		<property name="childs">
+			<list>
+				<ref bean = "Cinematic"/>
+				<ref bean = "Electricity"/>
+				<ref bean = "Electronics"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Biology" class = "domain.Category">
+		<property name="nameEn" value="Biology"/>
+		<property name="nameEs" value="Biología"/>
+		<property name="parents" ref="category"/>
+		<property name="childs">
+			<list>
+				<ref bean = "Animals"/>
+				<ref bean = "Plants"/>
+				<ref bean = "Fungi"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ArtificialIntelligence" class = "domain.Category">
+		<property name="nameEn" value="Artificial intelligence"/>
+		<property name="nameEs" value="Inteligencia Artificial"/>
+		<property name="parents" ref="ComputerScience"/>
+		<property name="childs">
+			<list>
+				<ref bean = "DeepLearning"/>
+				<ref bean = "InstanceBasedLearning"/>
+				<ref bean = "Regression"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DeepLearning" class = "domain.Category">
+		<property name="nameEn" value="Deep learning"/>
+		<property name="nameEs" value="Aprendizaje profundo"/>
+		<property name="parents" ref="ArtificialIntelligence"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="InstanceBasedLearning" class = "domain.Category">
+		<property name="nameEn" value="Instance-based learning"/>
+		<property name="nameEs" value="Aprendizaje basado en instancias"/>
+		<property name="parents" ref="ArtificialIntelligence"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Regression" class = "domain.Category">
+		<property name="nameEn" value="Regression"/>
+		<property name="nameEs" value="Regresión"/>
+		<property name="parents" ref="ArtificialIntelligence"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BigData" class = "domain.Category">
+		<property name="nameEn" value="Big data"/>
+		<property name="nameEs" value="Big data"/>
+		<property name="parents" ref="SoftwareEngineering"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BigProcessing" class = "domain.Category">
+		<property name="nameEn" value="Big processing"/>
+		<property name="nameEs" value="Gran procesamiento"/>
+		<property name="parents" ref="SoftwareEngineering"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Methods" class = "domain.Category">
+		<property name="nameEn" value="Methods"/>
+		<property name="nameEs" value="Métodos"/>
+		<property name="parents" ref="SoftwareEngineering"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Tools" class = "domain.Category">
+		<property name="nameEn" value="Tools"/>
+		<property name="nameEs" value="Herramientas"/>
+		<property name="parents" ref="SoftwareEngineering"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Cinematic" class = "domain.Category">
+		<property name="nameEn" value="Cinematic"/>
+		<property name="nameEs" value="Cinemática"/>
+		<property name="parents" ref="Physics"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Electricity" class = "domain.Category">
+		<property name="nameEn" value="Electricity"/>
+		<property name="nameEs" value="Electricidad"/>
+		<property name="parents" ref="Physics"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Electronics" class = "domain.Category">
+		<property name="nameEn" value="Electronics"/>
+		<property name="nameEs" value="Electrónica"/>
+		<property name="parents" ref="Physics"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Animals" class = "domain.Category">
+		<property name="nameEn" value="Animals"/>
+		<property name="nameEs" value="Animales"/>
+		<property name="parents" ref="Biology"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Plants" class = "domain.Category">
+		<property name="nameEn" value="Plants"/>
+		<property name="nameEs" value="Plantas"/>
+		<property name="parents" ref="Biology"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Fungi" class = "domain.Category">
+		<property name="nameEn" value="Fungi"/>
+		<property name="nameEs" value="Hongos"/>
+		<property name="parents" ref="Biology"/>
+		<property name="childs">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
 	<!-- PAPER -->
 
 	<bean id="paper1" class="domain.Paper">
