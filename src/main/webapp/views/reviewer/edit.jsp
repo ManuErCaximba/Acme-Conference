@@ -72,14 +72,14 @@
     <br />
 
     <br>
-    <form:label path="keywordsString">
+    <form:label path="keywords">
         <b><spring:message code="actor.keyword" /> *</b>
         <br>
         <spring:message code="actor.keyword2"/>
         <br>
     </form:label>
-    <form:textarea path="keywordsString" />
-    <form:errors cssClass="error" path="keywordsString" />
+    <form:textarea path="keywords" />
+    <form:errors cssClass="error" path="keywords" />
     <br/>
 </fieldset>
 

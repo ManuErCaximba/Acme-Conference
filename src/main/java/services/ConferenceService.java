@@ -93,6 +93,26 @@ public class ConferenceService {
         return res;
     }
 
+    public Collection<Conference> getForthcomingConferencesFinal(){
+        Collection<Conference> res;
+        res = this.conferenceRepository.getForthcomingConferencesFinal();
+        Assert.notNull(res);
+        return res;
+    }
+
+    public Collection<Conference> getPastConferencesFinal(){
+        Collection<Conference> res;
+        res = this.conferenceRepository.getPastConferencesFinal();
+        Assert.notNull(res);
+        return res;
+    }
+
+    public Collection<Conference> getRunningConferencesFinal(){
+        Collection<Conference> res;
+        res = this.conferenceRepository.getRunningConferencesFinal();
+        Assert.notNull(res);
+        return res;
+    }
 
     public Conference reconstruct(Conference conference, BindingResult binding){
         Conference result;

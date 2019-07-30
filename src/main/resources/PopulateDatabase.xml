@@ -237,18 +237,18 @@
 		<property name="title" value="conference1"/>
 		<property name="acronym" value="CF1"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
-		<property name="submissionDeadline" value=""/>
-		<property name="notificationDeadline" value="" />
-		<property name="cameraReadyDeadline" value="" />
-		<property name="startDate" value="" />
-		<property name="endDate" value="" />
-		<property name="summary" value="" />
+		<property name="submissionDeadline" value="15/12/2020 12:00"/>
+		<property name="notificationDeadline" value="16/12/2020 10:00" />
+		<property name="cameraReadyDeadline" value="17/12/2020 17:00" />
+		<property name="startDate" value="20/12/2020 19:00" />
+		<property name="endDate" value="20/12/2020 20:00" />
+		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="final" value="true" />
 		<property name="category" ref="Tools"/>
 		<property name="comments">
 			<list>
-				<value>comment1</value>
+
 			</list>
 		</property>
 

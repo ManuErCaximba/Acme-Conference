@@ -19,10 +19,46 @@ public class ConferenceController extends AbstractController {
     private ConferenceService conferenceService;
 
     //List forthcoming conferences
+
     @RequestMapping(value = "/listForthcoming", method = RequestMethod.GET)
     public ModelAndView listForthcoming(){
         ModelAndView result;
         Collection<Conference> conferences;
+        conferences = this.conferenceService.getForthcomingConferencesFinal();
+
+        result = new ModelAndView("conference/listForthcoming");
+        result.addObject("conferences", conferences);
+        result.addObject("requestURI", "conference/listForthcoming.do");
+
+        return result;
+
+    }
+
+    @RequestMapping(value = "/listPast", method = RequestMethod.GET)
+    public ModelAndView listPast(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.getPastConferencesFinal();
+
+        result = new ModelAndView("conference/listPast");
+        result.addObject("conferences", conferences);
+        result.addObject("requestURI", "conference/listPast.do");
+
+        return result;
+
+    }
+
+    @RequestMapping(value = "/listRunning", method = RequestMethod.GET)
+    public ModelAndView listRunning(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.getRunningConferencesFinal();
+
+        result = new ModelAndView("conference/listRunning");
+        result.addObject("conferences", conferences);
+        result.addObject("requestURI", "conference/listRunning.do");
+
+        return result;
 
     }
 }
