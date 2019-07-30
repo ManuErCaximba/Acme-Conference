@@ -32,6 +32,7 @@
 		<value>/views/sponsorship/tiles.xml</value>
 		<value>/views/configuration/tiles.xml</value>
 		<value>/views/paper/tiles.xml</value>
+		<value>/views/conference/tiles.xml</value>
 	</util:list>
 
 </beans>

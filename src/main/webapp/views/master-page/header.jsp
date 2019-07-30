@@ -49,7 +49,18 @@
 				</ul>
 			</li>
 		</security:authorize>
-		
+
+		<security:authorize access="isAnonymous()">
+			<li><a class="fNiv"><spring:message	code="master.page.conferences" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.conference.listForthcoming" /></a></li>
+					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listPast" /></a></li>
+					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listRunning" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 		</security:authorize>

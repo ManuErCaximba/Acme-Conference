@@ -26,6 +26,8 @@
 		<bean class="converters.StringToAuthorConverter" />
 		<bean class="converters.SponsorToStringConverter" />
 		<bean class="converters.StringToSponsorConverter" />
+		<bean class="converters.ConferenceToStringConverter" />
+		<bean class="converters.StringToConferenceConverter" />
 	</util:list>
 	
 </beans>

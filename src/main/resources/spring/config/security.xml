@@ -57,6 +57,12 @@
 		<security:intercept-url pattern="/author/author/**" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/paper/author/**" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/reviewer/reviewer/**" access="hasRole('REVIEWER')"/>
+
+
+		<security:intercept-url pattern="/conference/listForthcoming.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listPast.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
+
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
