@@ -1,8 +1,8 @@
 package services;
 
 import domain.Actor;
-import domain.Administrator;
 import domain.Conference;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,6 +13,7 @@ import repositories.ConferenceRepository;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 import java.util.Collection;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -111,6 +112,26 @@ public class ConferenceService {
         Collection<Conference> res;
         res = this.conferenceRepository.getRunningConferencesFinal();
         Assert.notNull(res);
+        return res;
+    }
+
+    public Collection<Conference> getConferencesByKeyword(String keyword){
+        Collection<Conference> res;
+        Assert.notNull(keyword);
+        res = this.conferenceRepository.getConferencesByKeyword(keyword);
+        Assert.notNull(res);
+        return res;
+    }
+
+    //TODO: Probar
+    public Collection<Conference> getConferencesSubmission5Days(){
+        Collection<Conference> res;
+        Date now = new Date();
+        Date date = new DateTime(now).minusDays(5).toDate();
+
+        res = this.conferenceRepository.getConferencesSubmission5Days(date);
+        Assert.notNull(res);
+
         return res;
     }
 

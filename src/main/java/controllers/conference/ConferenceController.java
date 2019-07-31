@@ -68,4 +68,5 @@ public class ConferenceController extends AbstractController {
         return result;
 
     }
+
 }
