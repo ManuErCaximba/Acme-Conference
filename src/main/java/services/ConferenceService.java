@@ -12,6 +12,9 @@ import repositories.ConferenceRepository;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -126,8 +129,9 @@ public class ConferenceService {
     //TODO: Probar
     public Collection<Conference> getConferencesSubmission5Days(){
         Collection<Conference> res;
-        Date now = new Date();
-        Date date = new DateTime(now).minusDays(5).toDate();
+        Date date = new DateTime(new Date()).minusDays(5).toDate();
+
+
 
         res = this.conferenceRepository.getConferencesSubmission5Days(date);
         Assert.notNull(res);

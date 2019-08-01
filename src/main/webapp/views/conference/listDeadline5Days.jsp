@@ -17,6 +17,7 @@
 
 </head>
 <body>
+<security:authorize access="hasRole('ADMIN')">
 <display:table name="conferences" id="row" requestURI="${requestURI}"
                pagesize="5" class="displaytag">
 
@@ -54,16 +55,18 @@
         </display:column>
     </jstl:if>
 
+
+
     <spring:message code="conference.show" var="showTitle"/>
     <display:column title="${showTitle}">
-        <a href="conference/showNotLogged.do?conferenceId=${row.id}">
+        <a href="conference/show.do?conferenceId=${row.id}">
             <spring:message code="conference.show"/>
         </a>
     </display:column>
 
 
 </display:table>
-
+</security:authorize>
 
 </body>
 </html>

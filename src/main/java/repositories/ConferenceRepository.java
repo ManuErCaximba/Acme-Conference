@@ -20,6 +20,8 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
     @Query("select c from Conference c where c.final = true and CURRENT_DATE > c.startDate and CURRENT_DATE < c.endDate")
     Collection<Conference> getRunningConferencesFinal();
 
+
+    //TODO:Revisar
     @Query("select c from Conference c where c.submissionDeadline between ?1 and CURRENT_DATE ")
     Collection<Conference> getConferencesSubmission5Days(Date date);
 

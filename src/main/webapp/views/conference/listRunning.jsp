@@ -56,7 +56,7 @@
 
     <spring:message code="conference.show" var="showTitle"/>
     <display:column title="${showTitle}">
-        <a href="conference/show.do?conferenceId=${row.id}">
+        <a href="conference/showNotLogged.do?conferenceId=${row.id}">
             <spring:message code="conference.show"/>
         </a>
     </display:column>
