@@ -55,11 +55,22 @@
         </display:column>
     </jstl:if>
 
+    <spring:message code="conference.status" var="columTitle"/>
+    <display:column title="${columTitle}">
+        <jstl:if test="${row.isFinal == false}">
+            <spring:message code="conference.draft" var = "Draft"/>
+            <jstl:out value="${Draft}"/>
+        </jstl:if>
+        <jstl:if test="${row.isFinal == true}">
+            <spring:message code="conference.final" var = "Final"/>
+            <jstl:out value="${Final}"/>
+        </jstl:if>
+    </display:column>
 
 
     <spring:message code="conference.show" var="showTitle"/>
     <display:column title="${showTitle}">
-        <a href="conference/show.do?conferenceId=${row.id}">
+        <a href="conference/administrator/show.do?conferenceId=${row.id}">
             <spring:message code="conference.show"/>
         </a>
     </display:column>

@@ -50,7 +50,7 @@
 			</li>
 		</security:authorize>
 
-		<security:authorize access="isAnonymous()">
+		<security:authorize access="permitAll">
 			<li><a class="fNiv"><spring:message	code="master.page.conferences" /></a>
 				<ul>
 					<li class="arrow"></li>

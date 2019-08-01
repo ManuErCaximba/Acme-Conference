@@ -47,7 +47,7 @@ public class ConferenceService {
         Assert.notNull(conference);
         Conference res;
 
-        conference.setFinal(true);
+        conference.setIsFinal(true);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
         Assert.isTrue(conference.getNotificationDeadline().before(conference.getCameraReadyDeadline()));
         Assert.isTrue(conference.getCameraReadyDeadline().before(conference.getStartDate()));
@@ -61,10 +61,10 @@ public class ConferenceService {
         final Actor actor = this.actorService.getActorLogged();
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(conference);
-        Assert.isTrue(conference.isFinal() == false);
+        Assert.isTrue(conference.getIsFinal() == false);
         Conference res;
 
-        conference.setFinal(false);
+        conference.setIsFinal(false);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
         Assert.isTrue(conference.getNotificationDeadline().before(conference.getCameraReadyDeadline()));
         Assert.isTrue(conference.getCameraReadyDeadline().before(conference.getStartDate()));
@@ -79,7 +79,7 @@ public class ConferenceService {
 
         Assert.notNull(conference);
         Assert.isTrue(conference.getId() != 0);
-        Assert.isTrue(conference.isFinal() == false);
+        Assert.isTrue(conference.getIsFinal() == false);
 
         this.conferenceRepository.delete(conference);
     }
@@ -156,7 +156,7 @@ public class ConferenceService {
         result.setEndDate(conference.getEndDate());
         result.setSummary(conference.getSummary());
         result.setFee(conference.getFee());
-        result.setFinal(conference.isFinal());
+        result.setIsFinal(conference.getIsFinal());
         result.setCategory(conference.getCategory());
         result.setRegistrations(conference.getRegistrations());
         result.setComments(conference.getComments());

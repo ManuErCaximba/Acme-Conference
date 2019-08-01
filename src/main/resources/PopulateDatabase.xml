@@ -244,7 +244,7 @@
 	<property name="endDate" value="12/20/2020 20:00" />
 	<property name="summary" value="Summary" />
 	<property name="fee" value="2" />
-	<property name="final" value="true" />
+	<property name="isFinal" value="true" />
 	<property name="category" ref="Tools"/>
 	<property name="comments">
 		<list>
@@ -265,7 +265,7 @@
 		<property name="endDate" value="12/20/2020 20:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
-		<property name="final" value="true" />
+		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
 		<property name="comments">
 			<list>

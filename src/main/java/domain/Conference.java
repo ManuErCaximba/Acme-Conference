@@ -127,11 +127,11 @@ public class Conference extends DomainEntity {
         this.fee = fee;
     }
 
-    public boolean isFinal() {
+    public boolean getIsFinal() {
         return isFinal;
     }
 
-    public void setFinal(boolean aFinal) {
+    public void setIsFinal(boolean aFinal) {
         isFinal = aFinal;
     }
 

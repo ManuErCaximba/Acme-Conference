@@ -26,10 +26,30 @@
     <p><acme:showtext code="conference.endDate" value="${conference.endDate}" fieldset="false"/></p>
     <p><acme:showtext code="conference.summary" value="${conference.summary}" fieldset="false"/></p>
     <p><acme:showtext code="conference.fee" value="${conference.fee}" fieldset="false"/></p>
-    <p><acme:showtext code="conference.category" value="${conference.category}" fieldset="false"/></p>
 
+    <jstl:if test="${lang == 'es'}">
+        <p><acme:showtext code="conference.category" value="${conference.category.nameEs}" fieldset="false"/></p>
+    </jstl:if>
+
+    <jstl:if test="${lang == 'en'}">
+        <p><acme:showtext code="conference.category" value="${conference.category.nameEn}" fieldset="false"/></p>
+    </jstl:if>
+
+   <p> <b><spring:message code="conference.status2"/></b>
+    <jstl:choose>
+        <jstl:when test="${conference.isFinal == false}">
+            <br><spring:message code="conference.draft"/>
+        </jstl:when>
+
+        <jstl:when test="${conference.isFinal == true}">
+           <br><spring:message code="conference.final"/>
+        </jstl:when>
+    </jstl:choose>
+   </p>
 </fieldset>
 <br>
-<acme:cancel code="button.goBack" url="paper/author/list.do"/>
+<input type="button" name="cancel"
+       value="<spring:message code="button.goBack" />"
+       onclick="javascript: window.history.back();" />
 </body>
 </html>

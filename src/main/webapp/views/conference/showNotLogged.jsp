@@ -15,14 +15,28 @@
 </head>
 <body>
 <fieldset>
-    <legend><b><spring:message code="paper.data"/></b></legend>
-    <p><acme:showtext code="paper.title" value="${paper.title}" fieldset="false"/></p>
-    <p><acme:showtext code="paper.summary" value="${paper.summary}" fieldset="false"/></p>
-    <b><spring:message code="paper.attachment"/>:</b>
-    <br />
-    <a href="${paper.documentURL}"><jstl:out value="${paper.documentURL}"/></a>
+    <legend><b><spring:message code="conference.data"/></b></legend>
+    <p><acme:showtext code="conference.title" value="${conference.title}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.acronym" value="${conference.acronym}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.venue" value="${conference.venue}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.submissionDeadline" value="${conference.submissionDeadline}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.notificationDeadline" value="${conference.notificationDeadline}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.cameraReadyDeadline" value="${conference.cameraReadyDeadline}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.startDate" value="${conference.startDate}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.endDate" value="${conference.endDate}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.summary" value="${conference.summary}" fieldset="false"/></p>
+    <p><acme:showtext code="conference.fee" value="${conference.fee}" fieldset="false"/></p>
+    <jstl:if test="${lang == 'es'}">
+        <p><acme:showtext code="conference.category" value="${conference.category.nameEs}" fieldset="false"/></p>
+    </jstl:if>
+
+    <jstl:if test="${lang == 'en'}">
+        <p><acme:showtext code="conference.category" value="${conference.category.nameEn}" fieldset="false"/></p>
+    </jstl:if>
 </fieldset>
 <br>
-<acme:cancel code="button.goBack" url="paper/author/list.do"/>
+<input type="button" name="cancel"
+       value="<spring:message code="button.goBack" />"
+       onclick="javascript: window.history.back();" />
 </body>
 </html>

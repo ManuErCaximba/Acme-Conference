@@ -36,4 +36,14 @@
 		<put-attribute name="body" value="/views/conference/listDeadline5Days.jsp" />
 	</definition>
 
+	<definition name="conference/showNotLogged" extends="master.page">
+		<put-attribute name="title" value="Conference" />
+		<put-attribute name="body" value="/views/conference/showNotLogged.jsp" />
+	</definition>
+
+	<definition name="conference/administrator/show" extends="master.page">
+		<put-attribute name="title" value="Conference" />
+		<put-attribute name="body" value="/views/conference/show.jsp" />
+	</definition>
+
 </tiles-definitions>

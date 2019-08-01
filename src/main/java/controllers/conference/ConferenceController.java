@@ -82,7 +82,7 @@ public class ConferenceController extends AbstractController {
 
     }
 
-    //TODO:Revisar
+
     @RequestMapping(value = "/administrator/listDeadline5Days", method = RequestMethod.GET)
     public ModelAndView listDeadline5Days(){
         ModelAndView result;
@@ -103,12 +103,14 @@ public class ConferenceController extends AbstractController {
     public ModelAndView showNotLogged(@RequestParam int conferenceId){
         ModelAndView result;
         final Conference conference;
+        final String language = LocaleContextHolder.getLocale().getLanguage();
 
         try {
             conference = this.conferenceService.findOne(conferenceId);
-            Assert.isTrue(conference.isFinal());
+            Assert.isTrue(conference.getIsFinal());
             result = new ModelAndView("conference/showNotLogged");
             result.addObject("conference", conference);
+            result.addObject("lang", language);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -120,14 +122,16 @@ public class ConferenceController extends AbstractController {
     public ModelAndView show(@RequestParam int conferenceId){
         ModelAndView result;
         final Conference conference;
+        final String language = LocaleContextHolder.getLocale().getLanguage();
 
         try {
             conference = this.conferenceService.findOne(conferenceId);
             Actor actor = this.actorService.getActorLogged();
             Assert.isTrue(actor instanceof Administrator);
-            Assert.isTrue(conference.isFinal());
+            Assert.isTrue(conference.getIsFinal());
             result = new ModelAndView("conference/administrator/show");
             result.addObject("conference", conference);
+            result.addObject("lang", language);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }

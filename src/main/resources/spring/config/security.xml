@@ -62,6 +62,7 @@
 		<security:intercept-url pattern="/conference/listForthcoming.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listPast.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/showNotLogged.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/administrator/**" access="hasRole('ADMIN')" />
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
