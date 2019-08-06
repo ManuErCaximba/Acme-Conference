@@ -25,6 +25,8 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register" /></a></li>
+					<li><a href="conference/administrator/create.do"><spring:message code="master.page.conference.create" /></a></li>
+					<li><a href="conference/administrator/listConferenceAdminMenu.do"><spring:message code="master.page.administrator.conferences" /></a></li>
 				</ul>
 			</li>
 			<li><a href="configuration/administrator/show.do"><spring:message code="master.page.administrator.configuration" /></a></li>

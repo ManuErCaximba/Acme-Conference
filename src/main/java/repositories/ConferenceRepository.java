@@ -30,7 +30,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
     Collection<Conference> getConferencesCamera4Days(Date date);
 
     @Query("select c from Conference c where c.startDate between CURRENT_DATE and ?1")
-    Collection<Conference> getConferenceStartNext5Days(Date date);
+    Collection<Conference> getConferenceStartNext4Days(Date date);
 
     @Query("select c from Conference c where (c.title like '%?1%' or c.venue like '%?1%' or c.summary like '%?1%') and c.isFinal = true ")
     Collection<Conference> getConferencesByKeyword(String keyword);

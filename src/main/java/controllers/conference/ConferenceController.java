@@ -3,18 +3,22 @@ package controllers.conference;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Administrator;
+import domain.Category;
 import domain.Conference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
+import services.CategoryService;
 import services.ConferenceService;
 
+import javax.validation.ValidationException;
 import java.util.Collection;
 
 @Controller
@@ -27,6 +31,8 @@ public class ConferenceController extends AbstractController {
     @Autowired
     private ActorService actorService;
 
+    @Autowired
+    private CategoryService categoryService;
 
     //List forthcoming conferences
 
@@ -82,6 +88,7 @@ public class ConferenceController extends AbstractController {
 
     }
 
+    //List conferences whose submis-sion deadline elapsed in the last five days
 
     @RequestMapping(value = "/administrator/listDeadline5Days", method = RequestMethod.GET)
     public ModelAndView listDeadline5Days(){
@@ -98,6 +105,72 @@ public class ConferenceController extends AbstractController {
         return result;
 
     }
+
+    //List conferences whose notification deadline elapses in less than five days
+
+    @RequestMapping(value = "/administrator/listNotification4Days", method = RequestMethod.GET)
+    public ModelAndView listNotification4Days(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.getConferencesNotificationnNext4Days();
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+
+        result = new ModelAndView("conference/administrator/listNotification4Days");
+        result.addObject("conferences", conferences);
+        result.addObject("lang", language);
+        result.addObject("requestURI", "conference/administrator/listNotification4Days.do");
+
+        return result;
+
+    }
+
+    //List conferences whose camera-ready deadline elapses in less than five days
+
+    @RequestMapping(value = "/administrator/listCamera4Days", method = RequestMethod.GET)
+    public ModelAndView listCamera4Days(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.getConferencesCamera4Days();
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+
+        result = new ModelAndView("conference/administrator/listCamera4Days");
+        result.addObject("conferences", conferences);
+        result.addObject("lang", language);
+        result.addObject("requestURI", "conference/administrator/listCamera4Days.do");
+
+        return result;
+
+    }
+
+    //List conferences that are going to be organised in less than five days
+
+    @RequestMapping(value = "/administrator/listStartNext4Days", method = RequestMethod.GET)
+    public ModelAndView listStartNext4Days(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.getConferenceStartNext4Days();
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+
+        result = new ModelAndView("conference/administrator/listStartNext4Days");
+        result.addObject("conferences", conferences);
+        result.addObject("lang", language);
+        result.addObject("requestURI", "conference/administrator/listStartNext4Days.do");
+
+        return result;
+
+    }
+
+    //Menu Admin of conferences list by criteria...
+
+    @RequestMapping(value = "/administrator/listConferenceAdminMenu", method = RequestMethod.GET)
+    public ModelAndView listConferenceAdminMenu(){
+        ModelAndView result;
+
+        result = new ModelAndView("conference/administrator/listConferenceAdminMenu");
+        return result;
+    }
+
+    //Show not logged users
 
     @RequestMapping(value = "/showNotLogged", method = RequestMethod.GET)
     public ModelAndView showNotLogged(@RequestParam int conferenceId){
@@ -118,6 +191,8 @@ public class ConferenceController extends AbstractController {
         return result;
     }
 
+    //Show logged users
+
     @RequestMapping(value = "/administrator/show", method = RequestMethod.GET)
     public ModelAndView show(@RequestParam int conferenceId){
         ModelAndView result;
@@ -136,6 +211,107 @@ public class ConferenceController extends AbstractController {
             result = new ModelAndView("redirect:/");
         }
 
+        return result;
+    }
+
+    //Create
+
+    @RequestMapping(value = "/administrator/create", method = RequestMethod.GET)
+    public ModelAndView create() {
+        ModelAndView result;
+        try {
+            Conference conference = this.conferenceService.create();
+            result = new ModelAndView("conference/administrator/create");
+            result.addObject("conference", conference);
+        } catch (Throwable oops) {
+            result = new ModelAndView("redirect:/");
+        }
+        return result;
+    }
+
+    //Edit
+
+    @RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam int conferenceId) {
+        ModelAndView result;
+        try {
+            Conference conference;
+            conference = this.conferenceService.findOne(conferenceId);
+            Assert.notNull(conference);
+            Assert.isTrue(conference.getIsFinal() == false);
+            Actor user = this.actorService.getActorLogged();
+            Assert.isTrue(user instanceof Administrator);
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+            Collection<Category> categories = this.categoryService.findAll();
+            Assert.notNull(categories);
+            result = new ModelAndView("conference/administrator/edit");
+            result.addObject("conference", conference);
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
+        } catch (Throwable oops) {
+            result = new ModelAndView("redirect:/");
+        }
+        return result;
+    }
+
+    //Save as draft
+
+    @RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "saveDraft")
+    public ModelAndView saveDraft(Conference conference, BindingResult binding) {
+        ModelAndView result;
+        try {
+            Assert.notNull(conference);
+            conference = this.conferenceService.reconstruct(conference, binding);
+            conference = this.conferenceService.saveDraft(conference);
+            result = new ModelAndView("redirect:list.do");
+        } catch (ValidationException e) {
+            result = this.createEditModelAndView(conference, null);
+        } catch (Throwable oops) {
+            result = this.createEditModelAndView(conference, "conference.commit.error");
+        }
+        return result;
+    }
+
+    //Save as final
+
+    @RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "saveFinal")
+    public ModelAndView saveFinal(Conference conference, BindingResult binding) {
+        ModelAndView result;
+        try {
+            Assert.notNull(conference);
+            conference = this.conferenceService.reconstruct(conference, binding);
+            conference = this.conferenceService.saveFinal(conference);
+            result = new ModelAndView("redirect:list.do");
+        } catch (ValidationException e) {
+            result = this.createEditModelAndView(conference, null);
+        } catch (Throwable oops) {
+            result = this.createEditModelAndView(conference, "conference.commit.error");
+        }
+        return result;
+    }
+
+    //Delete
+
+    @RequestMapping(value = "/conference/delete", method = RequestMethod.GET)
+    public ModelAndView delete(@RequestParam int conferenceId) {
+        ModelAndView result;
+        try {
+            Conference conference = this.conferenceService.findOne(conferenceId);
+            Assert.notNull(conference);
+            this.conferenceService.delete(conference);
+            result = new ModelAndView("redirect:list.do");
+        } catch (Throwable oops) {
+            result = new ModelAndView("redirect:/");
+        }
+        return result;
+    }
+
+    private ModelAndView createEditModelAndView(Conference conference, final String messageCode) {
+        ModelAndView result;
+
+        result = new ModelAndView("conference/administrator/edit");
+        result.addObject("conference", conference);
+        result.addObject("message", messageCode);
         return result;
     }
 }

@@ -126,14 +126,41 @@ public class ConferenceService {
         return res;
     }
 
-    //TODO: Probar
     public Collection<Conference> getConferencesSubmission5Days(){
         Collection<Conference> res;
         Date date = new DateTime(new Date()).minusDays(5).toDate();
 
-
-
         res = this.conferenceRepository.getConferencesSubmission5Days(date);
+        Assert.notNull(res);
+
+        return res;
+    }
+
+    public Collection<Conference> getConferencesNotificationnNext4Days(){
+        Collection<Conference> res;
+        Date date = new DateTime(new Date()).plusDays(4).toDate();
+
+        res = this.conferenceRepository.getConferencesNotificationnNext4Days(date);
+        Assert.notNull(res);
+
+        return res;
+    }
+
+    public Collection<Conference> getConferencesCamera4Days(){
+        Collection<Conference> res;
+        Date date = new DateTime(new Date()).plusDays(4).toDate();
+
+        res = this.conferenceRepository.getConferencesCamera4Days(date);
+        Assert.notNull(res);
+
+        return res;
+    }
+
+    public Collection<Conference> getConferenceStartNext4Days(){
+        Collection<Conference> res;
+        Date date = new DateTime(new Date()).plusDays(4).toDate();
+
+        res = this.conferenceRepository.getConferenceStartNext4Days(date);
         Assert.notNull(res);
 
         return res;
