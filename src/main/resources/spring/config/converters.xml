@@ -28,6 +28,8 @@
 		<bean class="converters.StringToSponsorConverter" />
 		<bean class="converters.ConferenceToStringConverter" />
 		<bean class="converters.StringToConferenceConverter" />
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.StringToCategoryConverter" />
 	</util:list>
 	
 </beans>

@@ -1,6 +1,7 @@
 package services;
 
 import domain.Actor;
+import domain.Category;
 import domain.Conference;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,6 @@ import repositories.ConferenceRepository;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -33,6 +31,9 @@ public class ConferenceService {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private CategoryService categoryService;
+
     public Conference create(){
         final Actor actor = this.actorService.getActorLogged();
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
@@ -46,6 +47,11 @@ public class ConferenceService {
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(conference);
         Conference res;
+
+        if(conference.getCategory() == null){
+            Category category = this.categoryService.getDefaultCategory();
+            conference.setCategory(category);
+        }
 
         conference.setIsFinal(true);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
@@ -63,6 +69,11 @@ public class ConferenceService {
         Assert.notNull(conference);
         Assert.isTrue(conference.getIsFinal() == false);
         Conference res;
+
+        if(conference.getCategory() == null){
+            Category category = this.categoryService.getDefaultCategory();
+            conference.setCategory(category);
+        }
 
         conference.setIsFinal(false);
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
@@ -173,6 +184,14 @@ public class ConferenceService {
         } else {
             result = this.conferenceRepository.findOne(conference.getId());
         }
+
+        if(conference.getCategory() == null){
+            Category category = this.categoryService.getDefaultCategory();
+           result.setCategory(category);
+        } else {
+            result.setCategory(conference.getCategory());
+        }
+
         result.setTitle(conference.getTitle());
         result.setAcronym(conference.getAcronym());
         result.setVenue(conference.getVenue());
@@ -184,7 +203,6 @@ public class ConferenceService {
         result.setSummary(conference.getSummary());
         result.setFee(conference.getFee());
         result.setIsFinal(conference.getIsFinal());
-        result.setCategory(conference.getCategory());
         result.setRegistrations(conference.getRegistrations());
         result.setComments(conference.getComments());
 

@@ -221,10 +221,18 @@ public class ConferenceController extends AbstractController {
         ModelAndView result;
         try {
             Conference conference = this.conferenceService.create();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+            Collection<Category> categories = this.categoryService.findAll();
             result = new ModelAndView("conference/administrator/create");
             result.addObject("conference", conference);
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         } catch (Throwable oops) {
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+            Collection<Category> categories = this.categoryService.findAll();
             result = new ModelAndView("redirect:/");
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         }
         return result;
     }
@@ -234,6 +242,8 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam int conferenceId) {
         ModelAndView result;
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+        Collection<Category> categories = this.categoryService.findAll();
         try {
             Conference conference;
             conference = this.conferenceService.findOne(conferenceId);
@@ -241,8 +251,6 @@ public class ConferenceController extends AbstractController {
             Assert.isTrue(conference.getIsFinal() == false);
             Actor user = this.actorService.getActorLogged();
             Assert.isTrue(user instanceof Administrator);
-            final String language = LocaleContextHolder.getLocale().getLanguage();
-            Collection<Category> categories = this.categoryService.findAll();
             Assert.notNull(categories);
             result = new ModelAndView("conference/administrator/edit");
             result.addObject("conference", conference);
@@ -250,6 +258,8 @@ public class ConferenceController extends AbstractController {
             result.addObject("lang", language);
         } catch (Throwable oops) {
             result = new ModelAndView("redirect:/");
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         }
         return result;
     }
@@ -259,15 +269,22 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "saveDraft")
     public ModelAndView saveDraft(Conference conference, BindingResult binding) {
         ModelAndView result;
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+        Collection<Category> categories = this.categoryService.findAll();
         try {
             Assert.notNull(conference);
+            Assert.notNull(categories);
             conference = this.conferenceService.reconstruct(conference, binding);
             conference = this.conferenceService.saveDraft(conference);
-            result = new ModelAndView("redirect:list.do");
+            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
         } catch (ValidationException e) {
             result = this.createEditModelAndView(conference, null);
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         } catch (Throwable oops) {
             result = this.createEditModelAndView(conference, "conference.commit.error");
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         }
         return result;
     }
@@ -277,15 +294,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "saveFinal")
     public ModelAndView saveFinal(Conference conference, BindingResult binding) {
         ModelAndView result;
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+        Collection<Category> categories = this.categoryService.findAll();
         try {
             Assert.notNull(conference);
             conference = this.conferenceService.reconstruct(conference, binding);
             conference = this.conferenceService.saveFinal(conference);
-            result = new ModelAndView("redirect:list.do");
+            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
         } catch (ValidationException e) {
             result = this.createEditModelAndView(conference, null);
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         } catch (Throwable oops) {
             result = this.createEditModelAndView(conference, "conference.commit.error");
+            result.addObject("categories", categories);
+            result.addObject("lang", language);
         }
         return result;
     }
