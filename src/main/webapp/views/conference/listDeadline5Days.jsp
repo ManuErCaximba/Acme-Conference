@@ -67,6 +67,14 @@
         </jstl:if>
     </display:column>
 
+    <spring:message code="conference.edit" var="columTitle"/>
+    <display:column title="${columTitle}">
+        <jstl:if test="${row.isFinal == false}">
+            <a href="conference/administrator/edit.do?conferenceId=${row.id}">
+                <spring:message code="conference.edit"/>
+            </a>
+        </jstl:if>
+    </display:column>
 
     <spring:message code="conference.show" var="showTitle"/>
     <display:column title="${showTitle}">
