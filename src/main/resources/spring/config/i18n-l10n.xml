@@ -33,6 +33,7 @@
 		<value>/views/configuration/messages</value>
 		<value>/views/paper/messages</value>
 		<value>/views/conference/messages</value>
+		<value>/views/category/messages</value>
 	</util:list>
 
 </beans>

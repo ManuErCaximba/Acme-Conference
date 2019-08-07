@@ -68,7 +68,7 @@ public class CategoryController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "save")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
     public ModelAndView save(Category category, BindingResult binding){
         ModelAndView result;
         try{
@@ -84,7 +84,7 @@ public class CategoryController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(value = "/administrator/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public ModelAndView delete(@RequestParam int categoryId){
         ModelAndView result;
         try{
@@ -99,7 +99,7 @@ public class CategoryController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(value = "/administrator/show", method = RequestMethod.GET)
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
     public ModelAndView show(@RequestParam int categoryId){
         ModelAndView result;
         try{

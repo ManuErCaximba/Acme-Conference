@@ -315,14 +315,14 @@ public class ConferenceController extends AbstractController {
 
     //Delete
 
-    @RequestMapping(value = "/conference/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/administrator/delete", method = RequestMethod.GET)
     public ModelAndView delete(@RequestParam int conferenceId) {
         ModelAndView result;
         try {
             Conference conference = this.conferenceService.findOne(conferenceId);
             Assert.notNull(conference);
             this.conferenceService.delete(conference);
-            result = new ModelAndView("redirect:list.do");
+            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
         } catch (Throwable oops) {
             result = new ModelAndView("redirect:/");
         }
