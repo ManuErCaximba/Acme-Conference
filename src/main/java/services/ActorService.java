@@ -26,6 +26,9 @@ public class ActorService {
     @Autowired
     private AdministratorService administratorService;
 
+    @Autowired
+    private FinderService finderService;
+
     //CRUD Methods
     public Collection<Actor> findAll() {
         Collection<Actor> result;
@@ -67,6 +70,9 @@ public class ActorService {
         Assert.notNull(actor);
 
         Actor result;
+
+        if (actor.getId() == 0)
+            this.finderService.save(this.finderService.create());
 
         result = this.actorRepository.save(actor);
 

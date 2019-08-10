@@ -47,6 +47,7 @@
 		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" />
 
 		<security:intercept-url pattern="/profile/display.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/finder/**" access="isAuthenticated()" />
 
 		<security:intercept-url pattern="/sponsor/create.do" access="permitAll" />
 		<security:intercept-url pattern="/author/create.do" access="permitAll" />

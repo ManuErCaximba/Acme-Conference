@@ -173,4 +173,12 @@ public class CategoryService {
             }
         return exist;
     }
+
+    public Collection<String> getNamesEs() {
+        return this.categoryRepository.getNamesEs();
+    }
+
+    public Collection<String> getNamesEn() {
+        return this.categoryRepository.getNamesEn();
+    }
 }

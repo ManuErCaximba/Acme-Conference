@@ -14,15 +14,12 @@ import java.util.Date;
 public class Finder extends DomainEntity {
 
     private String keyword;
-    private String acronym;
-    private String venue;
-    private String summary;
     private Date startDate;
     private Date endDate;
-    private double maximumFee;
+    private Double maximumFee;
+    private String categoryName;
 
     //Relationships
-    private Category category;
     private Actor actor;
     private Collection<Conference> conferences;
 
@@ -35,36 +32,8 @@ public class Finder extends DomainEntity {
         this.keyword = keyword;
     }
 
-    @SafeHtml(whitelistType = WhiteListType.NONE)
-    public String getAcronym() {
-        return acronym;
-    }
-
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
-    }
-
-    @SafeHtml(whitelistType = WhiteListType.NONE)
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
-    @SafeHtml(whitelistType = WhiteListType.NONE)
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yy HH:mm")
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public Date getStartDate() {
         return startDate;
     }
@@ -75,7 +44,6 @@ public class Finder extends DomainEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yy HH:mm")
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public Date getEndDate() {
         return endDate;
     }
@@ -84,26 +52,24 @@ public class Finder extends DomainEntity {
         this.endDate = endDate;
     }
 
-    @SafeHtml(whitelistType = WhiteListType.NONE)
-    public double getMaximumFee() {
+    public Double getMaximumFee() {
         return maximumFee;
     }
 
-    public void setMaximumFee(double maximumFee) {
+    public void setMaximumFee(Double maximumFee) {
         this.maximumFee = maximumFee;
     }
 
+    @SafeHtml(whitelistType = WhiteListType.NONE)
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     //Relationships
-
-    @OneToOne
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     @OneToOne(optional = false)
     public Actor getActor() {
         return actor;

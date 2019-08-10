@@ -189,7 +189,6 @@
 		<property name="email" value="sponsor1@gmail.com" />
 		<property name="phoneNumber" value="684144461" />
 		<property name="address" value="C/sponsor 1" />
-
 	</bean>
 	
 	<bean id="sponsor2" class="domain.Sponsor">
@@ -200,11 +199,39 @@
 		<property name="email" value="sponsor2@gmail.com" />
 		<property name="phoneNumber" value="684144465" />
 		<property name="address" value="C/sponsor 2" />
+	</bean>
 
+	<!-- FINDER -->
+
+	<bean id="finder1" class="domain.Finder">
+		<property name="actor" ref="administrator1" />
+	</bean>
+
+	<bean id="finder2" class="domain.Finder">
+		<property name="actor" ref="reviewer1" />
+	</bean>
+
+	<bean id="finder3" class="domain.Finder">
+		<property name="actor" ref="reviewer2" />
+	</bean>
+
+	<bean id="finder4" class="domain.Finder">
+		<property name="actor" ref="sponsor1" />
+	</bean>
+
+	<bean id="finder5" class="domain.Finder">
+		<property name="actor" ref="sponsor2" />
+	</bean>
+
+	<bean id="finder6" class="domain.Finder">
+		<property name="actor" ref="author1" />
+	</bean>
+
+	<bean id="finder7" class="domain.Finder">
+		<property name="actor" ref="author2" />
 	</bean>
 
 	<!-- SPONSORSHIP -->
-
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="banner" value="https://www.reasonwhy.es/sites/default/files/anuncio-coca-cola-navidad.png" />
