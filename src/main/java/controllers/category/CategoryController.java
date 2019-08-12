@@ -57,11 +57,15 @@ public class CategoryController extends AbstractController {
         ModelAndView result;
         try{
             Category category;
+            Collection<Category> categories;
             category = this.categoryService.findOne(categoryId);
+            categories = this.categoryService.findAll();
             Assert.notNull(category);
-            Assert.isTrue(!category.getNameEs().equals("Por defecto") && !category.getNameEn().equals("Default"));
+            Assert.notNull(categories);
+            Assert.isTrue(!category.getNameEs().equals("CONFERENCIA") && !category.getNameEn().equals("Conference"));
             result = new ModelAndView("category/administrator/edit");
             result.addObject("category", category);
+            result.addObject("categories", categories);
         } catch (Throwable oops){
             result = new ModelAndView("redirect:/");
         }
@@ -71,13 +75,17 @@ public class CategoryController extends AbstractController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
     public ModelAndView save(Category category, BindingResult binding){
         ModelAndView result;
+        Collection<Category> categories = this.categoryService.findAll();
         try{
             Assert.notNull(category);
+            Assert.notNull(categories);
             category = this.categoryService.reconstruct(category, binding);
             category = this.categoryService.save(category);
             result = new ModelAndView("redirect:list.do");
         }catch (ValidationException e){
             result = this.createEditModelAndView(category);
+            result.addObject("category", category);
+            result.addObject("categories", categories);
         } catch (Throwable oops){
             result = this.createEditModelAndView(category, "category.commit.error");
         }

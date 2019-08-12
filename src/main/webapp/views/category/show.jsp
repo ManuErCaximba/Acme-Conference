@@ -18,11 +18,25 @@
     <legend><b><spring:message code="category.data"/></b></legend>
 
     <jstl:if test="${lang == 'es'}">
-        <p><acme:showtext code="conference.category" value="${conference.category.nameEs}" fieldset="false"/></p>
+        <p><acme:showtext code="category.name" value="${category.nameEs}" fieldset="false"/></p>
+        <p><acme:showtext code="category.parent" value="${category.parents.nameEs}" fieldset="false"/></p>
+        <p><b><spring:message code="category.childs"/></b> <br/>
+            <jstl:forEach var="childs"  items="${category.childs}">
+                <jstl:out value="${childs.nameEs}"/>
+                <br/>
+            </jstl:forEach>
+        </p>
     </jstl:if>
 
     <jstl:if test="${lang == 'en'}">
-        <p><acme:showtext code="conference.category" value="${conference.category.nameEn}" fieldset="false"/></p>
+        <p><acme:showtext code="category.name" value="${category.nameEn}" fieldset="false"/></p>
+        <p><acme:showtext code="category.parent" value="${category.parents.nameEn}" fieldset="false"/></p>
+        <p><b><spring:message code="category.childs"/></b> <br/>
+            <jstl:forEach var="childs"  items="${category.childs}">
+                <jstl:out value="${childs.nameEn}"/>
+                <br/>
+            </jstl:forEach>
+        </p>
     </jstl:if>
 
 </fieldset>
