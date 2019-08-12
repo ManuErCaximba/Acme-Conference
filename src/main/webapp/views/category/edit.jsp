@@ -20,18 +20,7 @@
 
         <acme:textbox code="category.nameES" path="nameEs" />
 
-        <form:label path="parents">
-            <spring:message code="category.parent"/>
-        </form:label>
-        <form:select path="parents">
-            <jstl:if test="${lang =='es'}">
-                <form:options items="${categories}" itemValue="id" itemLabel="nameEs"/>
-            </jstl:if>
-            <jstl:if test="${lang == 'en'}">
-                <form:options items="${categories}" itemValue="id" itemLabel="nameEn"/>
-            </jstl:if>
-        </form:select>
-        <br>
+        <acme:select path="parents" code="category.parent" items="${categories}" id="id" itemLabel="nameEn"/>
 
         <acme:submit name="save" code="category.save"/>
         <jstl:if test="${category.id != 0}">

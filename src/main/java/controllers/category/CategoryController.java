@@ -62,7 +62,7 @@ public class CategoryController extends AbstractController {
             categories = this.categoryService.findAll();
             Assert.notNull(category);
             Assert.notNull(categories);
-            Assert.isTrue(!category.getNameEs().equals("CONFERENCIA") && !category.getNameEn().equals("Conference"));
+            Assert.isTrue(!category.getNameEs().equals("CONFERENCIA") && !category.getNameEn().equals("CONFERENCE"));
             result = new ModelAndView("category/administrator/edit");
             result.addObject("category", category);
             result.addObject("categories", categories);
