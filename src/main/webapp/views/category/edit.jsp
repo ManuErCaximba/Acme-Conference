@@ -23,6 +23,7 @@
         <acme:select path="parents" code="category.parent" items="${categories}" id="id" itemLabel="nameEn"/>
 
         <acme:submit name="save" code="category.save"/>
+
         <jstl:if test="${category.id != 0}">
             <acme:cancel code="category.delete" url="category/administrator/delete.do?categoryId=${category.id}"/>
         </jstl:if>

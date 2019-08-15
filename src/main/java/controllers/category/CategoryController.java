@@ -42,12 +42,15 @@ public class CategoryController extends AbstractController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView create(){
         ModelAndView result;
+        Collection<Category> categories = this.categoryService.findAll();
         try{
             Category category = this.categoryService.create();
             result = new ModelAndView("category/administrator/create");
             result.addObject("category", category);
+            result.addObject("categories", categories);
         } catch (Throwable oops){
             result = new ModelAndView("redirect:/");
+            result.addObject("categories", categories);
         }
         return result;
     }
@@ -88,6 +91,7 @@ public class CategoryController extends AbstractController {
             result.addObject("categories", categories);
         } catch (Throwable oops){
             result = this.createEditModelAndView(category, "category.commit.error");
+            result.addObject("categories", categories);
         }
         return result;
     }
