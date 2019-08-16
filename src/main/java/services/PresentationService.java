@@ -49,4 +49,11 @@ public class PresentationService {
 
         this.presentationRepository.delete(presentation);
     }
+
+    public Collection<Presentation> getPresentationsByConference(int conferenceId){
+        Collection<Presentation> res;
+        res = this.presentationRepository.getPresentationsByConference(conferenceId);
+        Assert.notNull(res);
+        return res;
+    }
 }

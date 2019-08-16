@@ -1,15 +1,12 @@
 package services;
 
 import domain.Activity;
-import domain.Presentation;
-import domain.Tutorial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import repositories.ActivityRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
@@ -34,17 +31,4 @@ public class ActivityService {
         return res;
     }
 
-    public Collection<Activity> getActivitiesByConference(int conferenceId){
-        Collection<Activity> res = new ArrayList<>();
-        Collection<Tutorial> tutorials = this.activityRepository.getTutorialsByConference(conferenceId);
-        Collection<Presentation> presentations = this.activityRepository.getPresentationsByConference(conferenceId);
-
-        Assert.notNull(tutorials);
-        Assert.notNull(presentations);
-
-        res.addAll(tutorials);
-        res.addAll(presentations);
-
-        return res;
-    }
 }

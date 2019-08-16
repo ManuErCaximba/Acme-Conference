@@ -76,6 +76,13 @@ public class TutorialService {
         return res;
     }
 
+    public Collection<Tutorial> getTutorialsByConference(int conferenceId){
+        Collection<Tutorial> res;
+        res = this.tutorialRepository.getTutorialsByConference(conferenceId);
+        Assert.notNull(res);
+        return res;
+    }
+
     public Tutorial reconstruct(Tutorial tutorial, BindingResult binding){
         Tutorial result;
         if (tutorial.getId() == 0){
