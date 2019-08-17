@@ -18,22 +18,21 @@
 
     <spring:message code="actor.firstMessage" />
 
-    <form:form id="paper" action="paper/author/save.do" modelAttribute="paper">
+    <form:form id="submission" action="submission/author/save.do" modelAttribute="submission">
 
         <form:hidden path="id" />
-
-        <jstl:if test="${errorNumber == 1}">
-            <form:errors cssClass="error" element="div" /> <div id="error.noPapers" class="error"><spring:message code="error.noPapers"/></div>
-        </jstl:if>
 
         <br>
         <fieldset>
 
-            <legend><spring:message code="paper.data" /></legend>
+            <legend><spring:message code="submission.data" /></legend>
 
-            <acme:textboxbsa code="paper.title" path="title"/>
-            <acme:textboxbsa code="paper.summary" path="summary"/>
-            <acme:textboxbsa code="paper.attachment" path="documentURL"/>
+            <form:label path="paper">
+                <b><spring:message code="submission.paper" /> *</b>
+            </form:label>
+            <br>
+            <form:select path="paper" items="${papers}"/>
+            <form:errors cssClass="error" path="paper"/>
 
         </fieldset>
 
@@ -41,7 +40,7 @@
         <br>
 
         <acme:submit name="save" code="button.save"/>
-        <acme:cancel code="button.cancel" url="paper/author/list.do"/>
+        <acme:cancel code="button.cancel" url="/"/>
 
     </form:form>
 

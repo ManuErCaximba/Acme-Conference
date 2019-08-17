@@ -2,17 +2,18 @@ package domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Reviewer extends Actor {
 
     private Collection<String> keywords;
+
+    //Relationship
+    private Collection<Submission> submissions;
 
     @NotEmpty
     @ElementCollection
@@ -22,5 +23,16 @@ public class Reviewer extends Actor {
 
     public void setKeywords(Collection<String> keywords) {
         this.keywords = keywords;
+    }
+
+    //Relationship
+
+    @ManyToMany
+    public Collection<Submission> getSubmissions() {
+        return this.submissions;
+    }
+
+    public void setSubmissions(Collection<Submission> submissions) {
+        this.submissions = submissions;
     }
 }

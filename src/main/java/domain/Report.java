@@ -10,6 +10,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -27,7 +28,6 @@ public class Report extends DomainEntity {
 
     @NotNull
     @Range(min = 0, max = 10)
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getOriginalityScore() {
         return originalityScore;
     }
@@ -38,7 +38,6 @@ public class Report extends DomainEntity {
 
     @NotNull
     @Range(min = 0, max = 10)
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getQualityScore() {
         return qualityScore;
     }
@@ -49,7 +48,6 @@ public class Report extends DomainEntity {
 
     @NotNull
     @Range(min = 0, max = 10)
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getReadabilityScore() {
         return readabilityScore;
     }
@@ -60,6 +58,7 @@ public class Report extends DomainEntity {
 
     @NotBlank
     @SafeHtml(whitelistType = WhiteListType.NONE)
+    @Pattern(regexp = "^REJECT|BORDER-LINE|ACCEPT$")
     public String getDecision() {
         return decision;
     }

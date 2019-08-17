@@ -14,26 +14,32 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('AUTHOR')">
+<security:authorize access="hasRole('REVIEWER')">
 
     <spring:message code="actor.firstMessage" />
 
-    <form:form id="paper" action="paper/author/save.do" modelAttribute="paper">
+    <form:form id="report" action="report/reviewer/save.do" modelAttribute="report">
 
         <form:hidden path="id" />
-
-        <jstl:if test="${errorNumber == 1}">
-            <form:errors cssClass="error" element="div" /> <div id="error.noPapers" class="error"><spring:message code="error.noPapers"/></div>
-        </jstl:if>
+        <form:hidden path="submission"/>
 
         <br>
         <fieldset>
 
-            <legend><spring:message code="paper.data" /></legend>
+            <legend><spring:message code="report.data" /></legend>
 
-            <acme:textboxbsa code="paper.title" path="title"/>
-            <acme:textboxbsa code="paper.summary" path="summary"/>
-            <acme:textboxbsa code="paper.attachment" path="documentURL"/>
+            <acme:textboxbsa code="report.originalityScore" path="originalityScore"/>
+            <acme:textboxbsa code="report.qualityScore" path="qualityScore"/>
+            <acme:textboxbsa code="report.readabilityScore" path="readabilityScore"/>
+
+            <form:label path="decision">
+                <b><spring:message code="report.decision" /> *</b>
+            </form:label>
+            <br>
+            <form:select path="decision" items="${states}"/>
+            <form:errors cssClass="error" path="decision"/>
+
+            <acme:textboxbs code="report.comment" path="comment"/>
 
         </fieldset>
 
@@ -41,7 +47,7 @@
         <br>
 
         <acme:submit name="save" code="button.save"/>
-        <acme:cancel code="button.cancel" url="paper/author/list.do"/>
+        <acme:cancel code="button.cancel" url="/"/>
 
     </form:form>
 

@@ -71,12 +71,16 @@ public class FinderController extends AbstractController {
     @RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
     public ModelAndView save(@ModelAttribute("finder") Finder finder, final BindingResult binding) {
         ModelAndView result;
+        Collection<String> nameEs = this.categoryService.getNamesEs();
+        Collection<String> nameEn = this.categoryService.getNamesEn();
 
         try {
             if (binding.hasErrors())
                 result = this.createEditModelAndView(finder);
             else if (finder.getStartDate() == null ^ finder.getEndDate() == null)
                 result = this.createEditModelAndView(finder, null, 1);
+            else if (nameEs.contains(finder.getCategoryName()) || nameEn.contains(finder.getCategoryName()))
+                result = new ModelAndView("redirect:/");
             else {
                 finder = this.finderService.reconstruct(finder, binding);
                 this.finderService.save(finder);

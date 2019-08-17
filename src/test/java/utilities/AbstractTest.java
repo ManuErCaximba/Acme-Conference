@@ -12,7 +12,10 @@ package utilities;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -142,6 +145,45 @@ public abstract class AbstractTest {
 		result = Integer.valueOf(id);
 
 		return result;
+	}
+
+	public int sumatorioPrimerosNumerosImpares(int numDeImpares){
+		int res = 0;
+		List<Integer> numerosImpares = new ArrayList<>();
+		for(int i=1; numerosImpares.size()==numDeImpares; i++){
+			if(i%2!=0){
+				res += i;
+				numerosImpares.add(i);
+			}
+		}
+		return res;
+	}
+
+	public static void metodoCozitah(){
+
+		int pos = 0;
+		int nPos = 0;
+		int neg = 0;
+		int nNeg = 0;
+		int zeros = 0;
+
+		for (int i = 0; i < 10; i++){
+			Scanner a = new Scanner(System.in);
+			int b = a.nextInt();
+			if (b > 0) {
+				pos += b;
+				nPos++;
+			} else if (b < 0) {
+				neg += -b;
+				nNeg ++;
+			} else
+				zeros++;
+		}
+
+		System.out.println("la media de los numeros positivos es: " + (double) pos/nPos);
+		System.out.println("la media de los numeros negativos es: " + (double) neg/nNeg);
+		System.out.println("el numero de ceros es: " + zeros);
+
 	}
 
 }

@@ -61,6 +61,22 @@
             </a>
         </display:column>
 
+        <security:authorize access="hasRole('ADMIN')">
+            <display:column>
+                <a href="submission/administrator/list.do?conferenceId=${row.id}">
+                    <spring:message code="button.showSubmissions"/>
+                </a>
+            </display:column>
+        </security:authorize>
+
+        <security:authorize access="hasRole('AUTHOR')">
+            <display:column>
+                <jstl:if test="${now lt row.submissionDeadline}">
+                    <acme:cancel url="submission/author/create.do?conferenceId=${row.id}" code="button.createSubmission"/>
+                </jstl:if>
+            </display:column>
+        </security:authorize>
+
 
     </display:table>
 

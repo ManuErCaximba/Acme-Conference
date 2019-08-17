@@ -14,34 +14,33 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('AUTHOR')">
+<security:authorize access="hasRole('ADMIN')">
 
-    <spring:message code="actor.firstMessage" />
+    <form:form id="assignForm" action="submission/administrator/assign.do" modelAttribute="assignForm">
 
-    <form:form id="paper" action="paper/author/save.do" modelAttribute="paper">
-
-        <form:hidden path="id" />
-
-        <jstl:if test="${errorNumber == 1}">
-            <form:errors cssClass="error" element="div" /> <div id="error.noPapers" class="error"><spring:message code="error.noPapers"/></div>
-        </jstl:if>
+        <form:hidden path="submissionId"/>
 
         <br>
         <fieldset>
 
-            <legend><spring:message code="paper.data" /></legend>
+            <legend><spring:message code="reviewers.data" /></legend>
 
-            <acme:textboxbsa code="paper.title" path="title"/>
-            <acme:textboxbsa code="paper.summary" path="summary"/>
-            <acme:textboxbsa code="paper.attachment" path="documentURL"/>
+            <form:label path="reviewers">
+                <b><spring:message code="reviewers.data" /> *</b>
+            </form:label>
+            <br>
+            <form:select path="reviewers">
+                <form:options items="${assignForm.reviewers}"/>
+            </form:select>
+            <form:errors cssClass="error" path="reviewers"/>
 
         </fieldset>
 
         <br>
         <br>
 
-        <acme:submit name="save" code="button.save"/>
-        <acme:cancel code="button.cancel" url="paper/author/list.do"/>
+        <acme:submit name="assign" code="button.assign"/>
+        <acme:cancel code="button.cancel" url="/"/>
 
     </form:form>
 

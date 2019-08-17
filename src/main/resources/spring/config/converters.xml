@@ -30,6 +30,12 @@
 		<bean class="converters.StringToConferenceConverter" />
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.StringToCategoryConverter" />
+		<bean class="converters.PaperToStringConverter" />
+		<bean class="converters.StringToPaperConverter" />
+		<bean class="converters.ReviewerToStringConverter" />
+		<bean class="converters.StringToReviewerConverter" />
+		<bean class="converters.SubmissionToStringConverter" />
+		<bean class="converters.StringToSubmissionConverter" />
 	</util:list>
 	
 </beans>

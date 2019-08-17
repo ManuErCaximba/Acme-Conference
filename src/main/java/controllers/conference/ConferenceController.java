@@ -20,6 +20,7 @@ import services.ConferenceService;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @RequestMapping("conference")
@@ -47,6 +48,7 @@ public class ConferenceController extends AbstractController {
         result.addObject("conferences", conferences);
         result.addObject("lang", language);
         result.addObject("requestURI", "conference/listForthcoming.do");
+        result.addObject("now", new Date());
 
         return result;
 

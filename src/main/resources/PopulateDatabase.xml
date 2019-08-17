@@ -259,49 +259,192 @@
 		<property name="CVV" value="666" />
 	</bean>
 
+	<!-- SUBMISSION -->
+
+	<bean id="submission1" class="domain.Submission">
+		<property name="ticker" value="ABC-1234"/>
+		<property name="moment" value="12/15/2017 12:00" />
+		<property name="status" value="UNDER-REVIEW" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference1"/>
+		<property name="isAssigned" value="false"/>
+		<property name="isCameraReady" value="false"/>
+	</bean>
+
+	<bean id="submission2" class="domain.Submission">
+		<property name="ticker" value="ABC-2345"/>
+		<property name="moment" value="01/01/2017 12:00" />
+		<property name="status" value="UNDER-REVIEW" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference2"/>
+		<property name="isAssigned" value="false"/>
+		<property name="isCameraReady" value="false"/>
+	</bean>
+
+	<bean id="submission3" class="domain.Submission">
+		<property name="ticker" value="ABC-3456"/>
+		<property name="moment" value="01/01/2017 12:00" />
+		<property name="status" value="ACCEPTED" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference3"/>
+		<property name="isAssigned" value="true"/>
+		<property name="isCameraReady" value="false"/>
+	</bean>
+
+	<bean id="submission4" class="domain.Submission">
+		<property name="ticker" value="ABC-4567"/>
+		<property name="moment" value="01/01/2017 12:00" />
+		<property name="status" value="ACCEPTED" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference4"/>
+		<property name="isAssigned" value="true"/>
+		<property name="isCameraReady" value="true"/>
+	</bean>
+
+	<bean id="submission5" class="domain.Submission">
+		<property name="ticker" value="ABC-5678"/>
+		<property name="moment" value="01/01/2017 12:00" />
+		<property name="status" value="ACCEPTED" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference5"/>
+		<property name="isAssigned" value="true"/>
+		<property name="isCameraReady" value="true"/>
+	</bean>
+
+	<bean id="submission6" class="domain.Submission">
+		<property name="ticker" value="ABC-6789"/>
+		<property name="moment" value="01/01/2017 12:00" />
+		<property name="status" value="ACCEPTED" />
+		<property name="author" ref="author1" />
+		<property name="paper" ref="paper1" />
+		<property name="conference" ref="conference6"/>
+		<property name="isAssigned" value="true"/>
+		<property name="isCameraReady" value="true"/>
+	</bean>
+
 	<!-- CONFERENCE -->
+
 	<bean id="conference1" class="domain.Conference">
-	<property name="title" value="conference1"/>
-	<property name="acronym" value="CF1"/>
-	<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
-	<property name="submissionDeadline" value="12/15/2020 12:00"/>
-	<property name="notificationDeadline" value="12/16/2020 10:00" />
-	<property name="cameraReadyDeadline" value="12/17/2020 17:00" />
-	<property name="startDate" value="12/20/2020 19:00" />
-	<property name="endDate" value="12/20/2020 20:00" />
-	<property name="summary" value="Summary" />
-	<property name="fee" value="2" />
-	<property name="isFinal" value="true" />
-	<property name="category" ref="Tools"/>
-	<property name="comments">
-		<list>
-
-		</list>
-	</property>
-
-</bean>
-
-	<bean id="conference2" class="domain.Conference">
-		<property name="title" value="conference2"/>
-		<property name="acronym" value="CF2"/>
+		<property name="title" value="conferenceBeforeSubmissionDL"/>
+		<property name="acronym" value="CF1"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
-		<property name="submissionDeadline" value="07/28/2019 12:00"/>
-		<property name="notificationDeadline" value="12/16/2020 10:00" />
-		<property name="cameraReadyDeadline" value="12/17/2020 17:00" />
-		<property name="startDate" value="12/20/2020 19:00" />
-		<property name="endDate" value="12/20/2020 20:00" />
+		<property name="submissionDeadline" value="01/01/2021 12:00"/>
+		<property name="notificationDeadline" value="01/01/2022 10:00" />
+		<property name="cameraReadyDeadline" value="01/01/2022 17:00" />
+		<property name="startDate" value="01/01/2022 19:00" />
+		<property name="endDate" value="01/01/2022 20:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
 		<property name="comments">
 			<list>
-
 			</list>
 		</property>
-
 	</bean>
+
+	<bean id="conference2" class="domain.Conference">
+		<property name="title" value="conferenceBetweenSubmissionDLAndNotificationDL"/>
+		<property name="acronym" value="CF2"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value="01/01/2018 12:00"/>
+		<property name="notificationDeadline" value="01/01/2021 10:00" />
+		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
+		<property name="startDate" value="01/01/2021 19:00" />
+		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="summary" value="Summary" />
+		<property name="fee" value="2" />
+		<property name="isFinal" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conference3" class="domain.Conference">
+		<property name="title" value="conferenceBetweenNotificationDLAndCameraReadyDL"/>
+		<property name="acronym" value="CF2"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value="01/01/2018 12:00"/>
+		<property name="notificationDeadline" value="02/02/2018 10:00" />
+		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
+		<property name="startDate" value="01/01/2021 19:00" />
+		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="summary" value="Summary" />
+		<property name="fee" value="2" />
+		<property name="isFinal" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conference4" class="domain.Conference">
+		<property name="title" value="conferenceBetweenCameraReadyDLAndStartDate"/>
+		<property name="acronym" value="CF2"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value="01/01/2018 12:00"/>
+		<property name="notificationDeadline" value="02/02/2018 10:00" />
+		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
+		<property name="startDate" value="01/01/2021 19:00" />
+		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="summary" value="Summary" />
+		<property name="fee" value="2" />
+		<property name="isFinal" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conference5" class="domain.Conference">
+		<property name="title" value="conferenceBetweenStartDateAndEndDate"/>
+		<property name="acronym" value="CF2"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value="01/01/2018 12:00"/>
+		<property name="notificationDeadline" value="02/02/2018 10:00" />
+		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
+		<property name="startDate" value="04/04/2018 19:00" />
+		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="summary" value="Summary" />
+		<property name="fee" value="2" />
+		<property name="isFinal" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conference6" class="domain.Conference">
+		<property name="title" value="conferenceAfterEndDate"/>
+		<property name="acronym" value="CF2"/>
+		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="submissionDeadline" value="01/01/2018 12:00"/>
+		<property name="notificationDeadline" value="02/02/2018 10:00" />
+		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
+		<property name="startDate" value="04/04/2018 19:00" />
+		<property name="endDate" value="05/05/2018 20:00" />
+		<property name="summary" value="Summary" />
+		<property name="fee" value="2" />
+		<property name="isFinal" value="true" />
+		<property name="category" ref="Tools"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+
 	<!-- CATEGORY -->
+
 	<bean id="category" class = "domain.Category">
 		<property name="nameEn" value="CONFERENCE"/>
 		<property name="nameEs" value="CONFERENCIA"/>

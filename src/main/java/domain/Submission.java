@@ -18,15 +18,14 @@ public class Submission extends DomainEntity {
     private Date moment;
     private String status;
     private boolean isCameraReady;
+    private boolean isAssigned;
 
     //Relationships
     private Author author;
     private Paper paper;
     private Paper cameraReadyPaper;
-    private Presentation presentation;
+    private Conference conference;
 
-    @NotBlank
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public String getTicker() {
         return ticker;
     }
@@ -35,10 +34,8 @@ public class Submission extends DomainEntity {
         this.ticker = ticker;
     }
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public Date getMoment() {
         return moment;
     }
@@ -48,7 +45,6 @@ public class Submission extends DomainEntity {
     }
 
     @Pattern(regexp = "^ACCEPTED|REJECTED|UNDER-REVIEW$")
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public String getStatus() {
         return status;
     }
@@ -57,13 +53,20 @@ public class Submission extends DomainEntity {
         this.status = status;
     }
 
-    @NotNull
-    public boolean isCameraReady() {
+    public boolean getIsCameraReady() {
         return isCameraReady;
     }
 
-    public void setCameraReady(boolean cameraReady) {
+    public void setIsCameraReady(boolean cameraReady) {
         isCameraReady = cameraReady;
+    }
+
+    public boolean getIsAssigned() {
+        return this.isAssigned;
+    }
+
+    public void setIsAssigned(boolean isAssigned) {
+        this.isAssigned = isAssigned;
     }
 
     //Relationships
@@ -77,7 +80,7 @@ public class Submission extends DomainEntity {
         this.author = author;
     }
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     public Paper getPaper() {
         return paper;
     }
@@ -86,7 +89,7 @@ public class Submission extends DomainEntity {
         this.paper = paper;
     }
 
-    @OneToOne
+    @ManyToOne
     public Paper getCameraReadyPaper() {
         return cameraReadyPaper;
     }
@@ -95,12 +98,12 @@ public class Submission extends DomainEntity {
         this.cameraReadyPaper = cameraReadyPaper;
     }
 
-    @OneToOne(optional = false)
-    public Presentation getPresentation() {
-        return presentation;
+    @ManyToOne(optional = false)
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setPresentation(Presentation presentation) {
-        this.presentation = presentation;
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
 }

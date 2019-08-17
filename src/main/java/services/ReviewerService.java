@@ -3,6 +3,7 @@ package services;
 import domain.Actor;
 import domain.Administrator;
 import domain.Reviewer;
+import domain.Submission;
 import forms.ReviewerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -18,6 +19,7 @@ import security.UserAccount;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -57,6 +59,7 @@ public class ReviewerService {
 
         final Reviewer reviewer = new Reviewer();
         final Collection<String> keywords;
+        final Collection<Submission> submissions;
         final Authority auth;
         final UserAccount userAccount;
         final Collection<Authority> authorities;
@@ -64,12 +67,14 @@ public class ReviewerService {
         auth = new Authority();
         authorities = new ArrayList<>();
         keywords = new ArrayList<>();
+        submissions = new ArrayList<>();
 
         auth.setAuthority(Authority.REVIEWER);
         authorities.add(auth);
         userAccount.setAuthorities(authorities);
         reviewer.setUserAccount(userAccount);
         reviewer.setKeywords(keywords);
+        reviewer.setSubmissions(submissions);
 
         return reviewer;
     }
