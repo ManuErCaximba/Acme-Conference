@@ -690,32 +690,7 @@
 		</property>
 		<property name="conference" ref="conference1"/>
 	</bean>
-
-	<!-- PRESENTATION -->
-	<bean id ="Presentation1" class="domain.Presentation">
-		<property name="title" value="presentation1"/>
-		<property name="startMoment" value="12/20/2020 21:00"/>
-		<property name="duration" value="1"/>
-		<property name="room" value="room 1"/>
-		<property name="summary" value="summary"/>
-		<property name="attachments">
-			<list>
-
-			</list>
-		</property>
-		<property name="comments">
-			<list>
-
-			</list>
-		</property>
-		<property name="actors">
-			<list>
-
-			</list>
-		</property>
-		<property name="conference" ref="conference1"/>
-	</bean>
-
+	
 	<!-- PAPER -->
 
 	<bean id="paper1" class="domain.Paper">

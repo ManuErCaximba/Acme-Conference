@@ -66,4 +66,24 @@ public class TutorialController extends AbstractController {
         return result;
     }
 
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    public ModelAndView show(@RequestParam int tutorialId){
+        ModelAndView result;
+        final Tutorial tutorial;
+        Collection<Section> sections;
+        try {
+            tutorial = this.tutorialService.findOne(tutorialId);
+            Assert.notNull(tutorial);
+            sections = this.sectionService.getSectionsByTutorial(tutorialId);
+            Assert.notNull(sections);
+            result = new ModelAndView("tutorial/show");
+            result.addObject("tutorial", tutorial);
+            result.addObject("sections", sections);
+            } catch (final Exception e) {
+            result = new ModelAndView("redirect:/");
+        }
+
+        return result;
+    }
+
 }
