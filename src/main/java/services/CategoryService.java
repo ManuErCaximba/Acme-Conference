@@ -134,7 +134,8 @@ public class CategoryService {
 
         result.setNameEn(category.getNameEn());
         result.setNameEs(category.getNameEs());
-
+        result.setParents(category.getParents());
+        result.setChilds(category.getChilds());
 
         validator.validate(result, binding);
 

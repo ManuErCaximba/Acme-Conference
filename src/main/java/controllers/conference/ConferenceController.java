@@ -1,10 +1,7 @@
 package controllers.conference;
 
 import controllers.AbstractController;
-import domain.Actor;
-import domain.Administrator;
-import domain.Category;
-import domain.Conference;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import services.ActorService;
-import services.CategoryService;
-import services.ConferenceService;
+import services.*;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
@@ -34,6 +29,12 @@ public class ConferenceController extends AbstractController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private TutorialService tutorialService;
+
+    @Autowired
+    private PresentationService presentationService;
 
     //List forthcoming conferences
 
@@ -179,13 +180,21 @@ public class ConferenceController extends AbstractController {
         ModelAndView result;
         final Conference conference;
         final String language = LocaleContextHolder.getLocale().getLanguage();
-
+        Collection<Tutorial> tutorials;
+        Collection<Presentation> presentations;
         try {
             conference = this.conferenceService.findOne(conferenceId);
+            tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
+            presentations = this.presentationService.getPresentationsByConference(conferenceId);
             Assert.isTrue(conference.getIsFinal());
+            Assert.notNull(conference);
+            Assert.notNull(tutorials);
+            Assert.notNull(presentations);
             result = new ModelAndView("conference/showNotLogged");
             result.addObject("conference", conference);
             result.addObject("lang", language);
+            result.addObject("tutorials", tutorials);
+            result.addObject("presentations", presentations);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -200,15 +209,23 @@ public class ConferenceController extends AbstractController {
         ModelAndView result;
         final Conference conference;
         final String language = LocaleContextHolder.getLocale().getLanguage();
-
+        Collection<Tutorial> tutorials;
+        Collection<Presentation> presentations;
         try {
             conference = this.conferenceService.findOne(conferenceId);
+            tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
+            presentations = this.presentationService.getPresentationsByConference(conferenceId);
             Actor actor = this.actorService.getActorLogged();
             Assert.isTrue(actor instanceof Administrator);
             Assert.isTrue(conference.getIsFinal());
+            Assert.notNull(conference);
+            Assert.notNull(tutorials);
+            Assert.notNull(presentations);
             result = new ModelAndView("conference/administrator/show");
             result.addObject("conference", conference);
             result.addObject("lang", language);
+            result.addObject("tutorials", tutorials);
+            result.addObject("presentations", presentations);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }

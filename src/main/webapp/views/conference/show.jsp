@@ -46,6 +46,59 @@
         </jstl:when>
     </jstl:choose>
    </p>
+    <fieldset>
+        <legend><b><spring:message code="conference.activity.data"/></b></legend>
+        <fieldset>
+            <legend><b><spring:message code="conference.tutorials"/> </b></legend>
+            <p>
+                <display:table name="tutorials" id="row" requestURI="conference/administrator/show.do?conferenceId=${conference.id}" >
+                    <spring:message code="conference.activity.title" var="personalNameHeader"/>
+                    <display:column property="title" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.startMoment" var="personalNameHeader"/>
+                    <display:column property="startMoment" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.duration" var="personalNameHeader"/>
+                    <display:column property="duration" title="${personalNameHeader}"/>
+
+                <display:column>
+                <a
+                        href="tutorial/administrator/show.do?conferenceId=${row.id}">
+                    <spring:message code="conference.show"/>
+                </a>
+                </display:column>
+
+
+                </display:table>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend><b><spring:message code="conference.presentations"/> </b></legend>
+            <p>
+                <display:table name="presentations" id="row" requestURI="conference/administrator/show.do?conferenceId=${conference.id}" >
+                    <spring:message code="conference.activity.title" var="personalNameHeader"/>
+                    <display:column property="title" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.startMoment" var="personalNameHeader"/>
+                    <display:column property="startMoment" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.duration" var="personalNameHeader"/>
+                    <display:column property="duration" title="${personalNameHeader}"/>
+
+                    <display:column>
+                        <a
+                                href="presentation/administrator/show.do?conferenceId=${row.id}">
+                            <spring:message code="conference.show"/>
+                        </a>
+                    </display:column>
+
+
+                </display:table>
+            </p>
+        </fieldset>
+
+
+    </fieldset>
 </fieldset>
 <br>
 <input type="button" name="cancel"
