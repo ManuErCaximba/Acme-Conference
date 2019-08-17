@@ -50,7 +50,7 @@
 
                     <display:column>
                         <a
-                                href="tutorial/administrator/show.do?conferenceId=${row.id}">
+                                href="tutorial/show.do?tutorialId=${row.id}">
                             <spring:message code="conference.show"/>
                         </a>
                     </display:column>

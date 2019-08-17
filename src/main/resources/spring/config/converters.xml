@@ -30,6 +30,8 @@
 		<bean class="converters.StringToConferenceConverter" />
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.StringToCategoryConverter" />
+		<bean class="converters.TutorialToStringConverter" />
+		<bean class="converters.StringToTutorialConverter" />
 	</util:list>
 	
 </beans>
