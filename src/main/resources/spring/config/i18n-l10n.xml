@@ -40,6 +40,7 @@
 		<value>/views/submission/messages</value>
 
 		<value>/views/tutorial/messages</value>
+		<value>/views/section/messages</value>
 
 	</util:list>
 

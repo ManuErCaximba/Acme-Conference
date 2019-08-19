@@ -83,6 +83,13 @@ public class TutorialService {
         return res;
     }
 
+    public Collection<Tutorial> getFutureTutorials(){
+        Collection<Tutorial> res;
+        res = this.tutorialRepository.getFutureTutorials();
+        Assert.notNull(res);
+        return res;
+    }
+
     public Tutorial reconstruct(Tutorial tutorial, BindingResult binding){
         Tutorial result;
         if (tutorial.getId() == 0){

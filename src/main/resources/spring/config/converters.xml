@@ -41,6 +41,13 @@
 		<bean class="converters.TutorialToStringConverter" />
 		<bean class="converters.StringToTutorialConverter" />
 
+		<bean class="converters.SectionToStringConverter" />
+		<bean class="converters.StringToSectionConverter" />
+
+
+		<bean class="converters.UrlToStringConverter" />
+		<bean class="converters.StringToUrlConverter" />
+
 	</util:list>
 	
 </beans>

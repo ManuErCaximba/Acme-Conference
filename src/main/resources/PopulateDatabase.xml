@@ -669,7 +669,7 @@
 	<!-- TUTORIAL -->
 	<bean id ="Tutorial1" class="domain.Tutorial">
 		<property name="title" value="tutorial1"/>
-		<property name="startMoment" value="12/20/2020 19:00"/>
+		<property name="startMoment" value="01/01/2022 19:00"/>
 		<property name="duration" value="2"/>
 		<property name="room" value="room 1"/>
 		<property name="summary" value="summary"/>
@@ -690,7 +690,19 @@
 		</property>
 		<property name="conference" ref="conference1"/>
 	</bean>
-	
+
+	<!-- SECTION -->
+	<bean id="Section1" class="domain.Section">
+		<property name="title" value="section1"/>
+		<property name="summary" value="summary"/>
+		<property name="pictures">
+			<list>
+
+			</list>
+		</property>
+		<property name="tutorial" ref="Tutorial1"/>
+	</bean>
+
 	<!-- PAPER -->
 
 	<bean id="paper1" class="domain.Paper">

@@ -12,4 +12,7 @@ public interface TutorialRepository extends JpaRepository<Tutorial, Integer> {
 
     @Query("select t from Tutorial t where t.conference.id = ?1")
     Collection<Tutorial> getTutorialsByConference(int conferenceId);
+
+    @Query("select t from Tutorial t where CURRENT_DATE < t.startMoment")
+    Collection<Tutorial> getFutureTutorials();
 }

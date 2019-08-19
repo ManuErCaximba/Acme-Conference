@@ -47,7 +47,6 @@
 <br>
 <security:authorize access="hasRole('ADMIN')">
     <acme:cancel code="button.edit" url="tutorial/administrator/edit.do?tutorialId=${tutorial.id}"/>
-    <br>
 </security:authorize>
 
 <input type="button" name="cancel"

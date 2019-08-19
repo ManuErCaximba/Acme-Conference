@@ -75,6 +75,9 @@
 		<security:intercept-url pattern="/tutorial/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/tutorial/show.do" access="permitAll" />
 
+		<security:intercept-url pattern="/section/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/section/show.do" access="permitAll" />
+
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
