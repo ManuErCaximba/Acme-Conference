@@ -70,6 +70,7 @@ public class Message extends DomainEntity{
     // Relationships ----------------------------------------------------------
     private Actor				sender;
     private Actor	recipient;
+    private Topic topic;
 
 
     @Valid
@@ -91,5 +92,14 @@ public class Message extends DomainEntity{
 
     public void setRecipient(final Actor recipient) {
         this.recipient = recipient;
+    }
+
+    @OneToOne(optional = false)
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 }

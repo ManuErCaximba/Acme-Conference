@@ -703,6 +703,36 @@
 		<property name="tutorial" ref="Tutorial1"/>
 	</bean>
 
+	<!-- TOPIC -->
+	<bean id="INQUIRY" class="domain.Topic">
+		<property name="nameEn" value="INQUIRY"/>
+		<property name="nameEs" value="INVESTIGACIÓN"/>
+	</bean>
+
+
+	<bean id="REBUTTAL" class="domain.Topic">
+		<property name="nameEn" value="REBUTTAL"/>
+		<property name="nameEs" value="REFUTACIÓN"/>
+	</bean>
+
+
+	<bean id="REGISTRATION" class="domain.Topic">
+		<property name="nameEn" value="REGISTRATION"/>
+		<property name="nameEs" value="REGISTRO"/>
+	</bean>
+
+
+	<bean id="TOPICS" class="domain.Topic">
+		<property name="nameEn" value="TOPICS"/>
+		<property name="nameEs" value="TEMAS"/>
+	</bean>
+
+
+	<bean id="OTHER" class="domain.Topic">
+		<property name="nameEn" value="OTHER"/>
+		<property name="nameEs" value="OTRO"/>
+	</bean>
+
 	<!-- PAPER -->
 
 	<bean id="paper1" class="domain.Paper">

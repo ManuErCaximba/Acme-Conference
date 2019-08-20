@@ -29,7 +29,7 @@
             <p>
                 <display:table name="sections" id="row" requestURI="tutorial/show.do?tutorialId=${tutorial.id}" >
                     <spring:message code="tutorial.section.title" var="personalNameHeader"/>
-                    <display:column property="title" title="${personalNameHeader}"/>
+                    <display:column property="title" title="${personalNameHeader}" />
 
                     <display:column>
                         <a

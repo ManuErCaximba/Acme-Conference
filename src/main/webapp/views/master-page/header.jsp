@@ -27,6 +27,7 @@
 					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register" /></a></li>
 					<li><a href="conference/administrator/create.do"><spring:message code="master.page.conference.create" /></a></li>
 					<li><a href="section/administrator/create.do"><spring:message code="master.page.section.create" /></a></li>
+					<li><a href="tutorial/administrator/create.do"><spring:message code="master.page.tutorial.create" /></a></li>
 					<li><a href="conference/administrator/listConferenceAdminMenu.do"><spring:message code="master.page.administrator.conferences" /></a></li>
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.categories" /></a></li>
 				</ul>

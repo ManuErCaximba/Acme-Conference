@@ -44,7 +44,7 @@ public class Activity extends DomainEntity {
         this.startMoment = startMoment;
     }
 
-    @Range(min = 1) //TODO: Revisar
+    @Range(min = 1)
     public int getDuration() {
         return duration;
     }
@@ -74,7 +74,7 @@ public class Activity extends DomainEntity {
     }
 
     @Valid
-    @ElementCollection(fetch = FetchType.EAGER) //TODO: ?
+    @ElementCollection(fetch = FetchType.EAGER)
     public Collection<Url> getAttachments() {
         return attachments;
     }

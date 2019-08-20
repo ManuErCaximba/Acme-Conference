@@ -57,9 +57,9 @@ public class SectionService {
     public void delete(Section section){
         final Actor actor = this.actorService.getActorLogged();
 
-        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(section);
-
+        Assert.isTrue(section.getId() != 0);
         this.sectionRepository.delete(section);
     }
 

@@ -34,4 +34,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
     @Query("select c from Conference c where (c.title like '%?1%' or c.venue like '%?1%' or c.summary like '%?1%') and c.isFinal = true ")
     Collection<Conference> getConferencesByKeyword(String keyword);
+
+    @Query("select c from Conference c where CURRENT_DATE < c.startDate")
+    Collection<Conference> getAllFutureConferences();
 }

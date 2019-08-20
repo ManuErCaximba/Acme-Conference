@@ -20,40 +20,18 @@
 
         <acme:textbox code="tutorial.duration" path="duration" />
 
+        <acme:textbox code="tutorial.room" path="room" />
+
         <acme:textbox code="tutorial.summary" path="summary"  />
 
         <acme:textarea path="attachments" code="tutorial.attachments"/>
 
-        <acme:select path="" code="" items="" itemLabel=""
+        <acme:select path="conference" code="tutorial.conference" items="${conferences}" id="id" itemLabel="title"/>
 
-        <acme:textbox code="conference.startDate" path="startDate" />
+        <acme:submit name="save" code="tutorial.save"/>
 
-        <acme:textbox code="conference.endDate" path="endDate" />
-
-        <acme:textbox code="conference.summary" path="summary" />
-
-        <acme:textbox code="conference.fee" path="fee" />
-
-        <form:label path="category">
-            <spring:message code="conference.category"/>
-        </form:label>
-        <form:select path="category">
-            <jstl:if test="${lang =='es'}">
-                <form:options items="${categories}" itemValue="id" itemLabel="nameEs"/>
-            </jstl:if>
-            <jstl:if test="${lang == 'en'}">
-                <form:options items="${categories}" itemValue="id" itemLabel="nameEn"/>
-            </jstl:if>
-        </form:select>
-        <br/>
-
-
-        <acme:submit name="saveDraft" code="conference.saveDraft"/>
-
-        <acme:submit name="saveFinal" code="conference.saveFinal"/>
-
-        <jstl:if test="${conference.id != 0}">
-            <acme:cancel code="conference.delete" url="conference/administrator/delete.do?conferenceId=${conference.id}"/>
+        <jstl:if test="${section.id != 0}">
+            <acme:cancel code="tutorial.delete" url="tutorial/administrator/delete.do?tutorialId=${tutorial.id}"/>
         </jstl:if>
 
         <input type="button" name="cancel"
@@ -62,3 +40,4 @@
 
 
     </form:form>
+</security:authorize>

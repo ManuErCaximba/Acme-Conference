@@ -109,11 +109,12 @@ public class SectionController extends AbstractController{
     @RequestMapping(value = "/administrator/delete", method = RequestMethod.GET)
     public ModelAndView delete(@RequestParam int sectionId){
         ModelAndView result;
+        Section section;
         try{
-            Section section = this.sectionService.findOne(sectionId);
+            section = this.sectionService.findOne(sectionId);
             Assert.notNull(section);
             this.sectionService.delete(section);
-            result = new ModelAndView("redirect:list.do");
+            result = new ModelAndView("redirect:/");
         } catch (Throwable oops){
             result = new ModelAndView("redirect:/");
         }

@@ -57,7 +57,7 @@ public class TutorialService {
     public void delete(Tutorial tutorial){
         final Actor actor = this.actorService.getActorLogged();
 
-        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+        Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(tutorial);
 
         this.tutorialRepository.delete(tutorial);
@@ -104,6 +104,7 @@ public class TutorialService {
         result.setRoom(tutorial.getRoom());
         result.setSummary(tutorial.getSummary());
         result.setAttachments(tutorial.getAttachments());
+        result.setConference(tutorial.getConference());
 
         validator.validate(result, binding);
 
