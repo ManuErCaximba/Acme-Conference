@@ -1,8 +1,6 @@
 package converters;
 
-import domain.Sponsor;
 import domain.Topic;
-import domain.Tutorial;
 import org.springframework.stereotype.Component;
 import org.springframework.core.convert.converter.Converter;
 

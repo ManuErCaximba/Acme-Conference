@@ -78,10 +78,24 @@ public class TopicService {
 
     public Topic reconstruct(Topic topic, BindingResult binding){
         Topic result;
+
+        Boolean existsES = false;
+        Boolean existsEN = false;
+
         if (topic.getId() == 0){
             result = this.create();
         } else {
             result = this.topicRepository.findOne(topic.getId());
+        }
+
+        if (result.getId() == 0) {
+            existsES = existsES(topic);
+            existsEN = existsEN(topic);
+        } else {
+            if (!result.equalsES(topic))
+                existsES = existsES(topic);
+            if (!result.equalsEN(topic))
+                existsEN = existsEN(topic);
         }
 
         result.setNameEn(topic.getNameEn());
@@ -89,9 +103,40 @@ public class TopicService {
 
         validator.validate(result, binding);
 
+        if (existsES)
+            binding.rejectValue("nameEs", "topic.es.duplicated");
+
+        if (existsEN)
+            binding.rejectValue("nameEn", "topic.en.duplicated");
+
         if (binding.hasErrors()){
             throw new ValidationException();
         }
         return result;
     }
+
+    public Boolean existsES(final Topic a) {
+        Boolean exist = false;
+
+        final Collection<Topic> topics = this.findAll();
+        for (final Topic b : topics)
+            if (a.equalsES(b)) {
+                exist = true;
+                break;
+            }
+        return exist;
+    }
+
+    public Boolean existsEN(final Topic a) {
+        Boolean exist = false;
+
+        final Collection<Topic> topics = this.findAll();
+        for (final Topic b : topics)
+            if (a.equalsEN(b)) {
+                exist = true;
+                break;
+            }
+        return exist;
+    }
+
 }

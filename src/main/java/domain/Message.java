@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -15,11 +17,10 @@ public class Message extends DomainEntity{
     private Date moment;
     private String subject;
     private String body;
-    private String topicEs;
-    private String topicEn;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     public Date getMoment() {
         return moment;
@@ -49,27 +50,9 @@ public class Message extends DomainEntity{
         this.body = body;
     }
 
-    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
-    public String getTopicEs() {
-        return topicEs;
-    }
-
-    public void setTopicEs(String topicEs) {
-        this.topicEs = topicEs;
-    }
-
-    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
-    public String getTopicEn() {
-        return topicEn;
-    }
-
-    public void setTopicEn(String topicEn) {
-        this.topicEn = topicEn;
-    }
-
     // Relationships ----------------------------------------------------------
     private Actor				sender;
-    private Actor	recipient;
+    private Collection<Actor> recipients;
     private Topic topic;
 
 
@@ -85,15 +68,17 @@ public class Message extends DomainEntity{
 
     @Valid
     @NotNull
-    @ManyToOne(optional = false)
-    public Actor getRecipient() {
-        return this.recipient;
+    @ManyToMany
+    public Collection<Actor> getRecipients() {
+        return this.recipients;
     }
 
-    public void setRecipient(final Actor recipient) {
-        this.recipient = recipient;
+    public void setRecipients(final Collection<Actor> recipients) {
+        this.recipients = recipients;
     }
 
+    @Valid
+    @NotNull
     @OneToOne(optional = false)
     public Topic getTopic() {
         return topic;

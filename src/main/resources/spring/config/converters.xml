@@ -48,6 +48,9 @@
 		<bean class="converters.UrlToStringConverter" />
 		<bean class="converters.StringToUrlConverter" />
 
+		<bean class="converters.TopicToStringConverter" />
+		<bean class="converters.StringToTopicConverter" />
+
 	</util:list>
 	
 </beans>
