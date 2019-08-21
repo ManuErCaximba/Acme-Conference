@@ -1,6 +1,7 @@
 package services;
 
 import domain.Actor;
+import domain.Administrator;
 import domain.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class MessageService {
     public Message create() {
 
         final Message result = new Message();
+        result.setIsBroadcast(false);
 
         return result;
     }
@@ -74,6 +76,28 @@ public class MessageService {
         return res;
     }
 
+    public void broadcast(Message message) {
+        final Actor principal = this.actorService.getActorLogged();
+        Assert.isTrue(principal instanceof Administrator);
+
+        final Collection<Actor> actors = this.actorService.findAll();
+        actors.remove(principal);
+
+        for (Actor a : actors) {
+            Message msg = this.create();
+
+            msg = message;
+
+            msg.setSender(principal);
+            msg.setRecipient(a);
+            msg.setIsBroadcast(true);
+
+            msg = this.messageRepository.save(msg);
+
+        }
+
+    }
+
     public Message reconstruct(Message message, BindingResult binding){
         Message result;
         if (message.getId() == 0){
@@ -89,6 +113,7 @@ public class MessageService {
         result.setSubject(message.getSubject());
         result.setTopic(message.getTopic());
         result.setBody(message.getBody());
+        result.setIsBroadcast(message.getIsBroadcast());
         validator.validate(result, binding);
 
         if (binding.hasErrors()){

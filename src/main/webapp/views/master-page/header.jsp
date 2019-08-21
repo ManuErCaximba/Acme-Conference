@@ -97,6 +97,9 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="message/administrator,author,reviewer,sponsor/list.do"><spring:message code="master.page.message.list" /></a></li>
+				<security:authorize access="hasRole('ADMIN')">
+					<li><a href="message/administrator/broadcast.do"><spring:message code="master.page.message.broadcast" /></a></li>
+				</security:authorize>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.finder" /></a>

@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -126,6 +127,49 @@ public class MessageController extends AbstractController {
         return result;
     }
 
+    @RequestMapping(value = "administrator/broadcast", method = RequestMethod.GET)
+    public ModelAndView broadcast() {
+        ModelAndView result;
+        Message mesage;
+        Collection<Topic> topics = this.topicService.findAll();
+        String language = LocaleContextHolder.getLocale().getLanguage();
+        try {
+            Assert.notNull(topics);
+            mesage = this.messageService.create();
+
+            result = new ModelAndView("message/administrator/broadcast");
+            result.addObject("mesage", mesage);
+            result.addObject("topics", topics);
+            result.addObject("lang", language);
+        } catch(Throwable oops){
+            result = new ModelAndView("redirect:/");
+        }
+        return result;
+    }
+
+    // Send Broadcast  -------------------------------------------------------------
+    @RequestMapping(value = "administrator/broadcast", method = RequestMethod.POST, params = "send")
+    public ModelAndView sendBroadcast(@ModelAttribute("mesage") Message mesage, final BindingResult binding) {
+        ModelAndView result;
+        Collection<Topic> topics = this.topicService.findAll();
+        String language = LocaleContextHolder.getLocale().getLanguage();
+        try {
+            Assert.notNull(topics);
+            mesage = this.messageService.reconstruct(mesage, binding);
+            this.messageService.broadcast(mesage);
+            result = new ModelAndView("redirect:/message/administrator,author,reviewer,sponsor/list.do");
+        } catch (final ValidationException e) {
+            result = this.createBroadcastModelAndView(mesage, null);
+            result.addObject("topics", topics);
+            result.addObject("lang", language);
+        } catch (final Throwable oops) {
+            result = this.createBroadcastModelAndView(mesage, "message.commit.error");
+            result.addObject("topics", topics);
+            result.addObject("lang", language);
+        }
+        return result;
+    }
+
     private ModelAndView createEditModelAndView(final Message message) {
         ModelAndView result;
         result = this.createEditModelAndView(message, null);
@@ -141,4 +185,21 @@ public class MessageController extends AbstractController {
         return result;
     }
 
+    protected ModelAndView createBroadcastModelAndView(final Message mesage) {
+        ModelAndView result;
+
+        result = this.createBroadcastModelAndView(mesage, null);
+
+        return result;
+    }
+
+    protected ModelAndView createBroadcastModelAndView(final Message mesage, final String message) {
+        ModelAndView result;
+
+        result = new ModelAndView("message/administrator/broadcast");
+        result.addObject("mesage", mesage);
+        result.addObject("message", message);
+
+        return result;
+    }
 }
