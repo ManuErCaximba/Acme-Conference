@@ -10,6 +10,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+
+<security:authorize access="hasAnyRole('ADMIN', 'AUTHOR', 'REVIEWER', 'SPONSOR')">
     <display:table name="messages" id="row" requestURI="${requestURI}" pagesize="5" class="displaytag">
 
         <spring:message code="message.moment" var="title"/>
@@ -56,3 +58,4 @@
 
     <input type="button" value="<spring:message code="message.create" />"
            onclick="javascript: relativeRedir('message/administrator,author,reviewer,sponsor/create.do');" />
+</security:authorize>
