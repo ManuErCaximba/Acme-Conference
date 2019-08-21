@@ -78,13 +78,14 @@ public class MessageService {
         Message result;
         if (message.getId() == 0){
             result = this.create();
+            Date now = new Date();
+            result.setMoment(now);
         } else {
             result = this.messageRepository.findOne(message.getId());
         }
 
         result.setSender(message.getSender());
         result.setRecipient(message.getRecipient());
-        result.setMoment(message.getMoment());
         result.setSubject(message.getSubject());
         result.setTopic(message.getTopic());
         result.setBody(message.getBody());

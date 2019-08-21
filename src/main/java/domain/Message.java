@@ -78,7 +78,7 @@ public class Message extends DomainEntity{
 
     @Valid
     @NotNull
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     public Topic getTopic() {
         return topic;
     }
