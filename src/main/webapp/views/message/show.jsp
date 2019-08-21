@@ -17,19 +17,21 @@
 <fieldset>
     <legend><b><spring:message code="message.data"/></b></legend>
 
-    <p><acme:showtext code="message.sender" value="${message.sender}"/></p>
-    <p><acme:showtext code="message.subject" value="${message.subject}"/></p>
+    <p><acme:showtext code="message.sender" value="${mesage.sender.userAccount.username}" fieldset="false"/></p>
+    <p><acme:showtext code="message.moment" value="${mesage.moment}" fieldset="false"/></p>
+    <p><acme:showtext code="message.recipient" value="${mesage.recipient.userAccount.username}" fieldset="false"/></p>
+    <p><acme:showtext code="message.subject" value="${mesage.subject}" fieldset="false"/></p>
 
-    <jstl:if test="${lang == 'es'}">
-        <p><acme:showtext code="message.topic" value="${message.topic.nameEs}" fieldset="false"/></p>
+    <jstl:if test="${lang=='es'}">
+        <p><acme:showtext code="message.topic" value="${mesage.topic.nameEs}" fieldset="false"/></p>
     </jstl:if>
 
 
-    <jstl:if test="${lang == 'en'}">
-        <p><acme:showtext code="message.topic" value="${message.topic.nameEn}" fieldset="false"/></p>
+    <jstl:if test="${lang=='en'}">
+        <p><acme:showtext code="message.topic" value="${mesage.topic.nameEn}" fieldset="false"/></p>
     </jstl:if>
 
-    <p><acme:showtext code="message.body" value="${message.body}"/></p>
+    <p><acme:showtext code="message.body" value="${mesage.body}" fieldset="false"/></p>
 
 </fieldset>
 <br>

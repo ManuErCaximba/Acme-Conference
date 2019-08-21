@@ -30,19 +30,12 @@ public class MessageController extends AbstractController {
     public ModelAndView list(){
         ModelAndView result;
         Collection<Message> messages;
-        Collection<Message> messagesReceived;
         String language = LocaleContextHolder.getLocale().getLanguage();
         try {
             Actor actor = this.actorService.getActorLogged();
             Assert.notNull(actor);
 
-            messages = this.messageService.findAllBySender(actor.getId());
-            Assert.notNull(messages);
-
-            messagesReceived = this.messageService.findAllByRecipient(actor.getId());
-            Assert.notNull(messagesReceived);
-
-            messages.addAll(messagesReceived);
+            messages = this.messageService.findAllByActor(actor.getId());
             Assert.notNull(messages);
 
             result = new ModelAndView("message/administrator,author,reviewer,sponsor/list");
@@ -56,20 +49,19 @@ public class MessageController extends AbstractController {
 
     }
 
-
     @RequestMapping(value = "/administrator,author,reviewer,sponsor/show", method = RequestMethod.GET)
     public ModelAndView show(@RequestParam int messageId){
         ModelAndView result;
-        Message message;
+        Message mesage;
         String language = LocaleContextHolder.getLocale().getLanguage();
         try {
-            message = this.messageService.findOne(messageId);
-            Assert.notNull(message);
+            mesage = this.messageService.findOne(messageId);
+            Assert.notNull(mesage);
 
             Actor actor = this.actorService.getActorLogged();
-            Assert.isTrue(message.getSender().getId() == actor.getId() || message.getRecipients().iterator().next().getId() == actor.getId());
+            Assert.isTrue(mesage.getSender().getId() == actor.getId() || mesage.getRecipient().getId() == actor.getId());
             result = new ModelAndView("message/administrator,author,reviewer,sponsor/show");
-            result.addObject("message", message);
+            result.addObject("mesage", mesage);
             result.addObject("lang", language);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
@@ -77,4 +69,5 @@ public class MessageController extends AbstractController {
 
         return result;
     }
+
 }

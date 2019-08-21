@@ -733,6 +733,25 @@
 		<property name="nameEs" value="OTRO"/>
 	</bean>
 
+	<!-- MESSAGE -->
+	<bean id="Message1" class="domain.Message">
+		<property name="moment" value="01/01/2018 19:00"/>
+		<property name="subject" value="Prueba"/>
+		<property name="body" value="Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
+		<property name="sender" ref="author1"/>
+		<property name="recipient" ref="administrator1"/>
+		<property name="topic" ref="OTHER"/>
+	</bean>
+
+	<bean id="Message2" class="domain.Message">
+		<property name="moment" value="01/01/2018 17:00"/>
+		<property name="subject" value="Prueba2"/>
+		<property name="body" value="Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaa 2"/>
+		<property name="sender" ref="administrator1"/>
+		<property name="recipient" ref="reviewer1"/>
+		<property name="topic" ref="INQUIRY"/>
+	</bean>
+
 	<!-- PAPER -->
 
 	<bean id="paper1" class="domain.Paper">

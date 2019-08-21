@@ -1,6 +1,5 @@
 package services;
 
-import domain.Actor;
 import domain.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +7,7 @@ import org.springframework.util.Assert;
 import repositories.MessageRepository;
 
 import javax.transaction.Transactional;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Service
 @Transactional
@@ -20,9 +16,6 @@ public class MessageService {
     //Managed Repositories
     @Autowired
     private MessageRepository messageRepository;
-
-    @Autowired
-    private ActorService actorService;
 
     public Message create() {
 
@@ -51,21 +44,10 @@ public class MessageService {
     }
     */
 
-    public Collection<Message> findAllBySender(int senderId){
+    public Collection<Message> findAllByActor(int actorId){
         Collection<Message> res;
-        res = this.messageRepository.findAllBySender(senderId);
+        res = this.messageRepository.findAllByActor(actorId);
         Assert.notNull(res);
-        return res;
-    }
-
-    public Collection<Message> findAllByRecipient(int actorId){
-        Actor actor = this.actorService.findOne(actorId);
-        Assert.notNull(actor);
-
-        Collection<Message> res;
-        res = this.messageRepository.findAllByRecipient(actor);
-        Assert.notNull(res);
-
         return res;
     }
 }

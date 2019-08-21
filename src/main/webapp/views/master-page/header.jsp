@@ -93,6 +93,12 @@
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
+			<li><a class="fNiv"><spring:message	code="master.page.messages" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="message/administrator,author,reviewer,sponsor/list.do"><spring:message code="master.page.message.list" /></a></li>
+				</ul>
+			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.finder" /></a>
 				<ul>
 					<li class="arrow"></li>

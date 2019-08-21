@@ -81,6 +81,8 @@
 		<security:intercept-url pattern="/topic/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/topic/show.do" access="permitAll" />
 
+		<security:intercept-url pattern="/message/administrator,author,reviewer,sponsor/**" access="isAuthenticated()" />
+
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 

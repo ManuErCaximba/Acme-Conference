@@ -52,12 +52,12 @@ public class Message extends DomainEntity{
 
     // Relationships ----------------------------------------------------------
     private Actor				sender;
-    private Collection<Actor> recipients;
+    private Actor recipient;
     private Topic topic;
 
 
     @Valid
-    @ManyToOne(optional = true)
+    @ManyToOne()
     public Actor getSender() {
         return this.sender;
     }
@@ -67,14 +67,13 @@ public class Message extends DomainEntity{
     }
 
     @Valid
-    @NotNull
-    @ManyToMany
-    public Collection<Actor> getRecipients() {
-        return this.recipients;
+    @ManyToOne(optional = false)
+    public Actor getRecipient() {
+        return recipient;
     }
 
-    public void setRecipients(final Collection<Actor> recipients) {
-        this.recipients = recipients;
+    public void setRecipient(Actor recipient) {
+        this.recipient = recipient;
     }
 
     @Valid
