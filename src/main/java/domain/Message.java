@@ -17,7 +17,6 @@ public class Message extends DomainEntity{
     private Date moment;
     private String subject;
     private String body;
-    private boolean isBroadcast;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -49,14 +48,6 @@ public class Message extends DomainEntity{
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public boolean getIsBroadcast() {
-        return isBroadcast;
-    }
-
-    public void setIsBroadcast(boolean isBroadcast) {
-        this.isBroadcast = isBroadcast;
     }
 
     // Relationships ----------------------------------------------------------

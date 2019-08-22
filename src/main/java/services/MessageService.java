@@ -2,6 +2,7 @@ package services;
 
 import domain.Actor;
 import domain.Administrator;
+import domain.Author;
 import domain.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,10 @@ import security.UserAccount;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,12 +32,17 @@ public class MessageService {
     private ActorService actorService;
 
     @Autowired
+    private AuthorService authorService;
+
+    @Autowired
+    private AdministratorService administratorService;
+
+    @Autowired
     private Validator validator;
 
     public Message create() {
 
         final Message result = new Message();
-        result.setIsBroadcast(false);
 
         return result;
     }
@@ -57,7 +65,7 @@ public class MessageService {
         Assert.notNull(message);
         Date now = new Date();
 
-        if(message.getId() == 0) {
+        if(message.getSender() == null) {
             UserAccount userAccount = LoginService.getPrincipal();
             Actor sender = this.actorService.findByUserAccount(userAccount);
             message.setSender(sender);
@@ -90,12 +98,43 @@ public class MessageService {
 
             msg.setSender(principal);
             msg.setRecipient(a);
-            msg.setIsBroadcast(true);
 
             msg = this.messageRepository.save(msg);
 
         }
 
+    }
+
+    public void broadcastAuthors(Message message) {
+        final Actor principal = this.actorService.getActorLogged();
+        Assert.isTrue(principal instanceof Administrator);
+
+        final Collection<Author> authors = this.authorService.findAll();
+
+        for (Author a : authors) {
+            Message msg = this.create();
+
+            msg = message;
+
+            msg.setSender(principal);
+            msg.setRecipient(a);
+
+            msg = this.messageRepository.save(msg);
+
+        }
+
+    }
+
+    public void notificationRegisterConference(Actor actor){
+        Message message = this.create();
+
+        List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
+        int random = (int) (Math.random()*admins.size());
+
+        message.setSender(admins.get(random));
+        message.setRecipient(actor);
+        message.setSubject("");
+        message.setBody("You have successfully registered in the conference. \n Se ha registrado correctamente en la conferencia.");
     }
 
     public Message reconstruct(Message message, BindingResult binding){
@@ -113,7 +152,6 @@ public class MessageService {
         result.setSubject(message.getSubject());
         result.setTopic(message.getTopic());
         result.setBody(message.getBody());
-        result.setIsBroadcast(message.getIsBroadcast());
         validator.validate(result, binding);
 
         if (binding.hasErrors()){
