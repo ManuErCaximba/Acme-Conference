@@ -14,8 +14,7 @@ import security.LoginService;
 import security.UserAccount;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 @Service
 @Transactional
@@ -148,6 +147,204 @@ public class AdministratorService {
 
         this.validator.validate(result, binding);
         return result;
+    }
+
+    //Queries
+    /*Q1*/
+    public Double getAvgSubmissionPerConference(){
+        return this.administratorRepository.getAvgSubmissionPerConference();
+    }
+
+    public Double getMinSubmissionPerConference(){
+        return this.administratorRepository.getMinSubmissionPerConference();
+    }
+
+    public Double getMaxSubmissionPerConference(){
+        return this.administratorRepository.getMaxSubmissionPerConference();
+    }
+
+    public Double getStddevSubmissionPerConference(){
+        return this.administratorRepository.getStddevSubmissionPerConference();
+    }
+
+    /*Q2*/
+    public Double getAvgNumberRegistrationConference(){
+        return this.administratorRepository.getAvgNumberRegistrationConference();
+    }
+
+    public Double getMinNumberRegistrationConference(){
+        return this.administratorRepository.getMinNumberRegistrationConference();
+    }
+
+    public Double getMaxNumberRegistrationConference(){
+        return this.administratorRepository.getMaxNumberRegistrationConference();
+    }
+
+    public Double getStddevNumberRegistrationConference(){
+        return this.administratorRepository.getStddevNumberRegistrationConference();
+    }
+
+    /*Q3*/
+    public Double getAvgConferenceFee(){
+        return this.administratorRepository.getAvgConferenceFee();
+    }
+
+    public Double getMinConferenceFee(){
+        return this.administratorRepository.getMinConferenceFee();
+    }
+
+    public Double getMaxConferenceFee(){
+        return this.administratorRepository.getMaxConferenceFee();
+    }
+
+    public Double getStddevConferenceFee(){
+        return this.administratorRepository.getStddevConferenceFee();
+    }
+
+    /*Q4*/
+    public Double getAvgNumberOfDaysConference(){
+        List<Date> startDateList = (List<Date>) this.administratorRepository.getStartDates();
+        List<Date> endDateList = (List<Date>) this.administratorRepository.getEndDates();
+        List<Double> times = new ArrayList<>();
+
+        for(int i=0; i < startDateList.size(); i++){
+            long j = endDateList.get(i).getTime() - startDateList.get(i).getTime();
+            times.add((double) (j/86400000));
+        }
+
+        return this.findMean(times);
+    }
+
+    public Double getMinNumberOfDaysConference(){
+        List<Date> startDateList = (List<Date>) this.administratorRepository.getStartDates();
+        List<Date> endDateList = (List<Date>) this.administratorRepository.getEndDates();
+        Double res = null;
+
+        for(int i=0; i < startDateList.size(); i++){
+            long j = endDateList.get(i).getTime() - startDateList.get(i).getTime();
+            Double x = (double) j/86400000;
+            if(i==0){
+                res = x;
+            } else {
+                if (x < res)
+                    res = x;
+            }
+        }
+
+        return res;
+    }
+
+    public Double getMaxNumberOfDaysConference(){
+        List<Date> startDateList = (List<Date>) this.administratorRepository.getStartDates();
+        List<Date> endDateList = (List<Date>) this.administratorRepository.getEndDates();
+        Double res = null;
+
+        for(int i=0; i < startDateList.size(); i++){
+            long j = endDateList.get(i).getTime() - startDateList.get(i).getTime();
+            Double x = (double) j/86400000;
+            if(i==0){
+                res = x;
+            } else {
+                if (x > res)
+                    res = x;
+            }
+        }
+
+        return res;
+    }
+
+    public Double getStddevNumberOfDaysConference(){
+        List<Date> endDateList = (List<Date>) this.administratorRepository.getEndDates();
+        List<Double> times = new ArrayList<>();
+        List<Date> startDateList = (List<Date>) this.administratorRepository.getStartDates();
+
+        for(int i=0; i < startDateList.size(); i++){
+            long j = endDateList.get(i).getTime() - startDateList.get(i).getTime();
+            times.add((double) (j/86400000));
+        }
+
+        return this.findStandardDesviation(times);
+    }
+
+    /*Q5*/
+    public Double getAvgConferencesPerCategory(){
+        return this.administratorRepository.getAvgConferencesPerCategory();
+    }
+
+    public Double getMinConferencesPerCategory(){
+        return this.administratorRepository.getMinConferencesPerCategory();
+    }
+
+    public Double getMaxConferencesPerCategory(){
+        return this.administratorRepository.getMaxConferencesPerCategory();
+    }
+
+    public Double getStddevConferencesPerCategory(){
+        return this.administratorRepository.getStddevConferencesPerCategory();
+    }
+
+    /*Q6*/
+    public Double getAvgNumberCommentsConference(){
+        return this.administratorRepository.getAvgNumberCommentsConference();
+    }
+
+    public Double getMinNumberCommentsConference(){
+        return this.administratorRepository.getMinNumberCommentsConference();
+    }
+
+    public Double getMaxNumberCommentsConference(){
+        return this.administratorRepository.getMaxNumberCommentsConference();
+    }
+
+    public Double getStddevNumberCommentsConference(){
+        return this.administratorRepository.getStddevNumberCommentsConference();
+    }
+
+    /*Q7*/
+    public Double getAvgNumberCommentsActivity(){
+        return this.administratorRepository.getAvgNumberCommentsActivity();
+    }
+
+    public Double getMinNumberCommentsActivity(){
+        return this.administratorRepository.getMinNumberCommentsActivity();
+    }
+
+    public Double getMaxNumberCommentsActivity(){
+        return this.administratorRepository.getMaxNumberCommentsActivity();
+    }
+
+    public Double getStddevNumberCommentsActivity(){
+        return this.administratorRepository.getStddevNumberCommentsActivity();
+    }
+
+    //Other Methods
+    private Double findMean(List<Double> list){
+        int total = 0;
+
+        for ( int i= 0;i < list.size(); i++)
+        {
+            Double currentNum = list.get(i);
+            total+= currentNum;
+        }
+        return (double) total / (double) list.size();
+    }
+
+    private Double findStandardDesviation(List<Double> list) {
+        double mean = this.findMean(list);
+        double temp = 0;
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            Double val = list.get(i);
+
+            double squrDiffToMean = Math.pow(val - mean, 2);
+
+            temp += squrDiffToMean;
+        }
+
+        double meanOfDiffs = temp / (double) (list.size());
+
+        return Math.sqrt(meanOfDiffs);
     }
 
 }

@@ -44,33 +44,10 @@
     </jstl:forEach>
 </table>
 
-<table>
-    <tr>
-        <th><spring:message code="configuration.topicEs" /></th>
-    </tr>
-    <jstl:forEach items="${configuration.topicsEs}"
-                  var="x">
-        <tr>
-            <td><jstl:out value="${x}"/></td>
-        </tr>
-    </jstl:forEach>
-</table>
-
-<table>
-    <tr>
-        <th><spring:message code="configuration.topicEn" /></th>
-    </tr>
-    <jstl:forEach items="${configuration.topicsEn}"
-                  var="x">
-        <tr>
-            <td><jstl:out value="${x}"/></td>
-        </tr>
-    </jstl:forEach>
-</table>
-
 <br>
 <acme:cancel code="button.goBack" url="/"/>
 <acme:cancel code="button.edit" url="configuration/administrator/edit.do"/>
+<acme:cancel code="button.listTopics" url="topic/administrator/list.do"/>
 <acme:cancel code="button.showVoidWordsEs" url="configuration/administrator/showVoidWordsEs.do"/>
 <acme:cancel code="button.showVoidWordsEn" url="configuration/administrator/showVoidWordsEn.do"/>
 </body>

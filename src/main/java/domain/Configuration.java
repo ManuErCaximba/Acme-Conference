@@ -5,10 +5,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
@@ -22,10 +20,11 @@ public class Configuration extends DomainEntity {
     private String welcomeEn;
     private int defaultCC;
     private Collection<String> creditCardMakes;
-    private Collection<String> topicsEs;
-    private Collection<String> topicsEn;
     private Collection<String> voidWordsEs;
     private Collection<String> voidWordsEn;
+
+    //Relationships
+    private Collection<Topic> topics;
 
     @NotBlank
     @SafeHtml(whitelistType = WhiteListType.NONE)
@@ -87,26 +86,6 @@ public class Configuration extends DomainEntity {
     }
 
     @ElementCollection
-    @NotEmpty
-    public Collection<String> getTopicsEs() {
-        return topicsEs;
-    }
-
-    public void setTopicsEs(Collection<String> topicsEs) {
-        this.topicsEs = topicsEs;
-    }
-
-    @ElementCollection
-    @NotEmpty
-    public Collection<String> getTopicsEn() {
-        return topicsEn;
-    }
-
-    public void setTopicsEn(Collection<String> topicsEn) {
-        this.topicsEn = topicsEn;
-    }
-
-    @ElementCollection
     public Collection<String> getVoidWordsEs() {
         return voidWordsEs;
     }
@@ -122,5 +101,16 @@ public class Configuration extends DomainEntity {
 
     public void setVoidWordsEn(Collection<String> voidWordsEn) {
         this.voidWordsEn = voidWordsEn;
+    }
+
+    //Relationships
+    @Valid
+    @OneToMany
+    public Collection<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(Collection<Topic> topics) {
+        this.topics = topics;
     }
 }

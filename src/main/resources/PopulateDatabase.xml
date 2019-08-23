@@ -337,7 +337,7 @@
 		<property name="notificationDeadline" value="01/01/2022 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2022 17:00" />
 		<property name="startDate" value="01/01/2022 19:00" />
-		<property name="endDate" value="01/01/2022 20:00" />
+		<property name="endDate" value="01/02/2022 19:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
@@ -356,7 +356,7 @@
 		<property name="notificationDeadline" value="01/01/2021 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
-		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="endDate" value="01/02/2021 19:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
@@ -375,7 +375,7 @@
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
-		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="endDate" value="01/02/2021 19:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
@@ -394,7 +394,7 @@
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
-		<property name="endDate" value="01/01/2021 20:00" />
+		<property name="endDate" value="01/02/2021 19:00" />
 		<property name="summary" value="Summary" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
@@ -788,23 +788,14 @@
 				<value>AMEX</value>
 			</list>
 		</property>
-		<property name="topicsEs">
+		<property name="topics">
 			<list>
-				<value>INVESTIGACION</value>
-				<value>REFUTACION</value>
-				<value>REGISTRO</value>
-				<value>TEMAS</value>
-				<value>OTROS</value>
+				<ref bean="INQUIRY"/>
+				<ref bean="REBUTTAL"/>
+				<ref bean="REGISTRATION"/>
+				<ref bean="TOPICS"/>
+				<ref bean="OTHER"/>
 			</list>
-		</property>
-		<property name="topicsEn">
-		<list>
-			<value>INQUIRY</value>
-			<value>REBUTTAL</value>
-			<value>REGISTRATION</value>
-			<value>TOPICS</value>
-			<value>OTHERS</value>
-		</list>
 		</property>
 		<property name="voidWordsEn">
 			<list>
@@ -1252,7 +1243,7 @@
 				<value>y</value>
 				<value>ya</value>
 				<value>yo</value>
-		</list>
+			</list>
 		</property>
 	</bean>
 

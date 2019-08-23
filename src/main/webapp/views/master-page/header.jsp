@@ -34,6 +34,7 @@
 				</ul>
 			</li>
 			<li><a href="configuration/administrator/show.do"><spring:message code="master.page.administrator.configuration" /></a></li>
+			<li><a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="hasRole('SPONSOR')">
