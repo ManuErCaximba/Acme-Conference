@@ -83,7 +83,13 @@
                 </display:table>
             </p>
         </fieldset>
+
     </fieldset>
+    <br>
+    <p><a
+            href="comment/list.do?conferenceId=${conference.id}">
+        <spring:message code="conference.comments"/>
+    </a></p>
 </fieldset>
 <br>
 <input type="button" name="cancel"

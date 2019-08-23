@@ -96,12 +96,13 @@
                 </display:table>
             </p>
         </fieldset>
-        <br>
-        <p><a
-                href="comment/list.do?conferenceId=${row.id}">
-            <spring:message code="conference.comments"/>
-        </a></p>
+
     </fieldset>
+    <br>
+    <p><a
+            href="comment/list.do?conferenceId=${conference.id}">
+        <spring:message code="conference.comments"/>
+    </a></p>
 </fieldset>
 <br>
 <input type="button" name="cancel"

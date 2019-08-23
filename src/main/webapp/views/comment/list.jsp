@@ -26,15 +26,19 @@
 
     <spring:message code="comment.body" var="body"/>
     <display:column title="${body}">
-        <jstl:out value="${row.body}"/>
+        <jstl:out value="${row.text}"/>
     </display:column>
 
     <spring:message code="comment.author" var="author"/>
     <display:column title="${author}">
-        <jstl:if test="${row.author != null}">
-            <a href="profile/show.do?actorId=${row.author.id}">
-            <spring:message code="comment.author"/></a>
+        <jstl:if test="${row.actor != null}">
+            <jstl:out value="${row.actor.userAccount.username}"/>
         </jstl:if>
     </display:column>
 
 </display:table>
+
+<br>
+<input type="button" name="cancel"
+       value="<spring:message code="button.goBack" />"
+       onclick="javascript: window.history.back();" />

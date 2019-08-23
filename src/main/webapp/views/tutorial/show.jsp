@@ -43,6 +43,11 @@
             </p>
     </fieldset>
 
+    <p><a
+            href="comment/listCommentsTutorial.do?tutorialId=${tutorial.id}">
+        <spring:message code="conference.comments"/>
+    </a></p>
+
 </fieldset>
 <br>
 <security:authorize access="hasRole('ADMIN')">

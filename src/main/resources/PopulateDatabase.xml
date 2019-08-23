@@ -345,6 +345,7 @@
 		<property name="comments">
 			<list>
 				<ref bean="Comment1"/>
+				<ref bean="Comment2"/>
 			</list>
 		</property>
 	</bean>
@@ -763,6 +764,12 @@
 		<property name="title" value="title"/>
 		<property name="text" value="Texttttttt"/>
 		<property name="actor" ref="administrator1"/>
+	</bean>
+
+	<bean id="Comment2" class="domain.Comment">
+		<property name="moment" value="10/10/2022"/>
+		<property name="title" value="title"/>
+		<property name="text" value="Comment anonymous"/>
 	</bean>
 
 	<!-- PAPER -->
