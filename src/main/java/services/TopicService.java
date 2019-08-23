@@ -139,4 +139,11 @@ public class TopicService {
         return exist;
     }
 
+    public Topic getRegistrationtTopic(){
+        Topic res;
+        res = this.topicRepository.getRegistrationtTopic();
+        Assert.notNull(res);
+        return res;
+    }
+
 }

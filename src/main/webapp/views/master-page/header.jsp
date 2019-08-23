@@ -99,6 +99,7 @@
 					<li><a href="message/administrator,author,reviewer,sponsor/list.do"><spring:message code="master.page.message.list" /></a></li>
 				<security:authorize access="hasRole('ADMIN')">
 					<li><a href="message/administrator/broadcast.do"><spring:message code="master.page.message.broadcast" /></a></li>
+					<li><a href="message/administrator/broadcastAuthors.do"><spring:message code="master.page.message.broadcastAuthors" /></a></li>
 				</security:authorize>
 				</ul>
 			</li>

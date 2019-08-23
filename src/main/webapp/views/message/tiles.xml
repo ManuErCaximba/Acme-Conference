@@ -36,4 +36,9 @@
 		<put-attribute name="body" value="/views/message/broadcast.jsp" />
 	</definition>
 
+	<definition name="message/administrator/broadcastAuthors" extends="master.page">
+		<put-attribute name="title" value="New Author Broadcast Message" />
+		<put-attribute name="body" value="/views/message/broadcastAuthors.jsp" />
+	</definition>
+
 </tiles-definitions>

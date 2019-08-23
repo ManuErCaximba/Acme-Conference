@@ -12,10 +12,10 @@
 
 
 <security:authorize access="hasAnyRole('ADMIN', 'AUTHOR', 'REVIEWER', 'SPONSOR')">
-    <display:table name="messages" id="row" requestURI="${requestURI}" pagesize="5" class="displaytag">
+    <display:table name="messages" id="row" requestURI="${requestURI}" pagesize="10" class="displaytag">
 
         <spring:message code="message.moment" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.moment}"/>
         </display:column>
 

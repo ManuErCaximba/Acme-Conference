@@ -1,9 +1,6 @@
 package services;
 
-import domain.Actor;
-import domain.Administrator;
-import domain.Author;
-import domain.Message;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -38,6 +35,9 @@ public class MessageService {
     private AdministratorService administratorService;
 
     @Autowired
+    private TopicService topicService;
+
+    @Autowired
     private Validator validator;
 
     public Message create() {
@@ -65,10 +65,12 @@ public class MessageService {
         Assert.notNull(message);
         Date now = new Date();
 
-        if(message.getSender() == null) {
+        if(message.getId() == 0) {
             UserAccount userAccount = LoginService.getPrincipal();
             Actor sender = this.actorService.findByUserAccount(userAccount);
             message.setSender(sender);
+            message.setDeletedBySender(false);
+            message.setDeletedByRecipient(false);
         }
 
         message.setMoment(now);
@@ -77,9 +79,31 @@ public class MessageService {
         return result;
     }
 
+    public void delete(Message message){
+        Actor actor = this.actorService.getActorLogged();
+        Assert.isTrue(message.getSender().getId() == actor.getId() || message.getRecipient().getId() == actor.getId());
+
+        if(message.getSender().getId() == actor.getId()){
+            if (message.getDeletedByRecipient() == true){
+                this.messageRepository.delete(message);
+            } else{
+                message.setDeletedBySender(true);
+                this.messageRepository.save(message);
+            }
+        } else if(message.getRecipient().getId() == actor.getId()){
+            if(message.getDeletedBySender() == true){
+                this.messageRepository.delete(message);
+            } else {
+                message.setDeletedByRecipient(true);
+                this.messageRepository.save(message);
+            }
+        }
+    }
+
     public Collection<Message> findAllByActor(int actorId){
         Collection<Message> res;
-        res = this.messageRepository.findAllByActor(actorId);
+        res = this.messageRepository.findAllSendByActor(actorId);
+        res.addAll(this.messageRepository.findAllReceiveByActor(actorId));
         Assert.notNull(res);
         return res;
     }
@@ -133,8 +157,32 @@ public class MessageService {
 
         message.setSender(admins.get(random));
         message.setRecipient(actor);
-        message.setSubject("");
+        message.setSubject("Conference registration \n Registro en conferencia");
         message.setBody("You have successfully registered in the conference. \n Se ha registrado correctamente en la conferencia.");
+
+        Topic registrationTopic = this.topicService.getRegistrationtTopic();
+        Assert.notNull(registrationTopic);
+        message.setTopic(registrationTopic);
+
+        message = this.messageRepository.save(message);
+    }
+
+    public void notificationSubmissionConference(Actor actor){
+        Message message = this.create();
+
+        List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
+        int random = (int) (Math.random()*admins.size());
+
+        message.setSender(admins.get(random));
+        message.setRecipient(actor);
+        message.setSubject("Conference submission \n Presentación conferencia");
+        message.setBody("You have successfully made a submission in the conference. \n Se ha realizado correctamente una presentación en la conferencia.");
+
+        Topic registrationTopic = this.topicService.getRegistrationtTopic();
+        Assert.notNull(registrationTopic);
+        message.setTopic(registrationTopic);
+
+        message = this.messageRepository.save(message);
     }
 
     public Message reconstruct(Message message, BindingResult binding){
@@ -152,6 +200,8 @@ public class MessageService {
         result.setSubject(message.getSubject());
         result.setTopic(message.getTopic());
         result.setBody(message.getBody());
+        result.setDeletedBySender(message.getDeletedBySender());
+        result.setDeletedByRecipient(message.getDeletedByRecipient());
         validator.validate(result, binding);
 
         if (binding.hasErrors()){

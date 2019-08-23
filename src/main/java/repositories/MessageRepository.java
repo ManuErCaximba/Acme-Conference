@@ -10,7 +10,10 @@ import java.util.Collection;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
 
-    @Query("select m from Message m where m.sender.id = ?1 or m.recipient.id = ?1")
-    Collection<Message> findAllByActor(int actorId);
+    @Query("select m from Message m where m.sender.id = ?1 and m.deletedBySender = false")
+    Collection<Message> findAllSendByActor(int actorId);
+
+    @Query("select m from Message m where m.recipient.id = ?1 and m.deletedByRecipient = false ")
+    Collection<Message> findAllReceiveByActor(int actorId);
 
 }

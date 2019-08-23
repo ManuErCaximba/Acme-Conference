@@ -17,6 +17,8 @@ public class Message extends DomainEntity{
     private Date moment;
     private String subject;
     private String body;
+    private boolean deletedBySender;
+    private boolean deletedByRecipient;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -48,6 +50,22 @@ public class Message extends DomainEntity{
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public boolean getDeletedBySender() {
+        return deletedBySender;
+    }
+
+    public void setDeletedBySender(boolean deletedBySender) {
+        this.deletedBySender = deletedBySender;
+    }
+
+    public boolean getDeletedByRecipient() {
+        return deletedByRecipient;
+    }
+
+    public void setDeletedByRecipient(boolean deletedByRecipient) {
+        this.deletedByRecipient = deletedByRecipient;
     }
 
     // Relationships ----------------------------------------------------------

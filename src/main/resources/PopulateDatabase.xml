@@ -741,6 +741,8 @@
 		<property name="sender" ref="author1"/>
 		<property name="recipient" ref="administrator1"/>
 		<property name="topic" ref="OTHER"/>
+		<property name="deletedByRecipient" value="false"/>
+		<property name="deletedBySender" value="false"/>
 	</bean>
 
 	<bean id="Message2" class="domain.Message">
@@ -750,6 +752,8 @@
 		<property name="sender" ref="administrator1"/>
 		<property name="recipient" ref="reviewer1"/>
 		<property name="topic" ref="INQUIRY"/>
+		<property name="deletedByRecipient" value="false"/>
+		<property name="deletedBySender" value="false"/>
 	</bean>
 
 	<!-- PAPER -->
