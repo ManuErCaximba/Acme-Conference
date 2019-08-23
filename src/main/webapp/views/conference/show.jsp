@@ -96,8 +96,11 @@
                 </display:table>
             </p>
         </fieldset>
-
-
+        <br>
+        <p><a
+                href="comment/list.do?conferenceId=${row.id}">
+            <spring:message code="conference.comments"/>
+        </a></p>
     </fieldset>
 </fieldset>
 <br>

@@ -344,6 +344,7 @@
 		<property name="category" ref="Tools"/>
 		<property name="comments">
 			<list>
+				<ref bean="Comment1"/>
 			</list>
 		</property>
 	</bean>
@@ -754,6 +755,14 @@
 		<property name="topic" ref="INQUIRY"/>
 		<property name="deletedByRecipient" value="false"/>
 		<property name="deletedBySender" value="false"/>
+	</bean>
+
+	<!-- COMMENT -->
+	<bean id="Comment1" class="domain.Comment">
+		<property name="moment" value="10/10/2022"/>
+		<property name="title" value="title"/>
+		<property name="text" value="Texttttttt"/>
+		<property name="actor" ref="administrator1"/>
 	</bean>
 
 	<!-- PAPER -->
