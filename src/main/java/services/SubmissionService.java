@@ -93,7 +93,6 @@ public class SubmissionService {
 
     public Submission reconstructCR(final Submission submission, final BindingResult binding) {
         Submission result;
-        final Author author = (Author) this.actorService.getActorLogged();
 
         result = this.submissionRepository.findOne(submission.getId());
         result.setCameraReadyPaper(submission.getCameraReadyPaper());

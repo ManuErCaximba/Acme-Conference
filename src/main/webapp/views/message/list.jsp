@@ -37,7 +37,7 @@
         </jstl:if>
 
         <jstl:if test="${lang=='en' }">
-            <display:column title="${columnTitle}">
+            <display:column title="${columnTitle}" sortable="true">
                 <jstl:out value="${row.topic.nameEn}"/>
             </display:column>
         </jstl:if>

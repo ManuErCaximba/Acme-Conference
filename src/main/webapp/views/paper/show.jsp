@@ -22,6 +22,15 @@
     <br />
     <a href="${paper.documentURL}"><jstl:out value="${paper.documentURL}"/></a>
 </fieldset>
+<fieldset>
+    <legend><b><spring:message code="paper.author"/></b></legend>
+    <p>
+        <jstl:forEach items="${paper.authors}" var="author">
+            <b>-</b> <jstl:out value="${author.name}"/>
+            <br>
+        </jstl:forEach>
+    </p>
+</fieldset>
 <br>
 <acme:cancel code="button.goBack" url="paper/author/list.do"/>
 </body>

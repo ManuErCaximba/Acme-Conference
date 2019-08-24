@@ -74,7 +74,7 @@
 					<li class="arrow"></li>
 					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.conference.listForthcoming" /></a></li>
 					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listPast" /></a></li>
-					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listRunning" /></a></li>
+					<li><a href="conference/listRunning.do"><spring:message code="master.page.conference.listRunning" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

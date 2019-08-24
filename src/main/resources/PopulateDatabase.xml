@@ -762,14 +762,24 @@
 		<property name="title" value="paper1"/>
 		<property name="summary" value="Esto es el paper1" />
 		<property name="documentURL" value="https://si.ua.es/es/documentos/documentacion/pdf-s/mozilla12-pdf.pdf" />
-		<property name="author" ref="author1" />
+		<property name="isInSubmission" value="false"/>
+		<property name="authors">
+			<list>
+				<ref bean="author1"/>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="paper2" class="domain.Paper">
 		<property name="title" value="paper2"/>
 		<property name="summary" value="Esto es el paper2" />
 		<property name="documentURL" value="http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf" />
-		<property name="author" ref="author1" />
+		<property name="isInSubmission" value="false"/>
+		<property name="authors">
+			<list>
+				<ref bean="author1"/>
+			</list>
+		</property>
 	</bean>
 
 	<!-- CONFIGURATION -->

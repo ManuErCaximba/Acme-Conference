@@ -35,6 +35,13 @@
             <acme:textboxbsa code="paper.summary" path="summary"/>
             <acme:textboxbsa code="paper.attachment" path="documentURL"/>
 
+            <form:label path="authors">
+                <b><spring:message code="paper.authors" /> *</b>
+            </form:label>
+            <br>
+            <form:select path="authors" items="${authors}"/>
+            <form:errors cssClass="error" path="authors"/>
+
         </fieldset>
 
         <br>

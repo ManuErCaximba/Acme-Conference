@@ -1,8 +1,8 @@
 package converters;
 
 import domain.Author;
-import org.springframework.stereotype.Component;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
@@ -17,7 +17,7 @@ public class AuthorToStringConverter implements Converter<Author, String> {
         if (a == null)
             result = null;
         else
-            result = String.valueOf(a.getId());
+            result = a.getName() + " (" + a.getId() + ")";
 
         return result;
 

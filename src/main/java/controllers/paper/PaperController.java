@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
+import services.AuthorService;
 import services.PaperService;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("paper/author")
@@ -28,6 +31,9 @@ public class PaperController extends AbstractController {
     @Autowired
     ActorService actorService;
 
+    @Autowired
+    AuthorService authorService;
+
     // List --------------------------------------------------------------------------
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list() {
@@ -36,7 +42,9 @@ public class PaperController extends AbstractController {
 
         final Author author = (Author) this.actorService.getActorLogged();
 
-        papers = this.paperService.findAllByAuthor(author.getId());
+        this.paperService.update();
+
+        papers = this.paperService.findAllByAuthor(author);
 
         result = new ModelAndView("paper/author/list");
         result.addObject("papers", papers);
@@ -54,7 +62,8 @@ public class PaperController extends AbstractController {
         try {
             final Author author = (Author) this.actorService.getActorLogged();
             paper = this.paperService.findOne(paperId);
-            Assert.isTrue(paper.getAuthor().equals(author));
+            this.paperService.update();
+            Assert.isTrue(paper.getAuthors().contains(author));
             result = new ModelAndView("paper/author/show");
             result.addObject("paper", paper);
         } catch (final Exception e) {
@@ -84,7 +93,8 @@ public class PaperController extends AbstractController {
         try {
             final Author author = (Author) this.actorService.getActorLogged();
             paper = this.paperService.findOne(paperId);
-            Assert.isTrue(paper.getAuthor().equals(author));
+            Assert.isTrue(paper.getAuthors().contains(author));
+            Assert.isTrue(!paper.getIsInSubmission());
             result = this.createEditModelAndView(paper);
             return result;
         } catch (final Exception e) {
@@ -121,7 +131,8 @@ public class PaperController extends AbstractController {
         try {
             final Author author = (Author) this.actorService.getActorLogged();
             paper = this.paperService.findOne(paperId);
-            Assert.isTrue(paper.getAuthor().equals(author));
+            Assert.isTrue(paper.getAuthors().contains(author));
+            Assert.isTrue(!paper.getIsInSubmission());
             this.paperService.delete(paper);
             result = new ModelAndView("redirect:list.do");
         } catch (final Exception e) {
@@ -144,6 +155,9 @@ public class PaperController extends AbstractController {
     protected ModelAndView createEditModelAndView(final Paper paper, final String message,
                                                   final Integer errorNumber) {
         ModelAndView result;
+        Collection<Author> authors = this.authorService.findAll();
+        Author user = (Author) this.actorService.getActorLogged();
+        authors.remove(user);
 
         if(paper.getId() == 0)
             result = new ModelAndView("paper/author/create");
@@ -151,6 +165,7 @@ public class PaperController extends AbstractController {
             result = new ModelAndView("paper/author/edit");
 
         result.addObject("paper", paper);
+        result.addObject("authors", authors);
         result.addObject("message", message);
         result.addObject("errorNumber", errorNumber);
 

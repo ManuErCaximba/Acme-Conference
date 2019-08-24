@@ -32,11 +32,15 @@
         </display:column>
 
         <display:column>
-            <acme:cancel url="paper/author/edit.do?paperId=${row.id}" code="button.edit"/>
+            <jstl:if test="${!row.isInSubmission}">
+                <acme:cancel url="paper/author/edit.do?paperId=${row.id}" code="button.edit"/>
+            </jstl:if>
         </display:column>
 
         <display:column>
-            <acme:cancel url="paper/author/delete.do?paperId=${row.id}" code="button.delete"/>
+            <jstl:if test="${!row.isInSubmission}">
+                <acme:cancel url="paper/author/delete.do?paperId=${row.id}" code="button.delete"/>
+            </jstl:if>
         </display:column>
 
     </display:table>

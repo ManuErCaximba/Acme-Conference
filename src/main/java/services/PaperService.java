@@ -3,6 +3,7 @@ package services;
 import domain.Actor;
 import domain.Author;
 import domain.Paper;
+import domain.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -11,7 +12,10 @@ import org.springframework.validation.Validator;
 import repositories.PaperRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,6 +36,9 @@ public class PaperService {
     //CRUD Methods
     public Paper create(){
         Paper paper = new Paper();
+        List<Author> authors = new ArrayList<>();
+        paper.setAuthors(authors);
+        paper.setIsInSubmission(false);
 
         return paper;
     }
@@ -53,7 +60,9 @@ public class PaperService {
         Assert.notNull(paper);
 
         if(paper.getId() == 0) {
-            paper.setAuthor(author);
+            Collection<Author> authors = paper.getAuthors();
+            authors.add(author);
+            paper.setAuthors(authors);
         }
 
         result = this.paperRepository.save(paper);
@@ -65,14 +74,15 @@ public class PaperService {
         final Actor actor = this.actorService.getActorLogged();
 
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+        Assert.isTrue(paper.getAuthors().contains(actor));
         Assert.notNull(paper);
 
         this.paperRepository.delete(paper);
     }
 
     //Other methods
-    public Collection<Paper> findAllByAuthor(int authorId){
-        return this.paperRepository.findAllByAuthor(authorId);
+    public Collection<Paper> findAllByAuthor(Author author){
+        return this.paperRepository.findAllByAuthor(author);
     }
 
     public Paper reconstruct(Paper paper, BindingResult binding){
@@ -82,11 +92,29 @@ public class PaperService {
 
         if(paper.getId() != 0) {
             Author author = (Author) this.actorService.getActorLogged();
-            result.setAuthor(author);
+            List<Author> authors = (List<Author>) paper.getAuthors();
+            authors.add(author);
+            result.setAuthors(authors);
         }
 
-        this.validator.validate(result, binding);
+        result.setIsInSubmission(false);
+
+        this.validator.validate(paper, binding);
 
         return result;
+    }
+
+    private Collection<Submission> getSubmissionPerPaper(Paper paper){
+        return this.paperRepository.getSubmissionPerPaper(paper.getId());
+    }
+
+    public void update() {
+        Collection<Paper> papers = this.paperRepository.findAll();
+        for(Paper p: papers){
+            if(!this.getSubmissionPerPaper(p).isEmpty()){
+                p.setIsInSubmission(true);
+                this.paperRepository.save(p);
+            }
+        }
     }
 }

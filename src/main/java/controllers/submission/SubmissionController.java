@@ -157,7 +157,7 @@ public class SubmissionController extends AbstractController {
             Assert.isTrue(now.before(conference.getSubmissionDeadline()));
 
             final Author author = (Author) this.actorService.getActorLogged();
-            Collection<Paper> papers = this.paperService.findAllByAuthor(author.getId());
+            Collection<Paper> papers = this.paperService.findAllByAuthor(author);
 
             this.submissionService.update();
 
@@ -188,7 +188,7 @@ public class SubmissionController extends AbstractController {
             Assert.isTrue(now.before(conference.getSubmissionDeadline()));
 
             final Author author = (Author) this.actorService.getActorLogged();
-            Collection<Paper> papers = this.paperService.findAllByAuthor(author.getId());
+            Collection<Paper> papers = this.paperService.findAllByAuthor(author);
 
             this.submissionService.update();
 
@@ -224,7 +224,7 @@ public class SubmissionController extends AbstractController {
 
             this.submissionService.update();
 
-            Collection<Paper> papers = this.paperService.findAllByAuthor(actor.getId());
+            Collection<Paper> papers = this.paperService.findAllByAuthor((Author) actor);
 
             if(papers.isEmpty()){
                 result = new ModelAndView("paper/author/create");
@@ -253,7 +253,7 @@ public class SubmissionController extends AbstractController {
 
         try {
             Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
-            Collection<Paper> papers = this.paperService.findAllByAuthor(actor.getId());
+            Collection<Paper> papers = this.paperService.findAllByAuthor((Author) actor);
             if (binding.hasErrors())
                 result = this.createEditModelAndView(submission, papers, null, null);
             else {
@@ -274,7 +274,7 @@ public class SubmissionController extends AbstractController {
 
         try {
             Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
-            Collection<Paper> papers = this.paperService.findAllByAuthor(actor.getId());
+            Collection<Paper> papers = this.paperService.findAllByAuthor((Author) actor);
             if (binding.hasErrors())
                 result = this.createEditModelAndView(submission, papers, null, null);
             else {

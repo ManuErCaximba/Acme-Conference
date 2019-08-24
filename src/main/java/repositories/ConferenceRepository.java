@@ -14,7 +14,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
     @Query("select c from Conference c where c.isFinal = true and CURRENT_DATE < c.startDate")
     Collection<Conference> getForthcomingConferencesFinal();
 
-    @Query("select c from Conference c where c.isFinal = true and CURRENT_DATE > c.startDate")
+    @Query("select c from Conference c where c.isFinal = true and CURRENT_DATE > c.endDate")
     Collection<Conference> getPastConferencesFinal();
 
     @Query("select c from Conference c where c.isFinal = true and CURRENT_DATE > c.startDate and CURRENT_DATE < c.endDate")
