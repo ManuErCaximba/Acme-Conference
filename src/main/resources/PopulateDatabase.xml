@@ -680,12 +680,8 @@
 
 			</list>
 		</property>
+		<property name="speakerName" value="José Luis"/>
 		<property name="comments">
-			<list>
-
-			</list>
-		</property>
-		<property name="actors">
 			<list>
 
 			</list>

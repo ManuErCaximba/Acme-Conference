@@ -80,14 +80,14 @@ public class CommentController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView create(@RequestParam int conferenceId){
+    @RequestMapping(value = "/createConference", method = RequestMethod.GET)
+    public ModelAndView createConference(@RequestParam int conferenceId){
         ModelAndView result;
         Conference conference;
         Actor actor = this.actorService.getActorLogged();
         try{
             conference = this.conferenceService.findOne(conferenceId);
-            result = new ModelAndView("comment/create");
+            result = new ModelAndView("comment/createConference");
             result.addObject("conference", conference);
             result.addObject("conferenceId", conferenceId);
         } catch (Throwable oops){
@@ -100,6 +100,37 @@ public class CommentController extends AbstractController {
         return result;
     }
 
+    @RequestMapping(value = "/createTutorial", method = RequestMethod.GET)
+    public ModelAndView createTutorial(@RequestParam int tutorialId){
+        ModelAndView result;
+        Tutorial tutorial;
+        try{
+            tutorial = this.tutorialService.findOne(tutorialId);
+            result = new ModelAndView("comment/createTutorial");
+            result.addObject("tutorial", tutorial);
+            result.addObject("tutorialId", tutorialId);
+        } catch (Throwable oops){
+            result = new ModelAndView("redirect:tutorial/show.do?tutorialId="+tutorialId);
+
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/createPresentation", method = RequestMethod.GET)
+    public ModelAndView createPresentation(@RequestParam int presentationId){
+        ModelAndView result;
+        Presentation presentation;
+        try{
+            presentation = this.presentationService.findOne(presentationId);
+            result = new ModelAndView("comment/createPresentation");
+            result.addObject("presentation", presentation);
+            result.addObject("presentationId", presentationId);
+        } catch (Throwable oops){
+            result = new ModelAndView("redirect:presentation/show.do?presentationId="+presentationId);
+
+        }
+        return result;
+    }
 
 
 }

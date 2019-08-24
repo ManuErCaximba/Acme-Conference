@@ -10,23 +10,19 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="comment/create.do" modelAttribute="comment">
+<form:form action="comment/createConference.do" modelAttribute="comment">
 
 
         <form:input type ="hidden" path="id" readonly="true"/>
 
-        <acme:textbox code="category.nameEN" path="nameEn" />
+        <acme:textbox code="commnet.title" path="title" />
 
-        <acme:textbox code="category.nameES" path="nameEs" />
+        <acme:textbox code="comment.text" path="text" />
 
-        <acme:select path="parents" code="category.parent" items="${categories}" id="id" itemLabel="nameEn"/>
+        <acme:submit name="save" code="comment.save"/>
 
-        <acme:submit name="save" code="category.save"/>
-
-        <jstl:if test="${category.id != 0}">
-            <acme:cancel code="category.delete" url="category/administrator/delete.do?categoryId=${category.id}"/>
-        </jstl:if>
-
-        <acme:cancel code="category.back" url="/category/administrator/list.do"/>
+        <input type="button" name="cancel"
+               value="<spring:message code="button.goBack" />"
+               onclick="javascript: window.history.back();" />
 
 </form:form>
