@@ -45,4 +45,15 @@ public class Comment extends DomainEntity{
     public void setText(String text) {
         this.text = text;
     }
+
+    private Actor actor;
+
+    @ManyToOne()
+    public Actor getActor() {
+        return actor;
+    }
+
+    public void setActor(Actor actor) {
+        this.actor = actor;
+    }
 }

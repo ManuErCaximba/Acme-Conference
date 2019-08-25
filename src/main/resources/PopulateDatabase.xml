@@ -344,6 +344,8 @@
 		<property name="category" ref="Tools"/>
 		<property name="comments">
 			<list>
+				<ref bean="Comment1"/>
+				<ref bean="Comment2"/>
 			</list>
 		</property>
 	</bean>
@@ -678,12 +680,8 @@
 
 			</list>
 		</property>
+		<property name="speakerName" value="José Luis"/>
 		<property name="comments">
-			<list>
-
-			</list>
-		</property>
-		<property name="actors">
 			<list>
 
 			</list>
@@ -754,6 +752,20 @@
 		<property name="topic" ref="INQUIRY"/>
 		<property name="deletedByRecipient" value="false"/>
 		<property name="deletedBySender" value="false"/>
+	</bean>
+
+	<!-- COMMENT -->
+	<bean id="Comment1" class="domain.Comment">
+		<property name="moment" value="10/10/2022"/>
+		<property name="title" value="title"/>
+		<property name="text" value="Texttttttt"/>
+		<property name="actor" ref="administrator1"/>
+	</bean>
+
+	<bean id="Comment2" class="domain.Comment">
+		<property name="moment" value="10/10/2022"/>
+		<property name="title" value="title"/>
+		<property name="text" value="Comment anonymous"/>
 	</bean>
 
 	<!-- PAPER -->
