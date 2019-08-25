@@ -17,7 +17,7 @@ public class SponsorToStringConverter implements Converter<Sponsor, String> {
         if (a == null)
             result = null;
         else
-            result = String.valueOf(a.getId());
+            result = a.getName() + " (" + a.getId() + ")";
 
         return result;
 

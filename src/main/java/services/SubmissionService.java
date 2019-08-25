@@ -201,4 +201,8 @@ public class SubmissionService {
         return this.submissionRepository.getSubmissionsByConferenceNotAssigned(conferenceId);
     }
 
+    public Collection<Submission> getSubmissionsAcceptedAndCameraReadyByConference(int conferenceId){
+        return this.submissionRepository.getSubmissionsAcceptedAndCameraReadyByConference(conferenceId);
+    }
+
 }

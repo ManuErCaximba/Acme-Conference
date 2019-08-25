@@ -26,7 +26,8 @@ public class StringToSponsorConverter implements Converter<String, Sponsor> {
             if (StringUtils.isEmpty(text))
                 result = null;
             else {
-                id = Integer.valueOf(text);
+                String idText = text.substring(text.lastIndexOf('(') + 1, text.lastIndexOf(')'));
+                id = Integer.valueOf(idText);
                 result = this.sponsorRepository.findOne(id);
             }
         } catch (final Throwable oops) {

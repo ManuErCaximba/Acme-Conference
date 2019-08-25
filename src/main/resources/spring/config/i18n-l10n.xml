@@ -43,7 +43,12 @@
 		<value>/views/section/messages</value>
 		<value>/views/topic/messages</value>
 		<value>/views/message/messages</value>
+
 		<value>/views/comment/messages</value>
+
+		<value>/views/presentation/messages</value>
+
+
 	</util:list>
 
 </beans>
