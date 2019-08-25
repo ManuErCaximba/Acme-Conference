@@ -18,7 +18,7 @@ public class SubmissionToStringConverter implements Converter<Submission, String
         if (a == null)
             result = null;
         else
-            result = String.valueOf(a.getId());
+            result = a.getTicker() + " (" + a.getId() + ")";
 
         return result;
 

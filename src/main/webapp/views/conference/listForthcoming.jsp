@@ -17,6 +17,10 @@
 
 </head>
 <body>
+    <jstl:if test="${errorNumber == 1}">
+        <form:errors cssClass="error" element="div" /> <div id="error.submissionsEmpty" class="error"><spring:message code="error.submissionsEmpty"/></div>
+    </jstl:if>
+
     <display:table name="conferences" id="row" requestURI="${requestURI}"
                    pagesize="5" class="displaytag">
 
@@ -61,11 +65,26 @@
             </a>
         </display:column>
 
+        <display:column>
+            <jstl:if test="${now gt row.cameraReadyDeadline && now lt row.startDate}">
+                <a href="presentation/list.do?conferenceId=${row.id}">
+                    <spring:message code="button.showPresentations"/>
+                </a>
+            </jstl:if>
+        </display:column>
+
         <security:authorize access="hasRole('ADMIN')">
             <display:column>
                 <a href="submission/administrator/list.do?conferenceId=${row.id}">
                     <spring:message code="button.showSubmissions"/>
                 </a>
+            </display:column>
+            <display:column>
+                <jstl:if test="${now gt row.cameraReadyDeadline && now lt row.startDate}">
+                    <a href="presentation/administrator/create.do?conferenceId=${row.id}">
+                        <spring:message code="button.createPresentation"/>
+                    </a>
+                </jstl:if>
             </display:column>
         </security:authorize>
 

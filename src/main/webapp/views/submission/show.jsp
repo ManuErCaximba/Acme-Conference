@@ -31,6 +31,6 @@
     </jstl:if>
 </fieldset>
 <br>
-<acme:cancel code="button.goBack" url="submission/author/list.do"/>
+<acme:cancel code="button.goBack" url="/"/>
 </body>
 </html>

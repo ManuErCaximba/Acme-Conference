@@ -28,7 +28,8 @@ public class StringToSubmissionConverter implements Converter<String, Submission
             if (StringUtils.isEmpty(text))
                 result = null;
             else {
-                id = Integer.valueOf(text);
+                String idText = text.substring(text.lastIndexOf('(') + 1, text.lastIndexOf(')'));
+                id = Integer.valueOf(idText);
                 result = this.submissionService.findOne(id);
             }
         } catch (final Throwable oops) {
