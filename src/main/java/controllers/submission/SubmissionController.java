@@ -38,12 +38,16 @@ public class SubmissionController extends AbstractController {
     @Autowired
     private ReviewerService reviewerService;
 
+    @Autowired
+    private ReportService reportService;
+
     // List --------------------------------------------------------------------------
     @RequestMapping(value = "/author/list", method = RequestMethod.GET)
     public ModelAndView list() {
         ModelAndView result;
         Collection<Submission> submissions;
         Actor actor = this.actorService.getActorLogged();
+        Date now = new Date();
 
         submissions = this.submissionService.getSubmissionsByAuthor(actor.getId());
         this.submissionService.update();
@@ -60,14 +64,18 @@ public class SubmissionController extends AbstractController {
     public ModelAndView adminList(int conferenceId) {
         ModelAndView result;
         Collection<Submission> submissions;
+        try {
 
-        submissions = this.submissionService.getSubmissionsByConferenceNotAssigned(conferenceId);
-        this.submissionService.update();
+            submissions = this.submissionService.getSubmissionsByConferenceNotAssigned(conferenceId);
+            this.submissionService.update();
 
-        result = new ModelAndView("submission/administrator/list");
-        result.addObject("submissions", submissions);
-        result.addObject("requestURI", "submission/administrator/list.do");
-        result.addObject("now", new Date());
+            result = new ModelAndView("submission/administrator/list");
+            result.addObject("submissions", submissions);
+            result.addObject("requestURI", "submission/administrator/list.do");
+            result.addObject("now", new Date());
+        } catch (Exception oops){
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
@@ -79,8 +87,8 @@ public class SubmissionController extends AbstractController {
         Collection<Submission> submissions;
         try {
             Submission submission = this.submissionService.findOne(submissionId);
-            Collection<Reviewer> reviewers = this.reviewerService.findAll();
-            this.submissionService.assign(submission, (List<Reviewer>) reviewers);
+            Assert.isTrue(!submission.getIsAssigned());
+            this.submissionService.assign(submission);
 
             submissions = this.submissionService.getSubmissionsByConferenceNotAssigned(submission.getConference().getId());
             this.submissionService.update();
@@ -100,12 +108,16 @@ public class SubmissionController extends AbstractController {
     public ModelAndView assign(int submissionId) {
         ModelAndView result;
         Collection<Reviewer> reviewers;
+        try {
+            reviewers = this.reviewerService.findAll();
+            Assert.isTrue(!this.submissionService.findOne(submissionId).getIsAssigned());
+            this.submissionService.update();
 
-        reviewers = this.reviewerService.findAll();
-        this.submissionService.update();
-
-        result = this.createEditModelAndView2(submissionId, reviewers);
-        result.addObject("requestURI", "submission/administrator/assign.do");
+            result = this.createEditModelAndView2(submissionId, reviewers);
+            result.addObject("requestURI", "submission/administrator/assign.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
@@ -176,7 +188,7 @@ public class SubmissionController extends AbstractController {
         return result;
     }
 
-
+    /*
     @RequestMapping(value = "/author/edit", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam final int submissionId) {
         ModelAndView result;
@@ -209,6 +221,8 @@ public class SubmissionController extends AbstractController {
         }
     }
 
+    */
+
     @RequestMapping(value = "/author/cameraReady", method = RequestMethod.GET)
     public ModelAndView cameraReady(@RequestParam final int submissionId) {
         ModelAndView result;
@@ -218,7 +232,7 @@ public class SubmissionController extends AbstractController {
         final Actor actor = this.actorService.getActorLogged();
 
         try {
-            Assert.isTrue(now.after(conference.getNotificationDeadline()));
+            Assert.isTrue(now.after(conference.getSubmissionDeadline()));
             Assert.isTrue(now.before(conference.getCameraReadyDeadline()));
             Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
 
@@ -289,6 +303,7 @@ public class SubmissionController extends AbstractController {
     }
 
     // Delete --------------------------------------------------------------------------
+    /*
     @RequestMapping(value = "/author/delete", method = RequestMethod.GET)
     public ModelAndView delete(@RequestParam final int submissionId) {
         ModelAndView result;
@@ -312,6 +327,8 @@ public class SubmissionController extends AbstractController {
 
         return result;
     }
+
+    */
 
     // ModelAndView Methods -------------------------------------------------------------
     protected ModelAndView createEditModelAndView(final Submission submission, final Collection<Paper> papers) {

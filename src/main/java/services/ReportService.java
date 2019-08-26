@@ -67,10 +67,6 @@ public class ReportService {
 
         this.reviewerService.save(reviewer);
 
-        if(isThisSubmissionReviewered(result.getSubmission())){
-            this.finalReview(result.getSubmission());
-        }
-
         return result;
     }
 
@@ -92,40 +88,8 @@ public class ReportService {
         return result;
     }
 
-    private void finalReview(Submission submission){
-        Collection<Report> reports = this.getReportsOfSubmission(submission.getId());
-        int accepted = 0;
-        int refused = 0;
-        int borderline = 0;
-        for (Report r : reports){
-            if (r.getDecision().equals("ACCEPT"))
-                accepted++;
-            else if (r.getDecision().equals("REJECT"))
-                refused++;
-            else
-                borderline++;
-        }
-
-        if(accepted > refused)
-            submission.setStatus("ACCEPTED");
-        else {
-            if (accepted == refused) {
-                if(accepted + borderline >= refused)
-                    submission.setStatus("ACCEPTED");
-            } else {
-                submission.setStatus("REJECTED");
-            }
-        }
-
-        this.submissionService.save(submission);
-    }
-
     public Collection<Report> getReportsMadeByReviewer(int reviewerId){
         return this.reportRepository.getReportsMadeByReviewer(reviewerId);
-    }
-
-    public boolean isThisSubmissionReviewered(Submission submission){
-        return this.reportRepository.countSubmissionOnReviewers(submission) == 0;
     }
 
     public Collection<Report> getReportsOfSubmission(int submissionId) {

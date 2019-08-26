@@ -43,33 +43,37 @@
         <security:authorize access="hasRole('AUTHOR')">
 
             <display:column>
+                <%--
                 <jstl:if test="${now lt row.conference.submissionDeadline}">
                     <acme:cancel url="submission/author/edit.do?submissionId=${row.id}" code="button.edit"/>
                 </jstl:if>
-                <jstl:if test="${now gt row.conference.notificationDeadline &&
+                --%>
+                <jstl:if test="${now gt row.conference.submissionDeadline &&
                  now lt row.conference.cameraReadyDeadline && row.status == 'ACCEPTED' && row.isCameraReady == false}">
                     <acme:cancel url="submission/author/cameraReady.do?submissionId=${row.id}" code="button.cameraReady"/>
                 </jstl:if>
             </display:column>
 
+            <%--
             <display:column>
                 <jstl:if test="${now lt row.conference.submissionDeadline}">
                     <acme:cancel url="submission/author/delete.do?submissionId=${row.id}" code="button.delete"/>
                 </jstl:if>
             </display:column>
+            --%>
 
         </security:authorize>
 
         <security:authorize access="hasRole('ADMIN')">
 
             <display:column>
-                <jstl:if test="${now gt row.conference.submissionDeadline && now lt row.conference.notificationDeadline}">
+                <jstl:if test="${now lt row.conference.submissionDeadline && row.isAssigned == false}">
                     <acme:cancel url="submission/administrator/autoassign.do?submissionId=${row.id}" code="button.autoassign"/>
                 </jstl:if>
             </display:column>
 
             <display:column>
-                <jstl:if test="${now gt row.conference.submissionDeadline && now lt row.conference.notificationDeadline}">
+                <jstl:if test="${now lt row.conference.submissionDeadline && row.isAssigned == false}">
                     <acme:cancel url="submission/administrator/assign.do?submissionId=${row.id}" code="button.assign"/>
                 </jstl:if>
             </display:column>

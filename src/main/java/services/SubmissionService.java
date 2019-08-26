@@ -27,6 +27,8 @@ public class SubmissionService {
     @Autowired
     private ReportService reportService;
     @Autowired
+    private ReviewerService reviewerService;
+    @Autowired
     private Validator validator;
 
     //CRUD Methods
@@ -108,8 +110,13 @@ public class SubmissionService {
         Date now = new Date();
         for(Submission s: allSubmissions){
             Conference conference = s.getConference();
-            if(this.reportService.isThisSubmissionReviewered(s) && now.after(conference.getNotificationDeadline())
-                && now.before(conference.getCameraReadyDeadline()) && s.getIsAssigned() == false){
+            if(now.after(conference.getSubmissionDeadline()) && s.getStatus().equals("UNDER-REVIEW")
+                && s.getIsAssigned() == true && s.getIsCameraReady() == false) {
+
+                this.finalReview(s);
+            }
+            if(now.after(conference.getSubmissionDeadline()) && now.before(conference.getCameraReadyDeadline())
+                    && s.getIsAssigned() == false){
                 s.setStatus("REJECTED");
                 s.setIsAssigned(true);
                 this.save(s);
@@ -129,16 +136,18 @@ public class SubmissionService {
 
         this.validator.validate(assignForm, bindingResult);
 
-        this.assign(submission, reviewers);
+        this.assignToReviewers(reviewers, submission);
+        submission.setIsAssigned(true);
     }
 
-    public void assign(Submission submission, List<Reviewer> reviewers){
+    public void assign(Submission submission){
         final Actor actor = this.actorService.getActorLogged();
         Date now = new Date();
 
+        List<Reviewer> reviewers = this.selectReviewersWhoMatchKeywords(submission);
+
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
-        Assert.isTrue(now.after(submission.getConference().getSubmissionDeadline()));
-        Assert.isTrue(now.before(submission.getConference().getNotificationDeadline()));
+        Assert.isTrue(now.before(submission.getConference().getSubmissionDeadline()));
 
         if(reviewers.size() < 3){
             this.assignToReviewers(reviewers, submission);
@@ -154,6 +163,50 @@ public class SubmissionService {
 
         submission.setIsAssigned(true);
         this.submissionRepository.save(submission);
+    }
+    private List<Reviewer> selectReviewersWhoMatchKeywords(Submission submission){
+        String summary = submission.getConference().getSummary();
+        Collection<Reviewer> allReviewers = this.reviewerService.findAll();
+        List<Reviewer> res = new ArrayList<>();
+
+        summary.toLowerCase();
+
+        summary.replace('.',' ');
+        summary.replace(',',' ');
+        summary.replace('\'',' ');
+        summary.replace(':',' ');
+        summary.replace(';',' ');
+        summary.replace('?',' ');
+        summary.replace('¿',' ');
+        summary.replace('!',' ');
+        summary.replace('¡',' ');
+        summary.replace('(',' ');
+        summary.replace(')',' ');
+        summary.replace('{',' ');
+        summary.replace('}',' ');
+        summary.replace('[',' ');
+        summary.replace(']',' ');
+        summary.replace('-',' ');
+        summary.replace('_',' ');
+        summary.replace('`',' ');
+        summary.replace('´',' ');
+        summary.replace('¨',' ');
+        summary.replace('^',' ');
+        summary.replace('*',' ');
+        summary.replace('@',' ');
+        summary.replace('"',' ');
+        summary.replace('|',' ');
+
+        Collection<String> words = Arrays.asList(summary.split(" "));
+
+        for(Reviewer r : allReviewers) {
+            for(String keyword : r.getKeywords()) {
+                if(words.contains(keyword))
+                    res.add(r);
+            }
+        }
+
+        return res;
     }
 
     private void assignToReviewers(Collection<Reviewer> reviewers, Submission submission){
@@ -203,6 +256,43 @@ public class SubmissionService {
 
     public Collection<Submission> getSubmissionsAcceptedAndCameraReadyByConference(int conferenceId){
         return this.submissionRepository.getSubmissionsAcceptedAndCameraReadyByConference(conferenceId);
+    }
+
+    public void finalReview(Submission submission){
+        Collection<Report> reports = this.reportService.getReportsOfSubmission(submission.getId());
+        int accepted = 0;
+        int refused = 0;
+        int borderline = 0;
+        for (Report r : reports){
+            if (r.getDecision().equals("ACCEPT"))
+                accepted++;
+            else if (r.getDecision().equals("REJECT"))
+                refused++;
+            else
+                borderline++;
+        }
+
+        if(accepted > refused)
+            submission.setStatus("ACCEPTED");
+        else {
+            if (accepted == refused) {
+                if(accepted + borderline >= refused)
+                    submission.setStatus("ACCEPTED");
+            } else {
+                submission.setStatus("REJECTED");
+            }
+        }
+
+        submission = this.save(submission);
+
+        Collection<Reviewer> reviewers = this.reviewerService.findAll();
+        for(Reviewer r: reviewers){
+            if(r.getSubmissions().contains(submission)){
+                Collection<Submission> submissions = r.getSubmissions();
+                submissions.remove(submission);
+                r.setSubmissions(submissions);
+            }
+        }
     }
 
 }

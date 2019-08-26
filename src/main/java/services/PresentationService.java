@@ -80,8 +80,6 @@ public class PresentationService {
 
         result.setConference(presentation.getConference());
         result.setSubmission(presentation.getSubmission());
-        result.setId(presentation.getId());
-        result.setVersion(presentation.getVersion());
         result.setActors(presentation.getActors());
         result.setAttachments(presentation.getAttachments());
         result.setComments(presentation.getComments());
