@@ -23,6 +23,7 @@ public class Activity extends DomainEntity {
     private String room;
     private String summary;
     private Collection<Url> attachments;
+    private String speakerName;
 
     @NotBlank
     @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
@@ -84,10 +85,19 @@ public class Activity extends DomainEntity {
         this.attachments = attachments;
     }
 
+    @NotBlank
+    @SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
+    public String getSpeakerName() {
+        return speakerName;
+    }
+
+    public void setSpeakerName(String speakerName) {
+        this.speakerName = speakerName;
+    }
+
     //Relationships
     private Conference conference;
     private Collection<Comment> comments;
-    private Collection<Actor> actors;
 
     @ManyToOne
     public Conference getConference() {
@@ -107,12 +117,4 @@ public class Activity extends DomainEntity {
         this.comments = comments;
     }
 
-    @ManyToMany
-    public Collection<Actor> getActors() {
-        return actors;
-    }
-
-    public void setActors(Collection<Actor> actors) {
-        this.actors = actors;
-    }
 }
