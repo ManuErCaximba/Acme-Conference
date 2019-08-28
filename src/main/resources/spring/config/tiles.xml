@@ -48,6 +48,7 @@
 
 		<value>/views/presentation/tiles.xml</value>
 
+		<value>/views/registration/tiles.xml</value>
 
 	</util:list>
 

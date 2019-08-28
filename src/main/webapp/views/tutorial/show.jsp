@@ -18,6 +18,7 @@
     <legend><b><spring:message code="tutorial.data"/></b></legend>
     <p><acme:showtext code="tutorial.title" value="${tutorial.title}" fieldset="false"/></p>
     <p><acme:showtext code="tutorial.startMoment" value="${tutorial.startMoment}" fieldset="false"/></p>
+    <p><acme:showtext code="tutorial.startMoment" value="${tutorial.speakerName}" fieldset="false"/></p>
     <p><acme:showtext code="tutorial.duration" value="${tutorial.duration}" fieldset="false"/></p>
     <p><acme:showtext code="tutorial.room" value="${tutorial.room}" fieldset="false"/></p>
     <p><acme:showtext code="tutorial.summary" value="${tutorial.summary}" fieldset="false"/></p>

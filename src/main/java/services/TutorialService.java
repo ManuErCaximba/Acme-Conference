@@ -102,6 +102,7 @@ public class TutorialService {
         result.setStartMoment(tutorial.getStartMoment());
         result.setDuration(tutorial.getDuration());
         result.setRoom(tutorial.getRoom());
+        result.setSpeakerName(tutorial.getSpeakerName());
         result.setSummary(tutorial.getSummary());
         result.setAttachments(tutorial.getAttachments());
         result.setConference(tutorial.getConference());

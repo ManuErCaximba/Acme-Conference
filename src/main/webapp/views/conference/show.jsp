@@ -103,6 +103,14 @@
             href="comment/list.do?conferenceId=${conference.id}">
         <spring:message code="conference.comments"/>
     </a></p>
+
+    <security:authorize access="hasRole('ADMIN')">
+        <br>
+        <p><a
+            href="registration/administrator/listAdmin.do?conferenceId=${conference.id}">
+            <spring:message code="conference.registration.list"/>
+        </a></p>
+    </security:authorize>
 </fieldset>
 <br>
 <input type="button" name="cancel"

@@ -184,6 +184,13 @@ public class ConferenceService {
         return res;
     }
 
+    public Collection<Conference> getConferencesByAuthor(int authorId){
+        Collection<Conference> res;
+        res = this.conferenceRepository.getConferencesByAuthor(authorId);
+        Assert.notNull(res);
+        return res;
+    }
+
     public Conference reconstruct(Conference conference, BindingResult binding){
         Conference result;
         if (conference.getId() == 0){
