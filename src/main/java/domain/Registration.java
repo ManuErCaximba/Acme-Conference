@@ -14,8 +14,7 @@ public class Registration extends DomainEntity{
     private CreditCard creditCard;
     private Date moment;
 
-    @Valid
-    @NotNull
+
     public CreditCard getCreditCard() {
         return creditCard;
     }
@@ -24,12 +23,13 @@ public class Registration extends DomainEntity{
         this.creditCard = creditCard;
     }
 
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     public Date getMoment() {
         return moment;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     public void setMoment(Date moment) {
         this.moment = moment;
     }

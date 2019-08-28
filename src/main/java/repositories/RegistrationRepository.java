@@ -10,4 +10,6 @@ import java.util.Collection;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Integer> {
 
+    @Query("select r from Registration r where r.author.id = ?1")
+    Collection<Registration> getRegistrationsPerAuthor(int authorId);
 }

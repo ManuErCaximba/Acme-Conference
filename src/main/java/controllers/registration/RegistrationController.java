@@ -53,17 +53,22 @@ public class RegistrationController extends AbstractController {
         return result;
     }
 
-    /*
+
     @RequestMapping(value = "/author/listAuthor", method = RequestMethod.GET)
     public ModelAndView listAuthor(){
         ModelAndView result;
         try {
             Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
             Assert.notNull(author);
-            Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());
-            Assert.notNull(conferences);
+            Collection<Registration> registrations = this.registrationService.getRegistrationsPerAuthor(author.getId());
+            Assert.notNull(registrations);
+            result = new ModelAndView("registration/author/listAuthor");
+            result.addObject("registrations", registrations);
+            result.addObject("requestURI", "registration/author/listAuthor.do");
 
+        }catch (Throwable oops){
+        result = new ModelAndView("redirect:/");
         }
+        return result;
     }
-    */
 }

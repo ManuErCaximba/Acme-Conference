@@ -81,4 +81,11 @@ public class RegistrationService {
         return result;
 
     }
+
+    public Collection<Registration> getRegistrationsPerAuthor(int authorId){
+        Collection<Registration> res;
+        res = this.registrationRepository.getRegistrationsPerAuthor(authorId);
+        Assert.notNull(res);
+        return res;
+    }
 }

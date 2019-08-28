@@ -259,6 +259,15 @@
 		<property name="CVV" value="666" />
 	</bean>
 
+	<bean id="creditCard2" class="datatype.CreditCard">
+		<property name="holderName" value="José Gil Ruiz"/>
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4762107783208898" />
+		<property name="expirationMonth" value="6" />
+		<property name="expirationYear" value="2026" />
+		<property name="CVV" value="862" />
+	</bean>
+
 	<!-- SUBMISSION -->
 
 	<bean id="submission1" class="domain.Submission">
@@ -346,6 +355,11 @@
 			<list>
 				<ref bean="Comment1"/>
 				<ref bean="Comment2"/>
+			</list>
+		</property>
+		<property name="registrations">
+			<list>
+				<ref bean="Registration1"/>
 			</list>
 		</property>
 	</bean>
@@ -443,6 +457,14 @@
 			<list>
 			</list>
 		</property>
+	</bean>
+
+
+	<!-- REGISTRATION -->
+	<bean id="Registration1" class="domain.Registration">
+		<property name="author" ref="author1"/>
+		<property name="moment" value="01/01/2022 15:00"/>
+		<property name="creditCard" ref="creditCard2"/>
 	</bean>
 
 	<!-- CATEGORY -->
@@ -700,6 +722,8 @@
 		</property>
 		<property name="tutorial" ref="Tutorial1"/>
 	</bean>
+
+
 
 	<!-- TOPIC -->
 	<bean id="INQUIRY" class="domain.Topic">
