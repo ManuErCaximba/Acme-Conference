@@ -6,10 +6,13 @@ import domain.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import repositories.RegistrationRepository;
 import security.UserAccount;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.Date;
 
@@ -29,6 +32,10 @@ public class RegistrationService {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private Validator validator;
+
 
 
     public Collection<Registration> findAll(){
@@ -60,6 +67,7 @@ public class RegistrationService {
         userAccount = this.actorService.getActorLogged().getUserAccount();
         Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
 
+        Assert.notNull(registration);
         Conference conference = this.conferenceService.findOne(conferenceId);
         Assert.notNull(conference);
         Assert.isTrue(conference.getIsFinal());
@@ -88,4 +96,28 @@ public class RegistrationService {
         Assert.notNull(res);
         return res;
     }
+
+    public Registration reconstruct(Registration registration, BindingResult binding){
+        Registration result;
+        if (registration.getId() == 0){
+            result = this.create();
+            Date now = new Date();
+            result.setMoment(now);
+        } else {
+            result = this.registrationRepository.findOne(registration.getId());
+        }
+
+        Date now = new Date();
+        result.setMoment(now);
+        result.setAuthor(registration.getAuthor());
+        result.setCreditCard(registration.getCreditCard());
+
+        validator.validate(result, binding);
+
+        if (binding.hasErrors()){
+            throw new ValidationException();
+        }
+        return result;
+    }
+
 }

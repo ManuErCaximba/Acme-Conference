@@ -6,14 +6,13 @@ import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import services.ActorService;
-import services.AuthorService;
-import services.ConferenceService;
-import services.RegistrationService;
+import services.*;
 
+import javax.validation.ValidationException;
 import java.util.Collection;
 
 @Controller
@@ -31,6 +30,9 @@ public class RegistrationController extends AbstractController {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
 
     @RequestMapping(value = "/administrator/listAdmin", method = RequestMethod.GET)
@@ -72,15 +74,53 @@ public class RegistrationController extends AbstractController {
     }
 
     @RequestMapping(value = "/author/create", method = RequestMethod.GET)
-    public ModelAndView create(){
+    public ModelAndView create(int conferenceId){
         ModelAndView result;
         try{
+            Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
+            Assert.notNull(brandList);
             Registration registration = this.registrationService.create();
             result = new ModelAndView("registration/author/create");
-            result.addObject("regisrtation", registration);
+            result.addObject("registration", registration);
+            result.addObject("brandList", brandList);
+            result.addObject("conferenceId", conferenceId);
         } catch (Throwable oops){
             result = new ModelAndView("redirect:/");
         }
+        return result;
+    }
+
+    @RequestMapping(value = "/author/create", method = RequestMethod.POST, params = "save")
+    public ModelAndView save(Registration registration,int conferenceId, BindingResult binding){
+        ModelAndView result;
+        try{
+            Assert.notNull(registration);
+            registration = this.registrationService.reconstruct(registration, binding);
+            registration = this.registrationService.save(registration, conferenceId);
+            result = new ModelAndView("redirect:listAuthor.do");
+        }catch (ValidationException e){
+            result = this.createEditModelAndView(registration);
+            result.addObject("registration", registration);
+            result.addObject("conferenceId", conferenceId);
+        } catch (Throwable oops){
+            result = this.createEditModelAndView(registration, "registration.commit.error");
+            result.addObject("conferenceId", conferenceId);
+        }
+        return result;
+    }
+
+    private ModelAndView createEditModelAndView(final Registration registration) {
+        ModelAndView result;
+        result = this.createEditModelAndView(registration, null);
+        return result;
+    }
+
+    private ModelAndView createEditModelAndView(final Registration registration, final String messageCode) {
+        ModelAndView result;
+
+        result = new ModelAndView("registration/author/create");
+        result.addObject("registration", registration);
+        result.addObject("message", messageCode);
         return result;
     }
 }

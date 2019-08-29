@@ -98,7 +98,7 @@
 
         <security:authorize access="hasRole('AUTHOR')">
             <display:column>
-                <acme:cancel url="registration/author/create.do" code="button.registration"/>
+                <acme:cancel url="registration/author/create.do?conferenceId=${row.id}" code="button.registration"/>
             </display:column>
         </security:authorize>
 
