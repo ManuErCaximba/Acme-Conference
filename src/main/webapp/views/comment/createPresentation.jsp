@@ -10,21 +10,21 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="comment/createConference.do" modelAttribute="comment">
+<form:form action="comment/createPresentation.do" modelAttribute="comment">
 
 
-        <form:input type ="hidden" path="id" readonly="true"/>
-        <input type="hidden" name="conferenceId" value="${conferenceId}" readonly>
-        <br>
+    <form:input type ="hidden" path="id" readonly="true"/>
+    <input type="hidden" name="presentationId" value="${presentationId}" readonly>
+    <br>
 
-        <acme:textbox code="comment.title" path="title" />
+    <acme:textbox code="comment.title" path="title" />
 
-        <acme:textbox code="comment.body" path="text" />
+    <acme:textbox code="comment.body" path="text" />
 
-        <acme:submit name="saveConference" code="comment.send"/>
+    <acme:submit name="savePresentation" code="comment.send"/>
 
-        <input type="button" name="cancel"
-               value="<spring:message code="button.goBack" />"
-               onclick="javascript: window.history.back();" />
+    <input type="button" name="cancel"
+           value="<spring:message code="button.goBack" />"
+           onclick="javascript: window.history.back();" />
 
 </form:form>

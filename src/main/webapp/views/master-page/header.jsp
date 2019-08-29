@@ -75,6 +75,9 @@
 					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.conference.listForthcoming" /></a></li>
 					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listPast" /></a></li>
 					<li><a href="conference/listRunning.do"><spring:message code="master.page.conference.listRunning" /></a></li>
+					<security:authorize access="hasRole('AUTHOR')">
+						<li><a href="registration/author/listAuthor.do"><spring:message code="master.page.registration.listAuthor" /></a></li>
+					</security:authorize>
 				</ul>
 			</li>
 		</security:authorize>

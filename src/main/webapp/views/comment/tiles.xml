@@ -18,32 +18,32 @@
 
 	<definition name="comment/list" extends="master.page">
 		<put-attribute name="title" value="List of comments" />
-		<put-attribute name="body" value="/views/comment/list.jsp" />
+		<put-attribute name="body" value="/views/comment/listConference.jsp" />
 	</definition>
 
 	<definition name="comment/listCommentsTutorial" extends="master.page">
 		<put-attribute name="title" value="List of comments" />
-		<put-attribute name="body" value="/views/comment/list.jsp" />
+		<put-attribute name="body" value="/views/comment/listTutorial.jsp" />
 	</definition>
 
 	<definition name="comment/listCommentsPresentation" extends="master.page">
 		<put-attribute name="title" value="List of comments" />
-		<put-attribute name="body" value="/views/comment/list.jsp" />
+		<put-attribute name="body" value="/views/comment/listPresentation.jsp" />
 	</definition>
 
-	<definition name="category/administrator/show" extends="master.page">
-		<put-attribute name="title" value="Category" />
-		<put-attribute name="body" value="/views/category/show.jsp" />
+	<definition name="comment/createConference" extends="master.page">
+		<put-attribute name="title" value="New comment" />
+		<put-attribute name="body" value="/views/comment/createConference.jsp" />
 	</definition>
 
-	<definition name="category/administrator/edit" extends="master.page">
-		<put-attribute name="title" value="Edit" />
-		<put-attribute name="body" value="/views/category/edit.jsp" />
+	<definition name="comment/createTutorial" extends="master.page">
+		<put-attribute name="title" value="New comment" />
+		<put-attribute name="body" value="/views/comment/createTutorial.jsp" />
 	</definition>
 
-	<definition name="category/administrator/create" extends="master.page">
-		<put-attribute name="title" value="Edit" />
-		<put-attribute name="body" value="/views/category/edit.jsp" />
+	<definition name="comment/createPresentation" extends="master.page">
+		<put-attribute name="title" value="New comment" />
+		<put-attribute name="body" value="/views/comment/createPresentation.jsp" />
 	</definition>
 
 </tiles-definitions>

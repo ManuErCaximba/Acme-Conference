@@ -96,6 +96,11 @@
             </display:column>
         </security:authorize>
 
+        <security:authorize access="hasRole('AUTHOR')">
+            <display:column>
+                <acme:cancel url="registration/author/create.do" code="button.registration"/>
+            </display:column>
+        </security:authorize>
 
     </display:table>
 

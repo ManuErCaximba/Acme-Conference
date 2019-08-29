@@ -1,6 +1,6 @@
 package services;
 
-import domain.Comment;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,6 +24,18 @@ public class CommentService {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private ActorService actorService;
+
+    @Autowired
+    private ConferenceService conferenceService;
+
+    @Autowired
+    private TutorialService tutorialService;
+
+    @Autowired
+    private PresentationService presentationService;
+
 
     public Collection<Comment> findAll(){
         Collection<Comment> res;
@@ -44,27 +56,57 @@ public class CommentService {
         return res;
     }
 
-    public Comment save(Comment comment){
-        Date now = new Date();
+    public Comment saveConference(Comment comment, int conferenceId){
+        Actor actor = this.actorService.getActorLogged();
+        comment.setActor(actor);
 
-        comment.setMoment(now);
+        Conference conference = this.conferenceService.findOne(conferenceId);
+        Assert.notNull(conference);
 
-        Comment result;
-        result = this.commentRepository.save(comment);
+        Comment result = this.commentRepository.save(comment);
+        conference.getComments().add(result);
 
         return result;
     }
+
+    public Comment saveTutorial(Comment comment, int tutorialId){
+        Actor actor = this.actorService.getActorLogged();
+        comment.setActor(actor);
+
+        Tutorial tutorial = this.tutorialService.findOne(tutorialId);
+        Assert.notNull(tutorial);
+
+        Comment result = this.commentRepository.save(comment);
+        tutorial.getComments().add(result);
+
+        return result;
+    }
+
+    public Comment savePresentation(Comment comment, int presentationId){
+        Actor actor = this.actorService.getActorLogged();
+        comment.setActor(actor);
+
+        Presentation presentation = this.presentationService.findOne(presentationId);
+        Assert.notNull(presentation);
+
+        Comment result = this.commentRepository.save(comment);
+        presentation.getComments().add(result);
+
+        return result;
+    }
+
 
     public Comment reconstruct(Comment comment, BindingResult binding){
         Comment result;
         if (comment.getId() == 0){
             result = this.create();
+            Date now = new Date();
+            result.setMoment(now);
         } else {
             result = this.commentRepository.findOne(comment.getId());
         }
 
         result.setTitle(comment.getTitle());
-        result.setMoment(comment.getMoment());
         result.setText(comment.getText());
         result.setActor(comment.getActor());
 

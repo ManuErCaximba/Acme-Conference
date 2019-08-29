@@ -38,6 +38,6 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
     @Query("select c from Conference c where CURRENT_DATE < c.startDate")
     Collection<Conference> getAllFutureConferences();
 
-    @Query("select e from Conference e join e.registrations r where r.author = ?1 and e.isFinal = true")
+    @Query("select e from Conference e join e.registrations r where r.author.id = ?1 and e.isFinal = true")
     Collection<Conference> getConferencesByAuthor(int authorId);
 }

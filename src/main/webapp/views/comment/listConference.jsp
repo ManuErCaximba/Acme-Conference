@@ -37,8 +37,9 @@
     </display:column>
 
 </display:table>
-
 <br>
+<input type="button" value="<spring:message code="comment.create" />"
+       onclick="javascript: relativeRedir('comment/createConference.do?conferenceId=${conferenceId}');" />
 <input type="button" name="cancel"
        value="<spring:message code="button.goBack" />"
        onclick="javascript: window.history.back();" />
