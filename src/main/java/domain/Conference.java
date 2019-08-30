@@ -15,6 +15,7 @@ public class Conference extends DomainEntity {
     private String title;
     private String acronym;
     private String venue;
+    private Date moment;
     private Date submissionDeadline;
     private Date notificationDeadline;
     private Date cameraReadyDeadline;
@@ -52,6 +53,16 @@ public class Conference extends DomainEntity {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    public Date getMoment() {
+        return moment;
+    }
+
+    public void setMoment(Date moment) {
+        this.moment = moment;
     }
 
     @NotNull

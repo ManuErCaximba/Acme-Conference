@@ -47,6 +47,7 @@
 <br>
 <acme:cancel code="button.goBack" url="/"/>
 <acme:cancel code="button.edit" url="configuration/administrator/edit.do"/>
+<acme:cancel code="button.calcScores" url="configuration/administrator/scoring.do"/>
 <acme:cancel code="button.listTopics" url="topic/administrator/list.do"/>
 <acme:cancel code="button.showVoidWordsEs" url="configuration/administrator/showVoidWordsEs.do"/>
 <acme:cancel code="button.showVoidWordsEn" url="configuration/administrator/showVoidWordsEn.do"/>

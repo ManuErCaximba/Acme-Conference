@@ -4,11 +4,14 @@ import controllers.AbstractController;
 import domain.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import services.ActorService;
+import services.AdministratorService;
 import services.ConfigurationService;
 
 import javax.validation.Valid;
@@ -20,6 +23,12 @@ public class ConfigurationController extends AbstractController {
     @Autowired
     private ConfigurationService configurationService;
 
+    @Autowired
+    private ActorService actorService;
+
+    @Autowired
+    private AdministratorService administratorService;
+
     // Show --------------------------------------------------------------------------
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public ModelAndView show() {
@@ -27,6 +36,25 @@ public class ConfigurationController extends AbstractController {
         final Configuration configuration = this.configurationService.findAll().iterator().next();
 
         try {
+            result = new ModelAndView("configuration/administrator/show");
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            result.addObject("configuration", configuration);
+        } catch (final Exception e) {
+            result = new ModelAndView("redirect:/");
+        }
+
+        return result;
+    }
+
+    // Scoring ------------------------------------------------------------------------
+    @RequestMapping(value = "/scoring", method = RequestMethod.GET)
+    public ModelAndView scoring() {
+        ModelAndView result;
+        final Configuration configuration = this.configurationService.findAll().iterator().next();
+
+        try {
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            this.administratorService.getScoreAllAuthor();
             result = new ModelAndView("configuration/administrator/show");
             result.addObject("configuration", configuration);
         } catch (final Exception e) {

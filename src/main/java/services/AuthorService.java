@@ -7,6 +7,8 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import domain.Actor;
+import domain.Paper;
+import domain.Submission;
 import forms.AuthorForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -29,6 +31,9 @@ public class AuthorService {
 
 	@Autowired
 	private ActorService actorService;
+
+	@Autowired
+	private SubmissionService submissionService;
 
 	@Autowired
 	private Validator validator;
@@ -126,6 +131,20 @@ public class AuthorService {
 
 		this.validator.validate(result, binding);
 		return result;
+	}
+
+	//Other methods
+	public Collection<Paper> getCameraReadyPapersFromAuthor(Author author){
+		Collection<Paper> res = new ArrayList<>();
+		Collection<Submission> submissions = this.submissionService.getSubmissionsAcceptedAndCameraReadyByAuthor(author.getId());
+
+		for (Submission s : submissions){
+			if(s.getCameraReadyPaper() != null){
+				res.add(s.getCameraReadyPaper());
+			}
+		}
+
+		return res;
 	}
 
 }

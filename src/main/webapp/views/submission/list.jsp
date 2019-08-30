@@ -27,7 +27,7 @@
         </display:column>
 
         <spring:message code="submission.status" var="status"/>
-        <display:column title="${status}">
+        <display:column title="${status}" sortable="true">
             <jstl:out value="${row.status}"/>
         </display:column>
 
@@ -43,24 +43,17 @@
         <security:authorize access="hasRole('AUTHOR')">
 
             <display:column>
-                <%--
-                <jstl:if test="${now lt row.conference.submissionDeadline}">
-                    <acme:cancel url="submission/author/edit.do?submissionId=${row.id}" code="button.edit"/>
-                </jstl:if>
-                --%>
                 <jstl:if test="${now gt row.conference.submissionDeadline &&
                  now lt row.conference.cameraReadyDeadline && row.status == 'ACCEPTED' && row.isCameraReady == false}">
                     <acme:cancel url="submission/author/cameraReady.do?submissionId=${row.id}" code="button.cameraReady"/>
                 </jstl:if>
             </display:column>
 
-            <%--
             <display:column>
-                <jstl:if test="${now lt row.conference.submissionDeadline}">
-                    <acme:cancel url="submission/author/delete.do?submissionId=${row.id}" code="button.delete"/>
+                <jstl:if test="${row.status == 'ACCEPTED' || row.status == 'REJECTED'}">
+                    <acme:cancel url="report/author/list.do?submissionId=${row.id}" code="button.showReport"/>
                 </jstl:if>
             </display:column>
-            --%>
 
         </security:authorize>
 

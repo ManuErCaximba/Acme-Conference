@@ -54,6 +54,7 @@ public class ConferenceService {
         }
 
         conference.setIsFinal(true);
+        conference.setMoment(new Date());
         Assert.isTrue(conference.getSubmissionDeadline().before(conference.getNotificationDeadline()));
         Assert.isTrue(conference.getNotificationDeadline().before(conference.getCameraReadyDeadline()));
         Assert.isTrue(conference.getCameraReadyDeadline().before(conference.getStartDate()));
@@ -189,6 +190,11 @@ public class ConferenceService {
         res = this.conferenceRepository.getConferencesByAuthor(authorId);
         Assert.notNull(res);
         return res;
+    }
+
+    public Collection<Conference> getConferencesSince12Months(){
+        Date date = new DateTime(new Date()).minusMonths(12).toDate();
+        return this.conferenceRepository.getConferencesSince12Months(date);
     }
 
     public Conference reconstruct(Conference conference, BindingResult binding){

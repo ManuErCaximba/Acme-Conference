@@ -61,6 +61,16 @@
 
 </security:authorize>
 
+<security:authorize access="hasRole('AUTHOR')">
+    <jstl:if test="${score != null}">
+        <fieldset>
+            <legend><b><spring:message code="actor.score"/></b></legend>
+            <jstl:out value="${score}"/>
+        </fieldset>
+    </jstl:if>
+
+</security:authorize>
+
 <!-- Buttons -->
 <security:authorize access="hasRole('REVIEWER')">
     <acme:cancel url="/reviewer/reviewer/edit.do" code="master.page.profile.edit"/>

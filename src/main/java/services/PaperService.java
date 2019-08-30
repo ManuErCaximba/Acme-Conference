@@ -87,15 +87,15 @@ public class PaperService {
 
     public Paper reconstruct(Paper paper, BindingResult binding){
         Paper result;
+        Collection<Author> authors = new ArrayList<>();
 
         result = paper;
 
-        if(paper.getId() != 0) {
-            Author author = (Author) this.actorService.getActorLogged();
-            List<Author> authors = (List<Author>) paper.getAuthors();
-            authors.add(author);
-            result.setAuthors(authors);
-        }
+        Author author = (Author) this.actorService.getActorLogged();
+        if(paper.getAuthors() != null)
+            authors = paper.getAuthors();
+        authors.add(author);
+        result.setAuthors(authors);
 
         result.setIsInSubmission(false);
 

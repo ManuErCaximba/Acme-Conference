@@ -40,4 +40,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
     @Query("select e from Conference e join e.registrations r where r.author.id = ?1 and e.isFinal = true")
     Collection<Conference> getConferencesByAuthor(int authorId);
+
+    @Query("select c from Conference c where c.moment between ?1 and CURRENT_DATE ")
+    Collection<Conference> getConferencesSince12Months(Date date);
 }

@@ -12,6 +12,7 @@ package controllers;
 
 import domain.Actor;
 import domain.Administrator;
+import domain.Author;
 import domain.Reviewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class ProfileController extends AbstractController {
 	@Autowired
 	private ReviewerService reviewerService;
 
+	@Autowired
+	private AuthorService authorService;
+
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView myInformation() {
@@ -50,6 +54,13 @@ public class ProfileController extends AbstractController {
 			reviewer = this.reviewerService.findOne(user.getId());
 			Assert.notNull(reviewer);
 			result.addObject("keywords", reviewer.getKeywords());
+		}
+
+		if (userAccount.getAuthorities().iterator().next().getAuthority().equals("AUTHOR")) {
+			Author author;
+			author = this.authorService.findOne(user.getId());
+			Assert.notNull(author);
+			result.addObject("score", author.getScore());
 		}
 
 		return result;

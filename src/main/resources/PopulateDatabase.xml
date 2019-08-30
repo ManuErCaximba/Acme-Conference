@@ -342,12 +342,13 @@
 		<property name="title" value="conferenceBeforeSubmissionDL"/>
 		<property name="acronym" value="CF1"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2021 12:00"/>
 		<property name="notificationDeadline" value="01/01/2022 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2022 17:00" />
 		<property name="startDate" value="01/01/2022 19:00" />
 		<property name="endDate" value="01/02/2022 19:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Data conferencia" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
@@ -368,12 +369,13 @@
 		<property name="title" value="conferenceBetweenSubmissionDLAndNotificationDL"/>
 		<property name="acronym" value="CF2"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2018 12:00"/>
 		<property name="notificationDeadline" value="01/01/2021 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
 		<property name="endDate" value="01/02/2021 19:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Data cosa" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
@@ -387,12 +389,13 @@
 		<property name="title" value="conferenceBetweenNotificationDLAndCameraReadyDL"/>
 		<property name="acronym" value="CF2"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2018 12:00"/>
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="01/01/2021 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
 		<property name="endDate" value="01/02/2021 19:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Data hola" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
@@ -406,12 +409,13 @@
 		<property name="title" value="conferenceBetweenCameraReadyDLAndStartDate"/>
 		<property name="acronym" value="CF2"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2018 12:00"/>
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
 		<property name="startDate" value="01/01/2021 19:00" />
 		<property name="endDate" value="01/02/2021 19:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Data data" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
@@ -425,12 +429,13 @@
 		<property name="title" value="conferenceBetweenStartDateAndEndDate"/>
 		<property name="acronym" value="CF2"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2018 12:00"/>
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
 		<property name="startDate" value="04/04/2018 19:00" />
 		<property name="endDate" value="01/01/2021 20:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Todo el data" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>
@@ -444,12 +449,13 @@
 		<property name="title" value="conferenceAfterEndDate"/>
 		<property name="acronym" value="CF2"/>
 		<property name="venue" value="Escuela Técnica Superior de Ingeniería Informática, Universidad de Sevilla, 41012 Sevilla"/>
+		<property name="moment" value="01/01/2019 12:00"/>
 		<property name="submissionDeadline" value="01/01/2018 12:00"/>
 		<property name="notificationDeadline" value="02/02/2018 10:00" />
 		<property name="cameraReadyDeadline" value="03/03/2018 17:00" />
 		<property name="startDate" value="04/04/2018 19:00" />
 		<property name="endDate" value="05/05/2018 20:00" />
-		<property name="summary" value="Summary" />
+		<property name="summary" value="Mas data" />
 		<property name="fee" value="2" />
 		<property name="isFinal" value="true" />
 		<property name="category" ref="Tools"/>

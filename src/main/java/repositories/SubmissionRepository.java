@@ -19,5 +19,8 @@ public interface SubmissionRepository extends JpaRepository<Submission, Integer>
     @Query("select s from Submission s where (s.status = 'ACCEPTED' and s.isCameraReady = true and s.conference.id = ?1)")
     Collection<Submission> getSubmissionsAcceptedAndCameraReadyByConference(int conferenceId);
 
+    @Query("select s from Submission s where (s.status = 'ACCEPTED' and s.isCameraReady = true and s.author.id = ?1)")
+    Collection<Submission> getSubmissionsAcceptedAndCameraReadyByAuthor(int authorId);
+
 
 }

@@ -25,6 +25,8 @@ public class SubmissionService {
     @Autowired
     private ActorService actorService;
     @Autowired
+    private AdministratorService administratorService;
+    @Autowired
     private ReportService reportService;
     @Autowired
     private ReviewerService reviewerService;
@@ -169,35 +171,7 @@ public class SubmissionService {
         Collection<Reviewer> allReviewers = this.reviewerService.findAll();
         List<Reviewer> res = new ArrayList<>();
 
-        summary.toLowerCase();
-
-        summary.replace('.',' ');
-        summary.replace(',',' ');
-        summary.replace('\'',' ');
-        summary.replace(':',' ');
-        summary.replace(';',' ');
-        summary.replace('?',' ');
-        summary.replace('¿',' ');
-        summary.replace('!',' ');
-        summary.replace('¡',' ');
-        summary.replace('(',' ');
-        summary.replace(')',' ');
-        summary.replace('{',' ');
-        summary.replace('}',' ');
-        summary.replace('[',' ');
-        summary.replace(']',' ');
-        summary.replace('-',' ');
-        summary.replace('_',' ');
-        summary.replace('`',' ');
-        summary.replace('´',' ');
-        summary.replace('¨',' ');
-        summary.replace('^',' ');
-        summary.replace('*',' ');
-        summary.replace('@',' ');
-        summary.replace('"',' ');
-        summary.replace('|',' ');
-
-        Collection<String> words = Arrays.asList(summary.split(" "));
+        Collection<String> words = this.administratorService.splitThisText(summary);
 
         for(Reviewer r : allReviewers) {
             for(String keyword : r.getKeywords()) {
@@ -256,6 +230,10 @@ public class SubmissionService {
 
     public Collection<Submission> getSubmissionsAcceptedAndCameraReadyByConference(int conferenceId){
         return this.submissionRepository.getSubmissionsAcceptedAndCameraReadyByConference(conferenceId);
+    }
+
+    public Collection<Submission> getSubmissionsAcceptedAndCameraReadyByAuthor(int authorId){
+        return this.submissionRepository.getSubmissionsAcceptedAndCameraReadyByAuthor(authorId);
     }
 
     public void finalReview(Submission submission){

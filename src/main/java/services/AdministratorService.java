@@ -28,6 +28,10 @@ public class AdministratorService {
     @Autowired
     private ActorService actorService;
     @Autowired
+    private ConferenceService conferenceService;
+    @Autowired
+    private AuthorService authorService;
+    @Autowired
     private Validator validator;
 
     //CRUD Methods
@@ -345,6 +349,104 @@ public class AdministratorService {
         double meanOfDiffs = temp / (double) (list.size());
 
         return Math.sqrt(meanOfDiffs);
+    }
+
+    public void getScoreAllAuthor(){
+
+        //Calculamos buzz words
+        Collection<Conference> conferences = this.conferenceService.getConferencesSince12Months();
+        Collection<String> summaryWords = new ArrayList<>();
+        Map<String, Integer> wordCount = new HashMap<>();
+        Collection<String> buzzWords = new ArrayList<>();
+        int frequency = 0;
+
+        for(Conference c : conferences){
+            String summary = c.getSummary();
+
+            Collection<String> words = this.splitThisText(summary);
+
+            summaryWords.addAll(words);
+        }
+
+        for(String word: summaryWords){
+            if (wordCount.containsKey(word)){
+                wordCount.put(word,wordCount.get(word) + 1);
+            } else {
+                    wordCount.put(word, 1);
+            }
+
+            if (wordCount.get(word) > frequency)
+                frequency = wordCount.get(word);
+        }
+
+        double f = frequency - 0.2 * frequency;
+
+        for(String word : wordCount.keySet()){
+            if (wordCount.get(word) >= f)
+                buzzWords.add(word);
+        }
+
+        //Ahora sacamos puntuacion de cada author
+        Collection<Author> authors = this.authorService.findAll();
+
+        for(Author a: authors){
+            int score = 0;
+            Collection<Paper> cameraReadyPapers = this.authorService.getCameraReadyPapersFromAuthor(a);
+            for(Paper p : cameraReadyPapers){
+                Collection<String> summary = this.splitThisText(p.getSummary());
+                for(String word : summary){
+                    if(buzzWords.contains(word))
+                        score++;
+                }
+            }
+
+            a.setScore(score);
+            this.authorService.save(a);
+        }
+    }
+
+    public Collection<String> splitThisText(String text){
+        Collection<String> res = new ArrayList<>();
+
+        text = text.toLowerCase();
+
+        text = text.replace('.',' ');
+        text = text.replace(',',' ');
+        text = text.replace('\'',' ');
+        text = text.replace(':',' ');
+        text = text.replace(';',' ');
+        text = text.replace('?',' ');
+        text = text.replace('¿',' ');
+        text = text.replace('!',' ');
+        text = text.replace('¡',' ');
+        text = text.replace('(',' ');
+        text = text.replace(')',' ');
+        text = text.replace('{',' ');
+        text = text.replace('}',' ');
+        text = text.replace('[',' ');
+        text = text.replace(']',' ');
+        text = text.replace('-',' ');
+        text = text.replace('_',' ');
+        text = text.replace('`',' ');
+        text = text.replace('´',' ');
+        text = text.replace('¨',' ');
+        text = text.replace('^',' ');
+        text = text.replace('*',' ');
+        text = text.replace('@',' ');
+        text = text.replace('"',' ');
+        text = text.replace('|',' ');
+
+        Collection<String> resWithoutTrim = Arrays.asList(text.split(" "));
+
+        for(String s: resWithoutTrim){
+            if(!s.equals("")) {
+                String trim = s.trim();
+                res.add(trim);
+            }
+        }
+
+
+        return res;
     }
 
 }

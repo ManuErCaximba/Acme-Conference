@@ -1,10 +1,7 @@
 package controllers.report;
 
 import controllers.AbstractController;
-import domain.Actor;
-import domain.Report;
-import domain.Reviewer;
-import domain.Submission;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -20,7 +17,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 @Controller
-@RequestMapping("report/reviewer")
+@RequestMapping("report")
 public class ReportController extends AbstractController {
 
     @Autowired
@@ -33,39 +30,71 @@ public class ReportController extends AbstractController {
     private ReviewerService reviewerService;
 
     @Autowired
+    private AuthorService authorService;
+
+    @Autowired
     private SubmissionService submissionService;
 
     // List --------------------------------------------------------------------------
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviewer/list", method = RequestMethod.GET)
     public ModelAndView list() {
         ModelAndView result;
+        try{
+            final Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
+            Assert.isTrue(reviewer.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
 
-        final Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
+            Collection<Report> reports = this.reportService.getReportsMadeByReviewer(reviewer.getId());
 
-        Collection<Report> reports = this.reportService.getReportsMadeByReviewer(reviewer.getId());
-
-        result = new ModelAndView("report/reviewer/list");
-        result.addObject("reports", reports);
-        result.addObject("requestURI", "report/reviewer/list.do");
+            result = new ModelAndView("report/reviewer/list");
+            result.addObject("reports", reports);
+            result.addObject("requestURI", "report/reviewer/list.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
 
-    @RequestMapping(value = "/submission/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviewer/submission/list", method = RequestMethod.GET)
     public ModelAndView submissionList() {
         ModelAndView result;
+        try{
+            final Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
+            Assert.isTrue(reviewer.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("REVIEWER"));
 
-        final Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
+            Collection<Submission> submissions = reviewer.getSubmissions();
 
-        Collection<Submission> submissions = reviewer.getSubmissions();
-
-        result = new ModelAndView("report/reviewer/submission/list");
-        result.addObject("submissions", submissions);
-        result.addObject("requestURI", "report/reviewer/submission/list.do");
+            result = new ModelAndView("report/reviewer/submission/list");
+            result.addObject("submissions", submissions);
+            result.addObject("requestURI", "report/reviewer/submission/list.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
 
+    @RequestMapping(value = "/author/list", method = RequestMethod.GET)
+    public ModelAndView authorList(int submissionId) {
+        ModelAndView result;
+
+        try {
+            final Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
+            Submission submission = this.submissionService.findOne(submissionId);
+
+            Collection<Report> reports = this.reportService.getReportsOfSubmission(submissionId);
+            Assert.isTrue(author.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+            Assert.isTrue(submission.getStatus().equals("ACCEPTED") || submission.getStatus().equals("REJECTED"));
+
+            result = new ModelAndView("report/author/list");
+            result.addObject("reports", reports);
+            result.addObject("requestURI", "report/author/list.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
+
+        return result;
+    }
     // Show --------------------------------------------------------------------------
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public ModelAndView show(@RequestParam final int reportId) {
@@ -76,7 +105,7 @@ public class ReportController extends AbstractController {
             final Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
             report = this.reportService.findOne(reportId);
             Assert.isTrue(report.getReviewer().equals(reviewer));
-            result = new ModelAndView("report/reviewer/show");
+            result = new ModelAndView("report/show");
             result.addObject("report", report);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
@@ -86,7 +115,7 @@ public class ReportController extends AbstractController {
     }
 
     // Create ------------------------------------------------------------------------
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviewer/create", method = RequestMethod.GET)
     public ModelAndView create(@RequestParam int submissionId) {
         ModelAndView result;
         Report report;
@@ -106,7 +135,7 @@ public class ReportController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
+    @RequestMapping(value = "/reviewer/save", method = RequestMethod.POST, params = "save")
     public ModelAndView save(@Valid Report report, final BindingResult binding) {
         ModelAndView result;
         Reviewer reviewer = this.reviewerService.findOne(this.actorService.getActorLogged().getId());
