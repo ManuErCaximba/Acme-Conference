@@ -40,6 +40,9 @@ public class MessageService {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private ConferenceService conferenceService;
+
     public Message create() {
 
         final Message result = new Message();
@@ -149,16 +152,19 @@ public class MessageService {
 
     }
 
-    public void notificationRegisterConference(Actor actor){
+    public void notificationRegisterConference(Author author, int conferenceId){
         Message message = this.create();
 
         List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
         int random = (int) (Math.random()*admins.size());
 
+        Conference conference = this.conferenceService.findOne(conferenceId);
+        Assert.notNull(conference);
+
         message.setSender(admins.get(random));
-        message.setRecipient(actor);
+        message.setRecipient(author);
         message.setSubject("Conference registration \n Registro en conferencia");
-        message.setBody("You have successfully registered in the conference. \n Se ha registrado correctamente en la conferencia.");
+        message.setBody("You have successfully registered in the "+conference.getTitle()+" conference \n Se ha registrado correctamente en la conferencia "+conference.getTitle()+".");
 
         Topic registrationTopic = this.topicService.getRegistrationtTopic();
         Assert.notNull(registrationTopic);

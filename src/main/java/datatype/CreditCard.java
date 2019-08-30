@@ -53,7 +53,6 @@ public class CreditCard {
 
     @NotNull
     @Range(min = 1, max = 12)
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getExpirationMonth() {
         return expirationMonth;
     }
@@ -63,7 +62,6 @@ public class CreditCard {
     }
 
     @NotNull
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getExpirationYear() {
         return expirationYear;
     }
@@ -74,7 +72,6 @@ public class CreditCard {
 
     @NotNull
     @Range(min = 0, max = 999)
-    @SafeHtml(whitelistType = WhiteListType.NONE)
     public int getCVV() {
         return CVV;
     }

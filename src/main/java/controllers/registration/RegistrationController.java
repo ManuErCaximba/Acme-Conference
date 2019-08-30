@@ -33,7 +33,7 @@ public class RegistrationController extends AbstractController {
 
     @Autowired
     private ConfigurationService configurationService;
-
+    
 
     @RequestMapping(value = "/administrator/listAdmin", method = RequestMethod.GET)
     public ModelAndView listAdmin(int conferenceId){
