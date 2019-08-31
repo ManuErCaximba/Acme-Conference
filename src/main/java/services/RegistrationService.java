@@ -75,7 +75,7 @@ public class RegistrationService {
         registration.setMoment(new Date());
 
         Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-        Assert.notNull(author);
+    //    Assert.notNull(author);
         registration.setAuthor(author);
 
         Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());

@@ -33,6 +33,9 @@ public class RegistrationController extends AbstractController {
 
     @Autowired
     private ConfigurationService configurationService;
+
+    @Autowired
+    private MessageService messageService;
     
 
     @RequestMapping(value = "/administrator/listAdmin", method = RequestMethod.GET)
@@ -94,9 +97,12 @@ public class RegistrationController extends AbstractController {
     public ModelAndView save(Registration registration,int conferenceId, BindingResult binding){
         ModelAndView result;
         try{
+            Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
+     //       Assert.notNull(author);
             Assert.notNull(registration);
             registration = this.registrationService.reconstruct(registration, binding);
             registration = this.registrationService.save(registration, conferenceId);
+            messageService.notificationRegisterConference(author, conferenceId);
             result = new ModelAndView("redirect:listAuthor.do");
         }catch (ValidationException e){
             result = this.createEditModelAndView(registration);
