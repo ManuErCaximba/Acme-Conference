@@ -43,6 +43,9 @@ public class MessageService {
     @Autowired
     private ConferenceService conferenceService;
 
+    @Autowired
+    private SubmissionService submissionService;
+
     public Message create() {
 
         final Message result = new Message();
@@ -174,21 +177,23 @@ public class MessageService {
         message = this.messageRepository.save(message);
     }
 
-    public void notificationSubmissionConference(Actor actor){
+    public void notificationSubmissionConference(Author author, int submissionId){
         Message message = this.create();
 
         List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
         int random = (int) (Math.random()*admins.size());
 
+        Submission submission = this.submissionService.findOne(submissionId);
         message.setSender(admins.get(random));
-        message.setRecipient(actor);
+        message.setRecipient(author);
         message.setSubject("Conference submission \n Presentación conferencia");
-        message.setBody("You have successfully made a submission in the conference. \n Se ha realizado correctamente una presentación en la conferencia.");
+        message.setBody("Your submission "+submission.getTicker()+ " was registered correctly.\n Su solicitud "+submission.getTicker()+ " se ha registrado correctamente");
 
         Topic registrationTopic = this.topicService.getRegistrationtTopic();
         Assert.notNull(registrationTopic);
         message.setTopic(registrationTopic);
 
+        message.setMoment(new Date());
         message = this.messageRepository.save(message);
     }
 

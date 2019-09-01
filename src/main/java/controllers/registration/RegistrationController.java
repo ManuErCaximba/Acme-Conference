@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.*;
 
@@ -39,7 +40,7 @@ public class RegistrationController extends AbstractController {
     
 
     @RequestMapping(value = "/administrator/listAdmin", method = RequestMethod.GET)
-    public ModelAndView listAdmin(int conferenceId){
+    public ModelAndView listAdmin(@RequestParam int conferenceId){
         ModelAndView result;
         try{
             Actor actor = this.actorService.getActorLogged();
@@ -77,7 +78,7 @@ public class RegistrationController extends AbstractController {
     }
 
     @RequestMapping(value = "/author/create", method = RequestMethod.GET)
-    public ModelAndView create(int conferenceId){
+    public ModelAndView create(@RequestParam int conferenceId){
         ModelAndView result;
         try{
             Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
@@ -98,7 +99,6 @@ public class RegistrationController extends AbstractController {
         ModelAndView result;
         try{
             Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-     //       Assert.notNull(author);
             Assert.notNull(registration);
             registration = this.registrationService.reconstruct(registration, binding);
             registration = this.registrationService.save(registration, conferenceId);
