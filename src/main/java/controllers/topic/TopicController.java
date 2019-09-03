@@ -89,6 +89,7 @@ public class TopicController extends AbstractController {
             Topic topic;
             topic = this.topicService.findOne(topicId);
             Assert.notNull(topic);
+            Assert.isTrue(!topic.getNameEs().equals("OTRO") && !topic.getNameEn().equals("OTHER"));
             result = new ModelAndView("topic/administrator/edit");
             result.addObject("topic", topic);
         } catch (Throwable oops){
@@ -122,6 +123,7 @@ public class TopicController extends AbstractController {
         try{
             Topic topic = this.topicService.findOne(topicId);
             Assert.notNull(topic);
+            Assert.isTrue(!topic.getNameEs().equals("OTRO") && !topic.getNameEn().equals("OTHER"));
             this.topicService.delete(topic);
             result = new ModelAndView("redirect:list.do");
         } catch (Throwable oops){

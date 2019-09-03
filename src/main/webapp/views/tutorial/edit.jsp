@@ -28,6 +28,8 @@
 
         <acme:select path="conference" code="tutorial.conference" items="${conferences}" id="id" itemLabel="title"/>
 
+        <acme:textbox code="tutorial.speakerName" path="speakerName"  />
+
         <acme:submit name="save" code="tutorial.save"/>
 
         <jstl:if test="${section.id != 0}">

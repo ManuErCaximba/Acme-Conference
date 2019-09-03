@@ -1,6 +1,8 @@
 package services;
 
 import domain.Actor;
+import domain.Configuration;
+import domain.Message;
 import domain.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,12 @@ public class TopicService {
 
     @Autowired
     private Validator validator;
+
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private MessageService messageService;
 
     public Topic create(){
         UserAccount userAccount;
@@ -73,6 +81,17 @@ public class TopicService {
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(topic);
 
+        Collection<Configuration> configurations = this.configurationService.findAll();
+        for(Configuration c : configurations){
+            if(c.getTopics().contains(topic))
+                c.getTopics().remove(topic);
+        }
+
+        Collection<Message> messages = this.messageService.findAllMessagesByTopic(topic.getId());
+        for(Message m: messages){
+            if(m.getTopic().equals(topic))
+                m.setTopic(this.topicRepository.getOtherTopic());
+        }
         this.topicRepository.delete(topic);
     }
 
@@ -142,6 +161,13 @@ public class TopicService {
     public Topic getRegistrationtTopic(){
         Topic res;
         res = this.topicRepository.getRegistrationtTopic();
+        Assert.notNull(res);
+        return res;
+    }
+
+    public Topic getOtherTopic(){
+        Topic res;
+        res = this.topicRepository.getOtherTopic();
         Assert.notNull(res);
         return res;
     }

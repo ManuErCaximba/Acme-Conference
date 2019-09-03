@@ -1,8 +1,10 @@
 package services;
 
+import datatype.CreditCard;
 import domain.Author;
 import domain.Conference;
 import domain.Registration;
+import forms.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -97,26 +99,27 @@ public class RegistrationService {
         return res;
     }
 
-    public Registration reconstruct(Registration registration, BindingResult binding){
-        Registration result;
-        if (registration.getId() == 0){
-            result = this.create();
-            Date now = new Date();
-            result.setMoment(now);
-        } else {
-            result = this.registrationRepository.findOne(registration.getId());
-        }
+    public Registration reconstruct(RegistrationForm registrationForm, BindingResult binding){
+        Registration result = new Registration();
+        CreditCard creditCard = new CreditCard();
+        Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
 
-        Date now = new Date();
-        result.setMoment(now);
-        result.setAuthor(registration.getAuthor());
-        result.setCreditCard(registration.getCreditCard());
+        result.setId(registrationForm.getId());
+        result.setVersion(registrationForm.getVersion());
+        result.setAuthor(author);
+        result.setMoment(new Date());
 
-        validator.validate(result, binding);
+        creditCard.setHolderName(registrationForm.getHolderName());
+        creditCard.setBrandName(registrationForm.getBrandName());
+        creditCard.setNumber(registrationForm.getNumber());
+        creditCard.setExpirationMonth(registrationForm.getExpirationMonth());
+        creditCard.setExpirationYear(registrationForm.getExpirationYear());
+        creditCard.setCVV(registrationForm.getCVV());
 
-        if (binding.hasErrors()){
-            throw new ValidationException();
-        }
+        result.setCreditCard(creditCard);
+
+        this.validator.validate(result, binding);
+
         return result;
     }
 

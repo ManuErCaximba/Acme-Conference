@@ -49,6 +49,11 @@ public class MessageService {
     public Message create() {
 
         final Message result = new Message();
+        UserAccount userAccount = this.actorService.getActorLogged().getUserAccount();
+        Actor sender = this.actorService.findByUserAccount(userAccount);
+        result.setSender(sender);
+        result.setDeletedByRecipient(false);
+        result.setDeletedBySender(false);
 
         return result;
     }
@@ -70,14 +75,6 @@ public class MessageService {
         Message result;
         Assert.notNull(message);
         Date now = new Date();
-
-        if(message.getId() == 0) {
-            UserAccount userAccount = LoginService.getPrincipal();
-            Actor sender = this.actorService.findByUserAccount(userAccount);
-            message.setSender(sender);
-            message.setDeletedBySender(false);
-            message.setDeletedByRecipient(false);
-        }
 
         message.setMoment(now);
         result = this.messageRepository.save(message);
@@ -195,6 +192,13 @@ public class MessageService {
 
         message.setMoment(new Date());
         message = this.messageRepository.save(message);
+    }
+
+    public Collection<Message> findAllMessagesByTopic(int topicId){
+        Collection<Message> res;
+        res = this.messageRepository.findAllMessagesByTopic(topicId);
+        Assert.notNull(res);
+        return res;
     }
 
     public Message reconstruct(Message message, BindingResult binding){
