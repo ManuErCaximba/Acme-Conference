@@ -2,11 +2,12 @@ package controllers.presentation;
 
 import controllers.AbstractController;
 import domain.Conference;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ConferenceService;
@@ -20,10 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.*;
 
@@ -54,14 +53,22 @@ public class PresentationController extends AbstractController {
     public ModelAndView list(@RequestParam final int conferenceId) {
         ModelAndView result;
         Collection<Presentation> presentations;
+        Conference conference = this.conferenceService.findOne(conferenceId);
         Date now = new Date();
 
-        presentations = this.presentationService.getPresentationsByConference(conferenceId);
+        try {
+            presentations = this.presentationService.getPresentationsByConference(conferenceId);
 
-        result = new ModelAndView("presentation/list");
-        result.addObject("presentations", presentations);
-        result.addObject("requestURI", "presentation/list.do");
-        result.addObject("now", now);
+            Assert.isTrue(now.after(conference.getCameraReadyDeadline()));
+            Assert.isTrue(now.before(conference.getStartDate()));
+
+            result = new ModelAndView("presentation/list");
+            result.addObject("presentations", presentations);
+            result.addObject("requestURI", "presentation/list.do");
+            result.addObject("now", now);
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }

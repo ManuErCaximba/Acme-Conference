@@ -91,16 +91,18 @@ public class RegistrationController extends AbstractController {
     }
 
     @RequestMapping(value = "/author/create", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(Registration registration,int conferenceId, BindingResult binding){
+    public ModelAndView save(Registration registration, int conferenceId, BindingResult binding){
         ModelAndView result;
         try{
             Assert.notNull(registration);
             registration = this.registrationService.reconstruct(registration, binding);
             registration = this.registrationService.save(registration, conferenceId);
             result = new ModelAndView("redirect:listAuthor.do");
-        }catch (ValidationException e){
+        } catch (ValidationException e){
             result = this.createEditModelAndView(registration);
+            Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
             result.addObject("registration", registration);
+            result.addObject("brandList", brandList);
             result.addObject("conferenceId", conferenceId);
         } catch (Throwable oops){
             result = this.createEditModelAndView(registration, "registration.commit.error");

@@ -33,7 +33,7 @@ public class CategoryController extends AbstractController {
             result.addObject("categories", categories);
             result.addObject("requestURI", "category/administrator/list.do");
             result.addObject("lang", language);
-        }catch (Throwable oops){
+        } catch (Throwable oops){
             result = new ModelAndView("redirect:/");
         }
         return result;
@@ -79,13 +79,13 @@ public class CategoryController extends AbstractController {
     public ModelAndView save(Category category, BindingResult binding){
         ModelAndView result;
         Collection<Category> categories = this.categoryService.findAll();
-        try{
+        try {
             Assert.notNull(category);
             Assert.notNull(categories);
             category = this.categoryService.reconstruct(category, binding);
             category = this.categoryService.save(category);
             result = new ModelAndView("redirect:list.do");
-        }catch (ValidationException e){
+        } catch (ValidationException e){
             result = this.createEditModelAndView(category);
             result.addObject("category", category);
             result.addObject("categories", categories);
@@ -99,7 +99,7 @@ public class CategoryController extends AbstractController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public ModelAndView delete(@RequestParam int categoryId){
         ModelAndView result;
-        try{
+        try {
             Category category = this.categoryService.findOne(categoryId);
             Assert.notNull(category);
             Assert.isTrue(!category.getNameEs().equals("Por defecto") && !category.getNameEn().equals("Default"));

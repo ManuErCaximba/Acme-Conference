@@ -88,12 +88,22 @@ public class PaperService {
     public Paper reconstruct(Paper paper, BindingResult binding){
         Paper result;
         Collection<Author> authors = new ArrayList<>();
-
-        result = paper;
-
         Author author = (Author) this.actorService.getActorLogged();
+
+        if(paper.getId()==0)
+            result = this.create();
+        else
+            result = this.findOne(paper.getId());
+
+        result.setId(paper.getId());
+        result.setVersion(paper.getVersion());
+        result.setDocumentURL(paper.getDocumentURL());
+        result.setSummary(paper.getSummary());
+        result.setTitle(paper.getTitle());
+
         if(paper.getAuthors() != null)
             authors = paper.getAuthors();
+
         authors.add(author);
         result.setAuthors(authors);
 

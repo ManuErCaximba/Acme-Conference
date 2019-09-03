@@ -43,25 +43,6 @@
 
             <br>
         <fieldset>
-            <form:label path="topicsEs">
-                <b><spring:message code="configuration.topicEs" /> *</b>
-                <br>
-            </form:label>
-            <form:textarea path="topicsEs" />
-            <form:errors cssClass="error" path="topicsEs" />
-        </fieldset>
-
-            <br>
-        <fieldset>
-            <form:label path="topicsEn">
-                <b><spring:message code="configuration.topicEn" /> *</b>
-                <br>
-            </form:label>
-            <form:textarea path="topicsEn" />
-            <form:errors cssClass="error" path="topicsEn" />
-        </fieldset>
-            <br>
-        <fieldset>
             <form:label path="voidWordsEs">
                 <b><spring:message code="configuration.voidWordsEs" /> *</b>
                 <br>

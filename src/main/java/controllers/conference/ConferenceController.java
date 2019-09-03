@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import security.LoginService;
+import security.UserAccount;
 import services.*;
 
 import javax.validation.ValidationException;
@@ -41,18 +43,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/listForthcoming", method = RequestMethod.GET)
     public ModelAndView listForthcoming(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getForthcomingConferencesFinal();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        try {
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getForthcomingConferencesFinal();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
 
-        result = new ModelAndView("conference/listForthcoming");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/listForthcoming.do");
-        result.addObject("now", new Date());
+            result = new ModelAndView("conference/listForthcoming");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/listForthcoming.do");
+            result.addObject("now", new Date());
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
-
     }
 
     //List past conferences
@@ -60,14 +65,19 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/listPast", method = RequestMethod.GET)
     public ModelAndView listPast(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getPastConferencesFinal();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
 
-        result = new ModelAndView("conference/listPast");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/listPast.do");
+        try {
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getPastConferencesFinal();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+
+            result = new ModelAndView("conference/listPast");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/listPast.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -78,14 +88,18 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/listRunning", method = RequestMethod.GET)
     public ModelAndView listRunning(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getRunningConferencesFinal();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        try {
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getRunningConferencesFinal();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
 
-        result = new ModelAndView("conference/listRunning");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/listRunning.do");
+            result = new ModelAndView("conference/listRunning");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/listRunning.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -96,14 +110,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/listDeadline5Days", method = RequestMethod.GET)
     public ModelAndView listDeadline5Days(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getConferencesSubmission5Days();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        UserAccount userAccount = LoginService.getPrincipal();
 
-        result = new ModelAndView("conference/administrator/listDeadline5Days");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/administrator/listDeadline5Days.do");
+        try {
+            Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getConferencesSubmission5Days();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+
+            result = new ModelAndView("conference/administrator/listDeadline5Days");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/administrator/listDeadline5Days.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -114,14 +135,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/listNotification4Days", method = RequestMethod.GET)
     public ModelAndView listNotification4Days(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getConferencesNotificationnNext4Days();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        UserAccount userAccount = LoginService.getPrincipal();
 
-        result = new ModelAndView("conference/administrator/listNotification4Days");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/administrator/listNotification4Days.do");
+        try {
+            Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getConferencesNotificationnNext4Days();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+
+            result = new ModelAndView("conference/administrator/listNotification4Days");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/administrator/listNotification4Days.do");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -132,14 +160,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/listCamera4Days", method = RequestMethod.GET)
     public ModelAndView listCamera4Days(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getConferencesCamera4Days();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        UserAccount userAccount = LoginService.getPrincipal();
 
-        result = new ModelAndView("conference/administrator/listCamera4Days");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/administrator/listCamera4Days.do");
+        try {
+            Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getConferencesCamera4Days();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+
+            result = new ModelAndView("conference/administrator/listCamera4Days");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/administrator/listCamera4Days.do");
+        } catch(Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -150,14 +185,21 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/listStartNext4Days", method = RequestMethod.GET)
     public ModelAndView listStartNext4Days(){
         ModelAndView result;
-        Collection<Conference> conferences;
-        conferences = this.conferenceService.getConferenceStartNext4Days();
-        final String language = LocaleContextHolder.getLocale().getLanguage();
+        UserAccount userAccount = LoginService.getPrincipal();
 
-        result = new ModelAndView("conference/administrator/listStartNext4Days");
-        result.addObject("conferences", conferences);
-        result.addObject("lang", language);
-        result.addObject("requestURI", "conference/administrator/listStartNext4Days.do");
+        try {
+            Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            Collection<Conference> conferences;
+            conferences = this.conferenceService.getConferenceStartNext4Days();
+            final String language = LocaleContextHolder.getLocale().getLanguage();
+
+            result = new ModelAndView("conference/administrator/listStartNext4Days");
+            result.addObject("conferences", conferences);
+            result.addObject("lang", language);
+            result.addObject("requestURI", "conference/administrator/listStartNext4Days.do");
+        } catch(Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
 
@@ -168,8 +210,15 @@ public class ConferenceController extends AbstractController {
     @RequestMapping(value = "/administrator/listConferenceAdminMenu", method = RequestMethod.GET)
     public ModelAndView listConferenceAdminMenu(){
         ModelAndView result;
+        UserAccount userAccount = LoginService.getPrincipal();
 
-        result = new ModelAndView("conference/administrator/listConferenceAdminMenu");
+        try {
+            Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+            result = new ModelAndView("conference/administrator/listConferenceAdminMenu");
+        } catch (Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
+
         return result;
     }
 

@@ -1,5 +1,3 @@
-
-
 package controllers.author;
 
 import controllers.AbstractController;
@@ -25,13 +23,13 @@ import javax.validation.Valid;
 public class AuthorController extends AbstractController {
 
     @Autowired
-    private AdministratorService	administratorService;
+    private AdministratorService administratorService;
 
     @Autowired
     private AuthorService authorService;
 
     @Autowired
-    private ActorService			actorService;
+    private ActorService actorService;
 
 
 
@@ -93,11 +91,15 @@ public class AuthorController extends AbstractController {
     @RequestMapping(value = "/author/edit", method = RequestMethod.GET)
     public ModelAndView edit() {
         ModelAndView result;
-
-        final Actor user = this.actorService.getActorLogged();
-        final Author a= this.authorService.findOne(user.getId());
-        Assert.notNull(a);
-        result = this.editModelAndView(a);
+        try {
+            final Actor user = this.actorService.getActorLogged();
+            final Author a = this.authorService.findOne(user.getId());
+            Assert.notNull(a);
+            Assert.isTrue(a.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+            result = this.editModelAndView(a);
+        } catch (Exception oops){
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }

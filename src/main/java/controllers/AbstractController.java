@@ -12,11 +12,13 @@ package controllers;
 
 import domain.Configuration;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.WebRequest;
@@ -28,6 +30,16 @@ public class AbstractController {
 
 	@Autowired
 	ConfigurationService configurationService;
+
+	@ExceptionHandler(TypeMismatchException.class)
+	public ModelAndView handleMismatchException(final TypeMismatchException oops) {
+		return new ModelAndView("redirect:/");
+	}
+
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public ModelAndView handleMismatchException(final MissingServletRequestParameterException oops) {
+		return new ModelAndView("redirect:/");
+	}
 
 	// Panic handler ----------------------------------------------------------
 	@ModelAttribute

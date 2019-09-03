@@ -70,6 +70,7 @@ public class ConfigurationController extends AbstractController {
         final Configuration configuration = this.configurationService.findAll().iterator().next();
 
         try {
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
             result = new ModelAndView("configuration/administrator/showVoidWordsEs");
             result.addObject("voidWordsEs", configuration.getVoidWordsEs());
             result.addObject("requestURI", "configuration/administrator/showVoidWordsEs.do");
@@ -86,6 +87,7 @@ public class ConfigurationController extends AbstractController {
         final Configuration configuration = this.configurationService.findAll().iterator().next();
 
         try {
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
             result = new ModelAndView("configuration/administrator/showVoidWordsEn");
             result.addObject("voidWordsEn", configuration.getVoidWordsEn());
             result.addObject("requestURI", "configuration/administrator/showVoidWordsEn.do");
@@ -103,6 +105,7 @@ public class ConfigurationController extends AbstractController {
         Configuration configuration = this.configurationService.findAll().iterator().next();
 
         try {
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
             result = this.createEditModelAndView(configuration);
             return result;
         } catch (final Exception e) {

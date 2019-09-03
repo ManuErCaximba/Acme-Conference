@@ -168,6 +168,7 @@ public class SubmissionService {
     }
     private List<Reviewer> selectReviewersWhoMatchKeywords(Submission submission){
         String summary = submission.getConference().getSummary();
+        summary += " " + submission.getConference().getTitle();
         Collection<Reviewer> allReviewers = this.reviewerService.findAll();
         List<Reviewer> res = new ArrayList<>();
 
@@ -175,8 +176,10 @@ public class SubmissionService {
 
         for(Reviewer r : allReviewers) {
             for(String keyword : r.getKeywords()) {
-                if(words.contains(keyword))
+                if(words.contains(keyword)) {
                     res.add(r);
+                    break;
+                }
             }
         }
 

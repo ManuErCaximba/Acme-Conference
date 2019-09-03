@@ -2,6 +2,9 @@ package forms;
 
 import domain.Author;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Size;
+
 public class AuthorForm {
 
     private int id;
@@ -106,6 +109,8 @@ public class AuthorForm {
         this.address = address;
     }
 
+    @Size(min = 5, max = 32)
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
@@ -114,6 +119,7 @@ public class AuthorForm {
         this.username = username;
     }
 
+    @Size(min = 5, max = 32)
     public String getPassword() {
         return password;
     }

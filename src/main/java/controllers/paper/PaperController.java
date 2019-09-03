@@ -40,15 +40,19 @@ public class PaperController extends AbstractController {
         ModelAndView result;
         Collection<Paper> papers;
 
-        final Author author = (Author) this.actorService.getActorLogged();
+        try {
+            final Author author = (Author) this.actorService.getActorLogged();
 
-        this.paperService.update();
+            this.paperService.update();
 
-        papers = this.paperService.findAllByAuthor(author);
+            papers = this.paperService.findAllByAuthor(author);
 
-        result = new ModelAndView("paper/author/list");
-        result.addObject("papers", papers);
-        result.addObject("requestURI", "paper/author/list.do");
+            result = new ModelAndView("paper/author/list");
+            result.addObject("papers", papers);
+            result.addObject("requestURI", "paper/author/list.do");
+        } catch(Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
@@ -79,8 +83,13 @@ public class PaperController extends AbstractController {
         ModelAndView result;
         Paper paper;
 
-        paper = this.paperService.create();
-        result = this.createEditModelAndView(paper);
+        try {
+            Assert.isTrue(this.actorService.getActorLogged().getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
+            paper = this.paperService.create();
+            result = this.createEditModelAndView(paper);
+        } catch(Exception oops){
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }

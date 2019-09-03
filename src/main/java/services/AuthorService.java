@@ -107,6 +107,8 @@ public class AuthorService {
 			result.setEmail(s.getEmail());
 			result.setAddress(s.getAddress());
 			result.setSurname(s.getSurname());
+			result.setMiddleName(s.getMiddleName());
+			result.setScore(s.getScore());
 
 			this.validator.validate(s, binding);
 		}

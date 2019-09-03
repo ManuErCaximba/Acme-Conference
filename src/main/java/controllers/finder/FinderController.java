@@ -37,18 +37,24 @@ public class FinderController extends AbstractController {
     public ModelAndView list() {
         ModelAndView result;
         Collection<Conference> conferences;
-        result = new ModelAndView("finder/list");
 
-        final Actor user = this.actorService.getActorLogged();
+        try {
+            result = new ModelAndView("finder/list");
 
-        Finder finder;
-        finder = this.finderService.searchByActor(user.getId());
+            final Actor user = this.actorService.getActorLogged();
 
-        conferences = finder.getConferences();
+            Finder finder;
+            finder = this.finderService.searchByActor(user.getId());
+            Assert.isTrue(finder.getActor().equals(user));
 
-        result.addObject("conferences", conferences);
-        result.addObject("finder", finder);
-        result.addObject("requestURI", "finder/list.do");
+            conferences = finder.getConferences();
+
+            result.addObject("conferences", conferences);
+            result.addObject("finder", finder);
+            result.addObject("requestURI", "finder/list.do");
+        } catch(Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }
@@ -59,11 +65,16 @@ public class FinderController extends AbstractController {
         ModelAndView result;
         Finder finder;
 
-        final Actor user = this.actorService.getActorLogged();
+        try {
+            final Actor user = this.actorService.getActorLogged();
 
-        finder = this.finderService.searchByActor(user.getId());
-        Assert.notNull(finder);
-        result = this.createEditModelAndView(finder);
+            finder = this.finderService.searchByActor(user.getId());
+            Assert.notNull(finder);
+            Assert.isTrue(finder.getActor().equals(user));
+            result = this.createEditModelAndView(finder);
+        } catch(Exception oops) {
+            result = new ModelAndView("redirect:/");
+        }
 
         return result;
     }

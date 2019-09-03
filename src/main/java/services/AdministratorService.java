@@ -33,6 +33,8 @@ public class AdministratorService {
     private AuthorService authorService;
     @Autowired
     private Validator validator;
+    @Autowired
+    private ConfigurationService configurationService;
 
     //CRUD Methods
     public Administrator create() {
@@ -122,6 +124,7 @@ public class AdministratorService {
             result.setEmail(admin.getEmail());
             result.setAddress(admin.getAddress());
             result.setSurname(admin.getSurname());
+            result.setMiddleName(admin.getMiddleName());
 
             this.validator.validate(admin, binding);
         }
@@ -355,6 +358,8 @@ public class AdministratorService {
 
         //Calculamos buzz words
         Collection<Conference> conferences = this.conferenceService.getConferencesSince12Months();
+        Collection<String> voidWords = this.configurationService.findAll().iterator().next().getVoidWordsEn();
+        voidWords.addAll(this.configurationService.findAll().iterator().next().getVoidWordsEs());
         Collection<String> summaryWords = new ArrayList<>();
         Map<String, Integer> wordCount = new HashMap<>();
         Collection<String> buzzWords = new ArrayList<>();
@@ -364,6 +369,11 @@ public class AdministratorService {
             String summary = c.getSummary();
 
             Collection<String> words = this.splitThisText(summary);
+
+            for (String word : words){
+                if(voidWords.contains(word))
+                    words.remove(word);
+            }
 
             summaryWords.addAll(words);
         }
@@ -395,7 +405,7 @@ public class AdministratorService {
             for(Paper p : cameraReadyPapers){
                 Collection<String> summary = this.splitThisText(p.getSummary());
                 for(String word : summary){
-                    if(buzzWords.contains(word))
+                    if(buzzWords.contains(word) && !voidWords.contains(word))
                         score++;
                 }
             }
