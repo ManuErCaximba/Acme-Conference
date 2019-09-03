@@ -1,10 +1,9 @@
+
 package services;
 
-import datatype.CreditCard;
 import domain.Author;
 import domain.Conference;
 import domain.Registration;
-import forms.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -15,6 +14,7 @@ import security.UserAccount;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -77,7 +77,6 @@ public class RegistrationService {
         registration.setMoment(new Date());
 
         Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-    //    Assert.notNull(author);
         registration.setAuthor(author);
 
         Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());
@@ -99,27 +98,30 @@ public class RegistrationService {
         return res;
     }
 
-    public Registration reconstruct(RegistrationForm registrationForm, BindingResult binding){
-        Registration result = new Registration();
-        CreditCard creditCard = new CreditCard();
-        Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-
-        result.setId(registrationForm.getId());
-        result.setVersion(registrationForm.getVersion());
-        result.setAuthor(author);
+    public Registration reconstruct(Registration registration, BindingResult binding) {
+        Registration result;
+        result = this.create();
+        Calendar now = Calendar.getInstance();
         result.setMoment(new Date());
+        result.setCreditCard(registration.getCreditCard());
 
-        creditCard.setHolderName(registrationForm.getHolderName());
-        creditCard.setBrandName(registrationForm.getBrandName());
-        creditCard.setNumber(registrationForm.getNumber());
-        creditCard.setExpirationMonth(registrationForm.getExpirationMonth());
-        creditCard.setExpirationYear(registrationForm.getExpirationYear());
-        creditCard.setCVV(registrationForm.getCVV());
+        validator.validate(result, binding);
 
-        result.setCreditCard(creditCard);
+        if (registration.getCreditCard().getExpirationYear() != null){
+            if (registration.getCreditCard().getExpirationYear() < now.get(Calendar.YEAR)) {
+                binding.rejectValue("creditCard.expirationYear", "error.expirationYear");
+            }
+        }
 
-        this.validator.validate(result, binding);
-
+        if(registration.getCreditCard().getExpirationYear() != null){
+            if (registration.getCreditCard().getExpirationYear() == now.get(Calendar.YEAR) &&
+                    registration.getCreditCard().getExpirationMonth() < now.get(Calendar.MONTH)) {
+                binding.rejectValue("creditCard.expirationMonth", "error.expirationMonth");
+            }
+        }
+        if (binding.hasErrors()){
+            throw new ValidationException();
+        }
         return result;
     }
 

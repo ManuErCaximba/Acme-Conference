@@ -11,52 +11,29 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <security:authorize access="hasRole('AUTHOR')">
-    <form:form action="registration/author/create.do" modelAttribute="registrationForm">
-        <form:hidden path="id" />
+    <form:form action="registration/author/create.do" modelAttribute="registration">
         <input type="hidden" name="conferenceId" value="${conferenceId}" readonly>
         <br>
 
-        <jstl:if test="${errorNumber == 1}">
-            <form:errors cssClass="error" path="expirationYear" element="div" /> <div id="error.expirationYear" class="error"><spring:message code="error.expirationYear"/></div>
-        </jstl:if>
-        <jstl:if test="${errorNumber == 2}">
-            <form:errors cssClass="error" path="expirationMonth" element="div" /> <div id="error.expirationMonth" class="error"><spring:message code="error.expirationMonth"/></div>
-        </jstl:if>
+        <form:input type ="hidden" path="id" readonly="true"/>
 
-        <br>
+        <acme:textbox code="registration.creditCard.holderName" path="creditCard.holderName" />
 
-        <fieldset>
+        <form:label path="creditCard.brandName">
+            <spring:message code="registration.creditCard.brandName" />
+        </form:label>
 
-            <legend><spring:message code="registration.creditCard" /></legend>
+        <form:select path="creditCard.brandName" items="${brandList}"/>
+        <form:errors cssClass="error" path="creditCard.brandName"/>
 
-            <acme:textboxbsa code="registration.creditCard.holderName" path="holderName"/>
+        <acme:textbox code="registration.creditCard.number" path="creditCard.number" />
 
-            <form:label path="brandName">
-                <b><spring:message code="registration.creditCard.brandName" /> *</b>
-            </form:label>
-            <br>
-            <form:select path="brandName" items="${brandList}"/>
-            <form:errors cssClass="error" path="brandName"/>
+        <acme:textbox code="registration.creditCard.expirationMonth" path="creditCard.expirationMonth"/>
 
-            <acme:textboxbsa code="registration.creditCard.number" path="number"/>
-            <acme:textboxbsa code="registration.creditCard.expirationMonth" path="expirationMonth"/>
+        <acme:textbox code="registration.creditCard.expirationYear" path="creditCard.expirationYear" />
 
-            <form:label path="expirationYear">
-                <b><spring:message code="registration.creditCard.expirationYear" /> *</b>
-            </form:label>
-            <br>
-            <form:input path="expirationYear" placeholder="YYYY"/>
-            <form:errors cssClass="error" path="expirationYear"/>
-
-            <acme:textboxbsa code="registration.creditCard.CVV" path="CVV"/>
-
-        </fieldset>
-
-        <br>
-        <br>
+        <acme:textbox code="registration.creditCard.CVV" path="creditCard.CVV" />
 
         <acme:submit name="save" code="registration.save"/>
-
-
     </form:form>
 </security:authorize>

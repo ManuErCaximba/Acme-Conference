@@ -41,12 +41,12 @@ public class RegistrationController extends AbstractController {
 
     @Autowired
     private MessageService messageService;
-    
+
 
     @RequestMapping(value = "/administrator/listAdmin", method = RequestMethod.GET)
-    public ModelAndView listAdmin(@RequestParam int conferenceId){
+    public ModelAndView listAdmin(@RequestParam int conferenceId) {
         ModelAndView result;
-        try{
+        try {
             Actor actor = this.actorService.getActorLogged();
             Assert.notNull(actor);
             Assert.isTrue(actor instanceof Administrator);
@@ -57,7 +57,7 @@ public class RegistrationController extends AbstractController {
             result = new ModelAndView("registration/administrator/listAdmin");
             result.addObject("registrations", registrations);
             result.addObject("requestURI", "registration/administrator/listAdmin.do");
-        }catch (Throwable oops){
+        } catch (Throwable oops) {
             result = new ModelAndView("redirect:/");
         }
         return result;
@@ -65,83 +65,78 @@ public class RegistrationController extends AbstractController {
 
 
     @RequestMapping(value = "/author/listAuthor", method = RequestMethod.GET)
-    public ModelAndView listAuthor(){
+    public ModelAndView listAuthor() {
         ModelAndView result;
 
-            Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-            Assert.notNull(author);
-            Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());
-            Assert.notNull(conferences);
-            result = new ModelAndView("registration/author/listAuthor");
-            result.addObject("conferences", conferences);
-            result.addObject("author", author);
-            result.addObject("requestURI", "registration/author/listAuthor.do");
+        Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
+        Assert.notNull(author);
+        Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());
+        Assert.notNull(conferences);
+        result = new ModelAndView("registration/author/listAuthor");
+        result.addObject("conferences", conferences);
+        result.addObject("author", author);
+        result.addObject("requestURI", "registration/author/listAuthor.do");
 
 
         return result;
     }
 
     @RequestMapping(value = "/author/create", method = RequestMethod.GET)
-    public ModelAndView create(@RequestParam int conferenceId){
+    public ModelAndView create(@RequestParam int conferenceId) {
         ModelAndView result;
-        Registration registration;
-
-        registration = this.registrationService.create();
-        result = this.createEditModelAndView(registration, conferenceId);
-
-        return result;
-    }
-
-    @RequestMapping(value = "/author/create", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(@ModelAttribute("registrationForm") @Valid RegistrationForm registrationForm, int conferenceId, BindingResult binding){
-        ModelAndView result;
-        Registration registration;
-        Calendar now = Calendar.getInstance();
-        Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
-        Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
         try {
+            Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
             Assert.notNull(brandList);
-            if (binding.hasErrors())
-                result = this.createEditModelAndView(registrationForm, conferenceId, null, null);
-            else if (registrationForm.getExpirationYear() < now.get(Calendar.YEAR))
-                result = this.createEditModelAndView(registrationForm, conferenceId, null, 1);
-            else if (registrationForm.getExpirationYear() == now.get(Calendar.YEAR) &&
-                    registrationForm.getExpirationMonth() < now.get(Calendar.MONTH))
-                result = this.createEditModelAndView(registrationForm, conferenceId,  null, 2);
-            else if (!brandList.contains(registrationForm.getBrandName()))
-                result = this.createEditModelAndView(registrationForm, conferenceId, null, null);
-            else {
-                registration = this.registrationService.reconstruct(registrationForm, binding);
-                this.registrationService.save(registration, conferenceId);
-                this.messageService.notificationRegisterConference(author, conferenceId);
-                result = new ModelAndView("redirect:listAuthor.do");
-            }
-        } catch (final Throwable oops) {
-            result = this.createEditModelAndView(registrationForm, conferenceId,"registration.commit.error", null);
+            Registration registration = this.registrationService.create();
+            result = new ModelAndView("registration/author/create");
+            result.addObject("registration", registration);
+            result.addObject("brandList", brandList);
+            result.addObject("conferenceId", conferenceId);
+        } catch (Throwable oops) {
+            result = new ModelAndView("redirect:/");
         }
         return result;
     }
 
-    protected ModelAndView createEditModelAndView(final Registration registration, int conferenceId) {
+    @RequestMapping(value = "/author/create", method = RequestMethod.POST, params = "save")
+    public ModelAndView save(Registration registration, @RequestParam int conferenceId, BindingResult binding){
         ModelAndView result;
 
-        result = this.createEditModelAndView(new RegistrationForm(), conferenceId, null, null);
-
+        try{
+            Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
+            Assert.notNull(registration);
+            registration = this.registrationService.reconstruct(registration, binding);
+            registration = this.registrationService.save(registration, conferenceId);
+            messageService.notificationRegisterConference(author, conferenceId);
+            result = new ModelAndView("redirect:listAuthor.do");
+        }catch (ValidationException e){
+            Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
+            result = this.createEditModelAndView(registration);
+            result.addObject("registration", registration);
+            result.addObject("conferenceId", conferenceId);
+            result.addObject("brandList", brandList);
+        } catch (Throwable oops){
+            Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
+            result = this.createEditModelAndView(registration, "registration.commit.error");
+            result.addObject("conferenceId", conferenceId);
+            result.addObject("brandList", brandList);
+        }
         return result;
     }
 
-    protected ModelAndView createEditModelAndView(final RegistrationForm registrationForm, int conferenceId, final String message,
-                                                  final Integer errorNumber) {
+    protected ModelAndView createEditModelAndView(final Registration registration) {
         ModelAndView result;
-        Collection<String> brandList = this.configurationService.findAll().iterator().next().getCreditCardMakes();
+        result = this.createEditModelAndView(registration, null);
+        return result;
+    }
+
+    protected ModelAndView createEditModelAndView(final Registration registration, final String messageCode) {
+        ModelAndView result;
 
         result = new ModelAndView("registration/author/create");
-        result.addObject("registrationForm", registrationForm);
-        result.addObject("message", message);
-        result.addObject("errorNumber", errorNumber);
-        result.addObject("brandList", brandList);
-        result.addObject("conferenceId", conferenceId);
-
+        result.addObject("registration", registration);
+        result.addObject("message", messageCode);
         return result;
     }
+
 }
