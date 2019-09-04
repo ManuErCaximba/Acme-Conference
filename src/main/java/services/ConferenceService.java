@@ -197,6 +197,13 @@ public class ConferenceService {
         return this.conferenceRepository.getConferencesSince12Months(date);
     }
 
+    public Collection<Conference> getConferencesCameraReadyLaterNow(){
+        Collection<Conference> res;
+        res = this.conferenceRepository.getConferencesCameraReadyLaterNow();
+        Assert.notNull(res);
+        return res;
+    }
+
     public Conference reconstruct(Conference conference, BindingResult binding){
         Conference result;
         if (conference.getId() == 0){

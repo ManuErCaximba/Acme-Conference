@@ -251,15 +251,6 @@
 	<!-- CREDIT CARD -->
 
 	<bean id="creditCard1" class="datatype.CreditCard">
-		<property name="holderName" value="CREDIT"/>
-		<property name="brandName" value="VISA" />
-		<property name="number" value="01234567890123456789" />
-		<property name="expirationMonth" value="12" />
-		<property name="expirationYear" value="2021" />
-		<property name="CVV" value="666" />
-	</bean>
-
-	<bean id="creditCard2" class="datatype.CreditCard">
 		<property name="holderName" value="José Gil Ruiz"/>
 		<property name="brandName" value="VISA" />
 		<property name="number" value="4762107783208898" />
@@ -470,7 +461,7 @@
 	<bean id="Registration1" class="domain.Registration">
 		<property name="author" ref="author1"/>
 		<property name="moment" value="01/01/2022 15:00"/>
-		<property name="creditCard" ref="creditCard2"/>
+		<property name="creditCard" ref="creditCard1"/>
 	</bean>
 
 	<!-- CATEGORY -->

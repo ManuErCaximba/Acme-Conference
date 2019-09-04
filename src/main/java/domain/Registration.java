@@ -14,8 +14,8 @@ public class Registration extends DomainEntity{
     private CreditCard creditCard;
     private Date moment;
 
-    @Valid
     @NotNull
+    @Valid
     public CreditCard getCreditCard() {
         return creditCard;
     }

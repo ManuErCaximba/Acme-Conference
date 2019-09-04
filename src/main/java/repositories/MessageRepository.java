@@ -16,4 +16,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     @Query("select m from Message m where m.recipient.id = ?1 and m.deletedByRecipient = false ")
     Collection<Message> findAllReceiveByActor(int actorId);
 
+    @Query("select m from Message m where m.topic.id = ?1")
+    Collection<Message> findAllMessagesByTopic(int topicId);
 }

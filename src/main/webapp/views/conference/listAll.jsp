@@ -17,15 +17,12 @@
 
 </head>
 <body>
-    <jstl:if test="${errorNumber == 1}">
-        <form:errors cssClass="error" element="div" /> <div id="error.submissionsEmpty" class="error"><spring:message code="error.submissionsEmpty"/></div>
-    </jstl:if>
-
+<security:authorize access="hasRole('ADMIN')">
     <display:table name="conferences" id="row" requestURI="${requestURI}"
                    pagesize="5" class="displaytag">
 
         <spring:message code="conference.title" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.title}"/>
         </display:column>
 
@@ -35,12 +32,12 @@
         </display:column>
 
         <spring:message code="conference.startDate" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.startDate}"/>
         </display:column>
 
         <spring:message code="conference.fee" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.fee}"/>
         </display:column>
 
@@ -58,45 +55,37 @@
             </display:column>
         </jstl:if>
 
+        <spring:message code="conference.status" var="columTitle"/>
+        <display:column title="${columTitle}" sortable="true">
+            <jstl:if test="${row.isFinal == false}">
+                <spring:message code="conference.draft" var = "Draft"/>
+                <jstl:out value="${Draft}"/>
+            </jstl:if>
+            <jstl:if test="${row.isFinal == true}">
+                <spring:message code="conference.final" var = "Final"/>
+                <jstl:out value="${Final}"/>
+            </jstl:if>
+        </display:column>
+
+        <spring:message code="conference.edit" var="columTitle"/>
+        <display:column title="${columTitle}">
+            <jstl:if test="${row.isFinal == false}">
+                <a href="conference/administrator/edit.do?conferenceId=${row.id}">
+                    <spring:message code="conference.edit"/>
+                </a>
+            </jstl:if>
+        </display:column>
+
         <spring:message code="conference.show" var="showTitle"/>
         <display:column title="${showTitle}">
-            <a href="conference/showNotLogged.do?conferenceId=${row.id}">
+            <a href="conference/administrator/show.do?conferenceId=${row.id}">
                 <spring:message code="conference.show"/>
             </a>
         </display:column>
 
-        <security:authorize access="hasRole('ADMIN')">
-            <display:column>
-                <a href="submission/administrator/list.do?conferenceId=${row.id}">
-                    <spring:message code="button.showSubmissions"/>
-                </a>
-            </display:column>
-
-            <display:column>
-                <jstl:if test="${now gt row.cameraReadyDeadline && now lt row.startDate}">
-                    <a href="presentation/administrator/create.do?conferenceId=${row.id}">
-                        <spring:message code="button.createPresentation"/>
-                    </a>
-                </jstl:if>
-            </display:column>
-        </security:authorize>
-
-        <security:authorize access="hasRole('AUTHOR')">
-            <display:column>
-                <jstl:if test="${now lt row.submissionDeadline}">
-                    <acme:cancel url="submission/author/create.do?conferenceId=${row.id}" code="button.createSubmission"/>
-                </jstl:if>
-            </display:column>
-        </security:authorize>
-
-        <security:authorize access="hasRole('AUTHOR')">
-            <display:column>
-                <acme:cancel url="registration/author/create.do?conferenceId=${row.id}" code="button.registration"/>
-            </display:column>
-        </security:authorize>
 
     </display:table>
-
+</security:authorize>
 
 </body>
 </html>

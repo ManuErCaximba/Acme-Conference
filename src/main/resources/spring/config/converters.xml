@@ -64,6 +64,11 @@
 		<bean class="converters.AdministratorToStringConverter" />
 		<bean class="converters.StringToAdministratorConverter" />
 
+		<bean class="converters.UserAccountToStringConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
+
+		<bean class="converters.StringToIntegerConverter" />
+
 
 	</util:list>
 	

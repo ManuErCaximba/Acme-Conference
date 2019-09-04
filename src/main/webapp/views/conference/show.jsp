@@ -75,23 +75,24 @@
         <fieldset>
             <legend><b><spring:message code="conference.presentations"/> </b></legend>
             <p>
-                <display:table name="presentations" id="row" requestURI="conference/administrator/show.do?conferenceId=${conference.id}" >
-                    <spring:message code="conference.activity.title" var="personalNameHeader"/>
-                    <display:column property="title" title="${personalNameHeader}"/>
+                <display:table name="presentations" id="row2" requestURI="conference/administrator/show.do?conferenceId=${conference.id}" >
+                    <jstl:if test="${now gt conference.cameraReadyDeadline && now lt conference.startDate}">
+                        <spring:message code="conference.activity.title" var="personalNameHeader"/>
+                        <display:column property="title" title="${personalNameHeader}"/>
 
-                    <spring:message code="conference.activity.startMoment" var="personalNameHeader"/>
-                    <display:column property="startMoment" title="${personalNameHeader}"/>
+                        <spring:message code="conference.activity.startMoment" var="personalNameHeader"/>
+                        <display:column property="startMoment" title="${personalNameHeader}"/>
 
-                    <spring:message code="conference.activity.duration" var="personalNameHeader"/>
-                    <display:column property="duration" title="${personalNameHeader}"/>
+                        <spring:message code="conference.activity.duration" var="personalNameHeader"/>
+                        <display:column property="duration" title="${personalNameHeader}"/>
 
-                    <display:column>
-                        <a
-                                href="presentation/administrator/show.do?conferenceId=${row.id}">
-                            <spring:message code="conference.show"/>
-                        </a>
-                    </display:column>
-
+                        <display:column>
+                            <a
+                                    href="presentation/administrator/show.do?conferenceId=${row2.id}">
+                                <spring:message code="conference.show"/>
+                         </a>
+                        </display:column>
+                    </jstl:if>
 
                 </display:table>
             </p>

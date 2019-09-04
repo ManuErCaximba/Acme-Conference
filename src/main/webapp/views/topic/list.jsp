@@ -34,7 +34,7 @@
 
         <spring:message code="topic.edit" var="columnTitle"/>
         <display:column title="${columnTitle}">
-            <jstl:if test="${row.nameEn != 'Default'}">
+            <jstl:if test="${row.nameEn != 'OTHER'}">
                 <a href="topic/administrator/edit.do?topicId=${row.id}">
                     <spring:message code="category.edit"/>
                 </a>
@@ -43,7 +43,7 @@
 
         <spring:message code="topic.delete" var="columnTitle"/>
         <display:column title="${columnTitle}">
-            <jstl:if test="${topic.id != 0}">
+            <jstl:if test="${row.id != 0 and (row.nameEs != 'OTRO' or row.nameEn != 'OTHER')}">
                 <acme:cancel code="topic.delete" url="topic/administrator/delete.do?topicId=${row.id}"/>
             </jstl:if>
         </display:column>

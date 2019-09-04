@@ -34,7 +34,7 @@
 
         <spring:message code="category.edit" var="columnTitle"/>
         <display:column title="${columnTitle}">
-            <jstl:if test="${row.nameEn != 'Default'}">
+            <jstl:if test="${row.nameEn != 'CONFERENCE'}">
                 <a href="category/administrator/edit.do?categoryId=${row.id}">
                     <spring:message code="category.edit"/>
                 </a>

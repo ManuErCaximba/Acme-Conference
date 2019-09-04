@@ -18,6 +18,7 @@ import services.ActorService;
 import services.MessageService;
 import services.TopicService;
 
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Collection;
 
@@ -100,27 +101,26 @@ public class MessageController extends AbstractController {
     }
 
     @RequestMapping(value = "/administrator,author,reviewer,sponsor/create", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(Message message, BindingResult binding){
+    public ModelAndView save(@ModelAttribute("mesage") Message message, @RequestParam String recipient, BindingResult binding){
         ModelAndView result;
-        Collection<Actor> actors = this.actorService.findAll();
         Collection<Topic> topics = this.topicService.findAll();
         String language = LocaleContextHolder.getLocale().getLanguage();
         try{
-            Assert.notNull(message);
-            Assert.notNull(actors);
             Assert.notNull(topics);
+            String s = recipient.replace(",", "");
+            Actor actor = this.actorService.findByUsername(s);
+            message.setRecipient(actor);
+            message.setSender(this.actorService.getActorLogged());
             message = this.messageService.reconstruct(message, binding);
             message = this.messageService.save(message);
             result = new ModelAndView("redirect:list.do");
         }catch (ValidationException e){
             result = this.createEditModelAndView(message);
             result.addObject("mesage", message);
-            result.addObject("actors", actors);
             result.addObject("topics", topics);
             result.addObject("lang", language);
         } catch (Throwable oops){
             result = this.createEditModelAndView(message, "message.commit.error");
-            result.addObject("actors", actors);
             result.addObject("topics", topics);
             result.addObject("lang", language);
         }

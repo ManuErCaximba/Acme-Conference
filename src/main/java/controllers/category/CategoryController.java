@@ -102,7 +102,7 @@ public class CategoryController extends AbstractController {
         try {
             Category category = this.categoryService.findOne(categoryId);
             Assert.notNull(category);
-            Assert.isTrue(!category.getNameEs().equals("Por defecto") && !category.getNameEn().equals("Default"));
+            Assert.isTrue(!category.getNameEs().equals("CONFERENCIA") && !category.getNameEn().equals("CONFERENCE"));
             this.categoryService.delete(category);
             result = new ModelAndView("redirect:list.do");
         } catch (Throwable oops){

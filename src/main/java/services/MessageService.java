@@ -43,9 +43,17 @@ public class MessageService {
     @Autowired
     private ConferenceService conferenceService;
 
+    @Autowired
+    private SubmissionService submissionService;
+
     public Message create() {
 
         final Message result = new Message();
+        UserAccount userAccount = this.actorService.getActorLogged().getUserAccount();
+        Actor sender = this.actorService.findByUserAccount(userAccount);
+        result.setSender(sender);
+        result.setDeletedByRecipient(false);
+        result.setDeletedBySender(false);
 
         return result;
     }
@@ -67,14 +75,6 @@ public class MessageService {
         Message result;
         Assert.notNull(message);
         Date now = new Date();
-
-        if(message.getId() == 0) {
-            UserAccount userAccount = LoginService.getPrincipal();
-            Actor sender = this.actorService.findByUserAccount(userAccount);
-            message.setSender(sender);
-            message.setDeletedBySender(false);
-            message.setDeletedByRecipient(false);
-        }
 
         message.setMoment(now);
         result = this.messageRepository.save(message);
@@ -163,32 +163,78 @@ public class MessageService {
 
         message.setSender(admins.get(random));
         message.setRecipient(author);
-        message.setSubject("Conference registration \n Registro en conferencia");
-        message.setBody("You have successfully registered in the "+conference.getTitle()+" conference \n Se ha registrado correctamente en la conferencia "+conference.getTitle()+".");
+        message.setSubject("Conference registration \\n Registro en conferencia");
+        message.setBody("You have successfully registered in the "+conference.getTitle()+" conference \\n Se ha registrado correctamente en la conferencia "+conference.getTitle()+".");
 
         Topic registrationTopic = this.topicService.getRegistrationtTopic();
         Assert.notNull(registrationTopic);
         message.setTopic(registrationTopic);
 
+        message.setMoment(new Date());
         message = this.messageRepository.save(message);
     }
 
-    public void notificationSubmissionConference(Actor actor){
+    public void notificationSubmissionConference(Author author, Submission submission2){
         Message message = this.create();
 
         List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
         int random = (int) (Math.random()*admins.size());
 
+        Submission submission = this.submissionService.findOne(submission2.getId());
         message.setSender(admins.get(random));
-        message.setRecipient(actor);
+        message.setRecipient(author);
         message.setSubject("Conference submission \n Presentación conferencia");
-        message.setBody("You have successfully made a submission in the conference. \n Se ha realizado correctamente una presentación en la conferencia.");
+        message.setBody("Your submission "+submission.getTicker()+ " was registered correctly.\n Su solicitud "+submission.getTicker()+ " se ha registrado correctamente");
 
         Topic registrationTopic = this.topicService.getRegistrationtTopic();
         Assert.notNull(registrationTopic);
         message.setTopic(registrationTopic);
 
+        message.setMoment(new Date());
         message = this.messageRepository.save(message);
+    }
+
+    public void notificationStatusSubmmission(Submission submission2){
+        Message message = this.create();
+
+        List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
+        int random = (int) (Math.random()*admins.size());
+
+        Submission submission = this.submissionService.findOne(submission2.getId());
+        if(submission.getStatus().equals("ACCEPT")){
+            message.setSender(admins.get(random));
+            message.setRecipient(submission.getAuthor());
+            message.setSubject("Submission decision\n Resultado de solicitud");
+            message.setBody("Your submission "+submission.getTicker()+ " was accepted.\n Su solicitud "+submission.getTicker()+ " fue aceptada.");
+
+            Topic registrationTopic = this.topicService.getRegistrationtTopic();
+            Assert.notNull(registrationTopic);
+            message.setTopic(registrationTopic);
+
+            message.setMoment(new Date());
+            message = this.messageRepository.save(message);
+        }
+        if(submission.getStatus().equals("REJECT")){
+            message.setSender(admins.get(random));
+            message.setRecipient(submission.getAuthor());
+            message.setSubject("Submission decision\n Resultado de solicitud");
+            message.setBody("Your submission "+submission.getTicker()+ " was rejected.\n Su solicitud "+submission.getTicker()+ " fue rechazada.");
+
+            Topic registrationTopic = this.topicService.getRegistrationtTopic();
+            Assert.notNull(registrationTopic);
+            message.setTopic(registrationTopic);
+
+            message.setMoment(new Date());
+            message = this.messageRepository.save(message);
+        }
+
+    }
+
+    public Collection<Message> findAllMessagesByTopic(int topicId){
+        Collection<Message> res;
+        res = this.messageRepository.findAllMessagesByTopic(topicId);
+        Assert.notNull(res);
+        return res;
     }
 
     public Message reconstruct(Message message, BindingResult binding){
