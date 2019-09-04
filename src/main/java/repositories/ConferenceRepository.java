@@ -43,4 +43,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
     @Query("select c from Conference c where c.moment between ?1 and CURRENT_DATE ")
     Collection<Conference> getConferencesSince12Months(Date date);
+
+    @Query("select c from Conference c where (CURRENT_DATE >= c.cameraReadyDeadline) and CURRENT_DATE <= c.startDate")
+    Collection<Conference> getConferencesCameraReadyLaterNow();
 }

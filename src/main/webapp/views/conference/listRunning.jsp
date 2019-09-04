@@ -42,14 +42,14 @@
 
     <jstl:if test="${lang == 'es'}">
         <spring:message code="conference.category" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.category.nameEs}"/>
         </display:column>
     </jstl:if>
 
     <jstl:if test="${lang == 'en'}">
         <spring:message code="conference.category" var="title"/>
-        <display:column title="${title}">
+        <display:column title="${title}" sortable="true">
             <jstl:out value="${row.category.nameEn}"/>
         </display:column>
     </jstl:if>

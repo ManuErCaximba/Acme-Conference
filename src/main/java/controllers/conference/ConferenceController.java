@@ -205,6 +205,25 @@ public class ConferenceController extends AbstractController {
 
     }
 
+
+    //List all conferences
+
+    @RequestMapping(value = "/administrator/listAll", method = RequestMethod.GET)
+    public ModelAndView listAll(){
+        ModelAndView result;
+        Collection<Conference> conferences;
+        conferences = this.conferenceService.findAll();
+        final String language = LocaleContextHolder.getLocale().getLanguage();
+
+        result = new ModelAndView("conference/administrator/listAll");
+        result.addObject("conferences", conferences);
+        result.addObject("lang", language);
+        result.addObject("requestURI", "conference/administrator/listAll.do");
+
+        return result;
+
+    }
+
     //Menu Admin of conferences list by criteria...
 
     @RequestMapping(value = "/administrator/listConferenceAdminMenu", method = RequestMethod.GET)
@@ -244,6 +263,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("lang", language);
             result.addObject("tutorials", tutorials);
             result.addObject("presentations", presentations);
+            result.addObject("now", new Date());
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -275,6 +295,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("lang", language);
             result.addObject("tutorials", tutorials);
             result.addObject("presentations", presentations);
+            result.addObject("now", new Date());
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -344,7 +365,7 @@ public class ConferenceController extends AbstractController {
             Assert.notNull(categories);
             conference = this.conferenceService.reconstruct(conference, binding);
             conference = this.conferenceService.saveDraft(conference);
-            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
+            result = new ModelAndView("redirect:listAll.do");
         } catch (ValidationException e) {
             result = this.createEditModelAndView(conference, null);
             result.addObject("categories", categories);
@@ -368,7 +389,7 @@ public class ConferenceController extends AbstractController {
             Assert.notNull(conference);
             conference = this.conferenceService.reconstruct(conference, binding);
             conference = this.conferenceService.saveFinal(conference);
-            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
+            result = new ModelAndView("redirect:listAll.do");
         } catch (ValidationException e) {
             result = this.createEditModelAndView(conference, null);
             result.addObject("categories", categories);
@@ -390,7 +411,7 @@ public class ConferenceController extends AbstractController {
             Conference conference = this.conferenceService.findOne(conferenceId);
             Assert.notNull(conference);
             this.conferenceService.delete(conference);
-            result = new ModelAndView("redirect:listConferenceAdminMenu.do");
+            result = new ModelAndView("redirect:listAll.do");
         } catch (Throwable oops) {
             result = new ModelAndView("redirect:/");
         }

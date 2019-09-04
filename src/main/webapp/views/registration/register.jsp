@@ -35,7 +35,5 @@
         <acme:textbox code="registration.creditCard.CVV" path="creditCard.CVV" />
 
         <acme:submit name="save" code="registration.save"/>
-
-
     </form:form>
 </security:authorize>

@@ -1,3 +1,4 @@
+
 package services;
 
 import domain.Author;
@@ -13,6 +14,7 @@ import security.UserAccount;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -75,7 +77,6 @@ public class RegistrationService {
         registration.setMoment(new Date());
 
         Author author = this.authorService.findOne(this.actorService.getActorLogged().getId());
-        Assert.notNull(author);
         registration.setAuthor(author);
 
         Collection<Conference> conferences = this.conferenceService.getConferencesByAuthor(author.getId());
@@ -97,23 +98,27 @@ public class RegistrationService {
         return res;
     }
 
-    public Registration reconstruct(Registration registration, BindingResult binding){
+    public Registration reconstruct(Registration registration, BindingResult binding) {
         Registration result;
-        if (registration.getId() == 0){
-            result = this.create();
-            Date now = new Date();
-            result.setMoment(now);
-        } else {
-            result = this.registrationRepository.findOne(registration.getId());
-        }
-
-        Date now = new Date();
-        result.setMoment(now);
-        result.setAuthor(registration.getAuthor());
+        result = this.create();
+        Calendar now = Calendar.getInstance();
+        result.setMoment(new Date());
         result.setCreditCard(registration.getCreditCard());
 
         validator.validate(result, binding);
 
+        if (registration.getCreditCard().getExpirationYear() != null){
+            if (registration.getCreditCard().getExpirationYear() < now.get(Calendar.YEAR)) {
+                binding.rejectValue("creditCard.expirationYear", "error.expirationYear");
+            }
+        }
+
+        if(registration.getCreditCard().getExpirationYear() != null){
+            if (registration.getCreditCard().getExpirationYear() == now.get(Calendar.YEAR) &&
+                    registration.getCreditCard().getExpirationMonth() < now.get(Calendar.MONTH)) {
+                binding.rejectValue("creditCard.expirationMonth", "error.expirationMonth");
+            }
+        }
         if (binding.hasErrors()){
             throw new ValidationException();
         }

@@ -28,7 +28,7 @@
 					<li><a href="conference/administrator/create.do"><spring:message code="master.page.conference.create" /></a></li>
 					<li><a href="section/administrator/create.do"><spring:message code="master.page.section.create" /></a></li>
 					<li><a href="tutorial/administrator/create.do"><spring:message code="master.page.tutorial.create" /></a></li>
-					<li><a href="conference/administrator/listConferenceAdminMenu.do"><spring:message code="master.page.administrator.conferences" /></a></li>
+
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.categories" /></a></li>
 					<li><a href="topic/administrator/list.do"><spring:message code="master.page.administrator.topics" /></a></li>
 				</ul>
@@ -75,6 +75,10 @@
 					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.conference.listForthcoming" /></a></li>
 					<li><a href="conference/listPast.do"><spring:message code="master.page.conference.listPast" /></a></li>
 					<li><a href="conference/listRunning.do"><spring:message code="master.page.conference.listRunning" /></a></li>
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="conference/administrator/listConferenceAdminMenu.do"><spring:message code="master.page.administrator.conferences" /></a></li>
+						<li><a href="conference/administrator/listAll.do"><spring:message code="master.page.conference.listAll" /></a></li>
+					</security:authorize>
 					<security:authorize access="hasRole('AUTHOR')">
 						<li><a href="registration/author/listAuthor.do"><spring:message code="master.page.registration.listAuthor" /></a></li>
 					</security:authorize>
