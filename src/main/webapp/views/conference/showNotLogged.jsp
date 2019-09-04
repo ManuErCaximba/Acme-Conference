@@ -83,6 +83,26 @@
                 </display:table>
             </p>
         </fieldset>
+        <fieldset>
+            <legend><b><spring:message code="conference.panels"/> </b></legend>
+            <p>
+                <display:table name="panels" id="row" requestURI="conference/administrator/show.do?conferenceId=${conference.id}" >
+                    <spring:message code="conference.activity.title" var="personalNameHeader"/>
+                    <display:column property="title" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.startMoment" var="personalNameHeader"/>
+                    <display:column property="startMoment" title="${personalNameHeader}"/>
+
+                    <spring:message code="conference.activity.duration" var="personalNameHeader"/>
+                    <display:column property="duration" title="${personalNameHeader}"/>
+
+                    <display:column>
+                        <acme:cancel code="button.show" url="panel/administrator/show.do?panelId=${row.id}"/>
+                    </display:column>
+                </display:table>
+            </p>
+            <br>
+        </fieldset>
 
     </fieldset>
     <br>

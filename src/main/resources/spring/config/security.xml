@@ -63,6 +63,8 @@
 		<security:intercept-url pattern="/paper/author/**" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/submission/author/**" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/submission/show.do" access="permitAll"/>
+		<security:intercept-url pattern="/panel/show.do" access="permitAll"/>
+		<security:intercept-url pattern="/panel/administrator/**" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/submission/administrator/**" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/reviewer/reviewer/**" access="hasRole('REVIEWER')"/>
 		<security:intercept-url pattern="/report/reviewer/**" access="hasRole('REVIEWER')"/>

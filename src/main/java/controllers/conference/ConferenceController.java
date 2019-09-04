@@ -16,6 +16,7 @@ import security.UserAccount;
 import services.*;
 
 import javax.validation.ValidationException;
+import java.text.CollationElementIterator;
 import java.util.Collection;
 import java.util.Date;
 
@@ -37,6 +38,9 @@ public class ConferenceController extends AbstractController {
 
     @Autowired
     private PresentationService presentationService;
+
+    @Autowired
+    private ActivityService activityService;
 
     //List forthcoming conferences
 
@@ -231,10 +235,12 @@ public class ConferenceController extends AbstractController {
         final String language = LocaleContextHolder.getLocale().getLanguage();
         Collection<Tutorial> tutorials;
         Collection<Presentation> presentations;
+        Collection<Activity> panels;
         try {
             conference = this.conferenceService.findOne(conferenceId);
             tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
             presentations = this.presentationService.getPresentationsByConference(conferenceId);
+            panels = this.activityService.getPanelsByConference(conferenceId);
             Assert.isTrue(conference.getIsFinal());
             Assert.notNull(conference);
             Assert.notNull(tutorials);
@@ -244,6 +250,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("lang", language);
             result.addObject("tutorials", tutorials);
             result.addObject("presentations", presentations);
+            result.addObject("panels", panels);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -260,10 +267,12 @@ public class ConferenceController extends AbstractController {
         final String language = LocaleContextHolder.getLocale().getLanguage();
         Collection<Tutorial> tutorials;
         Collection<Presentation> presentations;
+        Collection<Activity> panels;
         try {
             conference = this.conferenceService.findOne(conferenceId);
             tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
             presentations = this.presentationService.getPresentationsByConference(conferenceId);
+            panels = this.activityService.getPanelsByConference(conferenceId);
             Actor actor = this.actorService.getActorLogged();
             Assert.isTrue(actor instanceof Administrator);
             Assert.isTrue(conference.getIsFinal());
@@ -275,6 +284,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("lang", language);
             result.addObject("tutorials", tutorials);
             result.addObject("presentations", presentations);
+            result.addObject("panels", panels);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
