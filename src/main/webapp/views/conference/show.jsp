@@ -14,6 +14,11 @@
 
 </head>
 <body>
+
+<a href="${sponsorship.targetURL}"><img src="${sponsorship.banner}" alt="Link" width="800" height="120"/></a>
+<br>
+<br>
+<br>
 <fieldset>
     <legend><b><spring:message code="conference.data"/></b></legend>
     <p><acme:showtext code="conference.title" value="${conference.title}" fieldset="false"/></p>
