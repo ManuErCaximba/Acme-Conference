@@ -13,8 +13,11 @@
     <form:form action="message/administrator,author,reviewer,sponsor/create.do" modelAttribute="mesage">
 
         <form:input type ="hidden" path="id" readonly="true"/>
+        <form:hidden path="recipient"/>
 
-        <acme:select items="${actors}" itemLabel="name" code="message.recipient" path="recipient"/>
+        <spring:message code="message.recipient" />:
+        <input id="recipient" name="recipient"  placeholder="User account"/>
+        <br />
 
         <acme:textbox code="message.subject" path="subject" />
 
