@@ -59,7 +59,7 @@
             <acme:textboxbsa code="presentation.summary" path="summary"/>
 
             <form:label path="attachments">
-                <b><spring:message code="presentation.attachments" /> *</b>
+                <b><spring:message code="presentation.attachments" /></b>
                 <br>
                 <spring:message code="presentation.attachments2"/>
                 <br>
@@ -74,10 +74,7 @@
 
             <legend><spring:message code="presentation.actors" /></legend>
 
-            <form:select path="actors">
-                <form:options items="${actors}"/>
-            </form:select>
-            <form:errors cssClass="error" path="actors"/>
+            <acme:textboxbsa code="presentation.actors" path="speakerName"/>
 
         </fieldset>
 

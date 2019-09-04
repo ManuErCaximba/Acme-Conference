@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%--
   Created by IntelliJ IDEA.
   User: MrGaRRos
@@ -46,10 +45,7 @@
     </jstl:forEach>
 </fieldset>
 <fieldset>
-    <legend><b><spring:message code="presentation.actors"/></b></legend>
-    <jstl:forEach items="${presentation.actors}" var="actor">
-        <b>-</b> <jstl:out value="${actor.name}"/> <br>
-    </jstl:forEach>
+    <p><acme:showtext code="presentation.speakerName" value="${presentation.speakerName}" fieldset="false"/></p>
 </fieldset>
 <fieldset>
     <legend><b><spring:message code="presentation.submission"/></b></legend>

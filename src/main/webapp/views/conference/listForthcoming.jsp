@@ -79,6 +79,7 @@
                     <spring:message code="button.showSubmissions"/>
                 </a>
             </display:column>
+
             <display:column>
                 <jstl:if test="${now gt row.cameraReadyDeadline && now lt row.startDate}">
                     <a href="presentation/administrator/create.do?conferenceId=${row.id}">

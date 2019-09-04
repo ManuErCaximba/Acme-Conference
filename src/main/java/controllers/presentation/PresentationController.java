@@ -155,7 +155,7 @@ public class PresentationController extends AbstractController {
     }
 
     @RequestMapping(value = "/administrator/save", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(@ModelAttribute("presentation") Presentation presentationForm, final BindingResult binding) {
+    public ModelAndView save(@Valid @ModelAttribute("presentation") Presentation presentationForm, final BindingResult binding) {
         ModelAndView result;
         Conference conference;
         Presentation presentation;
@@ -164,26 +164,28 @@ public class PresentationController extends AbstractController {
 
         try {
             conference = presentationForm.getConference();
-            schedule.setTime(presentationForm.getStartMoment().getTime() + (presentationForm.getDuration() * 60000));
             submissions =
                     this.submissionService.getSubmissionsAcceptedAndCameraReadyByConference(conference.getId());
             Assert.isTrue(submissions.contains(presentationForm.getSubmission()));
-            if (binding.hasErrors()){
+            if (binding.hasErrors()) {
                 result = this.createEditModelAndView(presentationForm, submissions, null, null);
                 for (final ObjectError e : binding.getAllErrors()) {
                     if (e.getDefaultMessage().equals("URL incorrecta") || e.getDefaultMessage().equals("Invalid URL"))
                         result.addObject("errorNumber", 3);
                 }
-            } else if (presentationForm.getStartMoment().before(conference.getStartDate()) ||
+            } else {
+                schedule.setTime(presentationForm.getStartMoment().getTime() + (presentationForm.getDuration() * 60000));
+                if (presentationForm.getStartMoment().before(conference.getStartDate()) ||
                         presentationForm.getStartMoment().after(conference.getEndDate()))
-                result = this.createEditModelAndView(presentationForm, submissions, null, 1);
-            else if (schedule.before(conference.getStartDate()) ||
-                    schedule.after(conference.getEndDate()))
-                result = this.createEditModelAndView(presentationForm, submissions, null, 2);
-            else {
-                presentation = this.presentationService.reconstruct(presentationForm, binding);
-                this.presentationService.save(presentation);
-                result = new ModelAndView("redirect:/");
+                        result = this.createEditModelAndView(presentationForm, submissions, null, 1);
+                else if (schedule.before(conference.getStartDate()) ||
+                        schedule.after(conference.getEndDate()))
+                        result = this.createEditModelAndView(presentationForm, submissions, null, 2);
+                else {
+                    presentation = this.presentationService.reconstruct(presentationForm, binding);
+                    this.presentationService.save(presentation);
+                    result = new ModelAndView("redirect:/");
+                }
             }
 
         } catch (final Exception oops) {
@@ -227,7 +229,6 @@ public class PresentationController extends AbstractController {
                                                   final String message,
                                                   final Integer errorNumber) {
         ModelAndView result;
-        Collection<Actor> actors = this.actorService.findAll();
 
         if(presentation.getId() == 0)
             result = new ModelAndView("presentation/administrator/create");
@@ -238,7 +239,6 @@ public class PresentationController extends AbstractController {
         result.addObject("message", message);
         result.addObject("errorNumber", errorNumber);
         result.addObject("submissions", submissions);
-        result.addObject("actors", actors);
 
         return result;
     }
