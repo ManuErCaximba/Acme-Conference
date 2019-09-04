@@ -60,50 +60,33 @@
         <script type="text/javascript">
 
             function phoneValidation(form) {
-                if(!form.terms.checked) {
-                    alert('<spring:message code="accept.terms"/>');
-                    form.terms.focus();
-                    return false;
-                } else {
-                    var phoneNumber = document.getElementById("phoneNumber").value;
-                    var regexPN = /^(\d\d\d\d+)$/;
-                    var regex1 = /^((\+[1-9][0-9]{0,2}) \(([1-9][0-9]{0,2})\) (\d\d\d\d+))$/;
-                    var regex2 = /^(\+[1-9][0-9]{0,2}) (\d\d\d\d+)$/;
+                var phoneNumber = document.getElementById("phoneNumber").value;
+                var regexPN = /^(\d\d\d\d+)$/;
+                var regex1 = /^((\+[1-9][0-9]{0,2}) \(([1-9][0-9]{0,2})\) (\d\d\d\d+))$/;
+                var regex2 = /^(\+[1-9][0-9]{0,2}) (\d\d\d\d+)$/;
 
-                    if (!(phoneNumber == null || phoneNumber == '')) {
-                        if (regexPN.test(phoneNumber)) {
-                            return document.getElementById("myform").submit();
-                        } else if (regex1.test(phoneNumber)) {
-                            return document.getElementById("myform").submit();
-                        } else if (regex2.test(phoneNumber)) {
-                            return document.getElementById("myform").submit();
-                        } else {
-                            var confirm = window.confirm('<spring:message code = "actor.confirm"/>');
-                            if (!confirm) {
-                                return window.history.back();
-                            } else {
-                                return document.getElementById("myform").submit();
-                            }
-                        }
-                    } else {
+                if (!(phoneNumber == null || phoneNumber == '')) {
+                    if (regexPN.test(phoneNumber)) {
                         return document.getElementById("myform").submit();
+                    } else if (regex1.test(phoneNumber)) {
+                        return document.getElementById("myform").submit();
+                    } else if (regex2.test(phoneNumber)) {
+                        return document.getElementById("myform").submit();
+                    } else {
+                        var confirm = window.confirm('<spring:message code = "actor.confirm"/>');
+                        if (!confirm) {
+                            return window.history.back();
+                        } else {
+                            return document.getElementById("myform").submit();
+                        }
                     }
+                } else {
+                    return document.getElementById("myform").submit();
                 }
             }
 
         </script>
 
-        <br>
-
-        <input type="checkbox" name="terms">
-        <label for="terms">
-            <spring:message code="terms1"/>
-            <a href="gdpr/display.do">
-                <spring:message code="terms2"/>
-            </a>
-        </label>
-
-        <br>
         <br>
 
         <input type="button" name="save"
