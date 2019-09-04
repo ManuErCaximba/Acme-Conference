@@ -14,6 +14,7 @@
 
 </head>
 <body>
+
 <fieldset>
     <legend><b><spring:message code="conference.data"/></b></legend>
     <p><acme:showtext code="conference.title" value="${conference.title}" fieldset="false"/></p>
@@ -123,5 +124,10 @@
 <input type="button" name="cancel"
        value="<spring:message code="button.goBack" />"
        onclick="javascript: window.history.back();" />
+<br>
+<br>
+<br>
+<a href="${sponsorship.targetURL}"><img src="${sponsorship.banner}" alt="Link" width="800" height="120"/></a>
+
 </body>
 </html>

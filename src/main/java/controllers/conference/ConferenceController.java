@@ -17,8 +17,10 @@ import services.*;
 
 import javax.validation.ValidationException;
 import java.text.CollationElementIterator;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("conference")
@@ -41,6 +43,9 @@ public class ConferenceController extends AbstractController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private SponsorshipService sponsorshipService;
 
     //List forthcoming conferences
 
@@ -255,7 +260,11 @@ public class ConferenceController extends AbstractController {
         Collection<Tutorial> tutorials;
         Collection<Presentation> presentations;
         Collection<Activity> panels;
+        List<Sponsorship> sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+        int random = (int) (Math.random()*sponsorships.size());
         try {
+            Assert.notNull(sponsorships);
+            Sponsorship sponsorship = sponsorships.get(random);
             conference = this.conferenceService.findOne(conferenceId);
             tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
             presentations = this.presentationService.getPresentationsByConference(conferenceId);
@@ -271,6 +280,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("presentations", presentations);
             result.addObject("panels", panels);
             result.addObject("now", new Date());
+            result.addObject("sponsorship", sponsorship);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
@@ -288,7 +298,12 @@ public class ConferenceController extends AbstractController {
         Collection<Tutorial> tutorials;
         Collection<Presentation> presentations;
         Collection<Activity> panels;
+        List<Sponsorship> sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+        int random = (int) (Math.random()*sponsorships.size());
         try {
+            Assert.notNull(sponsorships);
+            Sponsorship sponsorship = sponsorships.get(random);
+            Assert.notNull(sponsorship);
             conference = this.conferenceService.findOne(conferenceId);
             tutorials = this.tutorialService.getTutorialsByConference(conferenceId);
             presentations = this.presentationService.getPresentationsByConference(conferenceId);
@@ -306,6 +321,7 @@ public class ConferenceController extends AbstractController {
             result.addObject("presentations", presentations);
             result.addObject("panels", panels);
             result.addObject("now", new Date());
+            result.addObject("sponsorship", sponsorship);
         } catch (final Exception e) {
             result = new ModelAndView("redirect:/");
         }
