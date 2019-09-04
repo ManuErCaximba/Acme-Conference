@@ -259,6 +259,26 @@
 		<property name="CVV" value="862" />
 	</bean>
 
+	<!-- RECIPIENT -->
+
+	<bean id="report1" class="domain.Report">
+		<property name="originalityScore" value="5"/>
+		<property name="readabilityScore" value="5" />
+		<property name="qualityScore" value="5" />
+		<property name="decision" value="ACCEPT" />
+		<property name="reviewer" ref="reviewer1" />
+		<property name="submission" ref="submission2" />
+	</bean>
+
+	<bean id="report2" class="domain.Report">
+		<property name="originalityScore" value="5"/>
+		<property name="readabilityScore" value="5" />
+		<property name="qualityScore" value="5" />
+		<property name="decision" value="ACCEPT" />
+		<property name="reviewer" ref="reviewer2" />
+		<property name="submission" ref="submission2" />
+	</bean>
+
 	<!-- SUBMISSION -->
 
 	<bean id="submission1" class="domain.Submission">
@@ -279,7 +299,7 @@
 		<property name="author" ref="author1" />
 		<property name="paper" ref="paper1" />
 		<property name="conference" ref="conference2"/>
-		<property name="isAssigned" value="false"/>
+		<property name="isAssigned" value="true"/>
 		<property name="isCameraReady" value="false"/>
 	</bean>
 

@@ -201,7 +201,7 @@ public class MessageService {
         int random = (int) (Math.random()*admins.size());
 
         Submission submission = this.submissionService.findOne(submission2.getId());
-        if(submission.getStatus().equals("ACCEPT")){
+        if(submission.getStatus().equals("ACCEPTED")){
             message.setSender(admins.get(random));
             message.setRecipient(submission.getAuthor());
             message.setSubject("Submission decision\n Resultado de solicitud");
@@ -214,7 +214,7 @@ public class MessageService {
             message.setMoment(new Date());
             message = this.messageRepository.save(message);
         }
-        if(submission.getStatus().equals("REJECT")){
+        if(submission.getStatus().equals("REJECTED")){
             message.setSender(admins.get(random));
             message.setRecipient(submission.getAuthor());
             message.setSubject("Submission decision\n Resultado de solicitud");
