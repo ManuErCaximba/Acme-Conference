@@ -115,7 +115,7 @@ public class PanelController extends AbstractController {
     }
 
     @RequestMapping(value = "/administrator/save", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(@Valid @ModelAttribute("activity") Activity panelForm, final BindingResult binding) {
+    public ModelAndView save(@Valid @ModelAttribute("panel") Activity panelForm, final BindingResult binding) {
         ModelAndView result;
         Conference conference;
         Activity panel;

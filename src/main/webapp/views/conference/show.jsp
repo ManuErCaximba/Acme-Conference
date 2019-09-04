@@ -111,7 +111,7 @@
                     <display:column property="duration" title="${personalNameHeader}"/>
 
                     <display:column>
-                        <acme:cancel code="button.show" url="panel/administrator/show.do?panelId=${row.id}"/>
+                        <acme:cancel code="button.show" url="panel/show.do?panelId=${row.id}"/>
                     </display:column>
 
                     <display:column>
@@ -119,7 +119,7 @@
                     </display:column>
 
                     <display:column>
-                        <acme:cancel code="button.delete" url="panel/administrator/edit.do?panelId=${row.id}"/>
+                        <acme:cancel code="button.delete" url="panel/administrator/delete.do?panelId=${row.id}"/>
                     </display:column>
                 </display:table>
             </p>

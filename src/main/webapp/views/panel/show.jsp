@@ -32,20 +32,20 @@
 <fieldset>
     <legend><b><spring:message code="presentation.data"/></b></legend>
 
-    <p><acme:showtext code="presentation.title" value="${presentation.title}" fieldset="false"/></p>
-    <p><acme:showtext code="presentation.startMoment" value="${presentation.startMoment}" fieldset="false"/></p>
-    <p><acme:showtext code="presentation.durationInMin" value="${presentation.duration}" fieldset="false"/></p>
-    <p><acme:showtext code="presentation.room" value="${presentation.room}" fieldset="false"/></p>
-    <p><acme:showtext code="presentation.summary" value="${presentation.summary}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.title" value="${panel.title}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.startMoment" value="${panel.startMoment}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.durationInMin" value="${panel.duration}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.room" value="${panel.room}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.summary" value="${panel.summary}" fieldset="false"/></p>
 
     <b><spring:message code="presentation.attachments"/>:</b>
     <br />
-    <jstl:forEach items="${presentation.attachments}" var="attachment">
+    <jstl:forEach items="${panel.attachments}" var="attachment">
         <a href="${attachment.link}"><jstl:out value="${attachment.link}"/></a> <br>
     </jstl:forEach>
 </fieldset>
 <fieldset>
-    <p><acme:showtext code="presentation.speakerName" value="${presentation.speakerName}" fieldset="false"/></p>
+    <p><acme:showtext code="presentation.speakerName" value="${panel.speakerName}" fieldset="false"/></p>
 </fieldset>
 <br>
 <acme:cancel code="button.cancel" url="/"/>

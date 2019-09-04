@@ -18,7 +18,7 @@
 
     <spring:message code="actor.firstMessage" />
 
-    <form:form id="panel" action="panel/administrator/save.do" modelAttribute="activity">
+    <form:form id="panel" action="panel/administrator/save.do" modelAttribute="panel">
 
         <form:hidden path="id" />
         <form:hidden path="conference" />
