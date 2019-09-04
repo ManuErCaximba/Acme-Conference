@@ -33,6 +33,9 @@ public class SubmissionService {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private MessageService messageService;
+
     //CRUD Methods
     public Submission create(){
         Submission submission = new Submission();
@@ -262,6 +265,7 @@ public class SubmissionService {
         }
 
         submission = this.save(submission);
+        this.messageService.notificationStatusSubmmission(submission);
 
         Collection<Reviewer> reviewers = this.reviewerService.findAll();
         for(Reviewer r: reviewers){

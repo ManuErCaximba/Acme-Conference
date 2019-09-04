@@ -174,13 +174,13 @@ public class MessageService {
         message = this.messageRepository.save(message);
     }
 
-    public void notificationSubmissionConference(Author author, int submissionId){
+    public void notificationSubmissionConference(Author author, Submission submission2){
         Message message = this.create();
 
         List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
         int random = (int) (Math.random()*admins.size());
 
-        Submission submission = this.submissionService.findOne(submissionId);
+        Submission submission = this.submissionService.findOne(submission2.getId());
         message.setSender(admins.get(random));
         message.setRecipient(author);
         message.setSubject("Conference submission \n Presentación conferencia");
@@ -192,6 +192,42 @@ public class MessageService {
 
         message.setMoment(new Date());
         message = this.messageRepository.save(message);
+    }
+
+    public void notificationStatusSubmmission(Submission submission2){
+        Message message = this.create();
+
+        List<Administrator> admins = new ArrayList<>(this.administratorService.findAll());
+        int random = (int) (Math.random()*admins.size());
+
+        Submission submission = this.submissionService.findOne(submission2.getId());
+        if(submission.getStatus().equals("ACCEPT")){
+            message.setSender(admins.get(random));
+            message.setRecipient(submission.getAuthor());
+            message.setSubject("Submission decision\n Resultado de solicitud");
+            message.setBody("Your submission "+submission.getTicker()+ " was accepted.\n Su solicitud "+submission.getTicker()+ " fue aceptada.");
+
+            Topic registrationTopic = this.topicService.getRegistrationtTopic();
+            Assert.notNull(registrationTopic);
+            message.setTopic(registrationTopic);
+
+            message.setMoment(new Date());
+            message = this.messageRepository.save(message);
+        }
+        if(submission.getStatus().equals("REJECT")){
+            message.setSender(admins.get(random));
+            message.setRecipient(submission.getAuthor());
+            message.setSubject("Submission decision\n Resultado de solicitud");
+            message.setBody("Your submission "+submission.getTicker()+ " was rejected.\n Su solicitud "+submission.getTicker()+ " fue rechazada.");
+
+            Topic registrationTopic = this.topicService.getRegistrationtTopic();
+            Assert.notNull(registrationTopic);
+            message.setTopic(registrationTopic);
+
+            message.setMoment(new Date());
+            message = this.messageRepository.save(message);
+        }
+
     }
 
     public Collection<Message> findAllMessagesByTopic(int topicId){

@@ -41,6 +41,12 @@ public class SubmissionController extends AbstractController {
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private AuthorService authorService;
+
     // List --------------------------------------------------------------------------
     @RequestMapping(value = "/author/list", method = RequestMethod.GET)
     public ModelAndView list() {
@@ -264,7 +270,7 @@ public class SubmissionController extends AbstractController {
     public ModelAndView save(@ModelAttribute("submission") @Valid Submission submission, final BindingResult binding) {
         ModelAndView result;
         final Actor actor = this.actorService.getActorLogged();
-
+        Author author = this.authorService.findOne(actor.getId());
         try {
             Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("AUTHOR"));
             Collection<Paper> papers = this.paperService.findAllByAuthor((Author) actor);
@@ -272,7 +278,9 @@ public class SubmissionController extends AbstractController {
                 result = this.createEditModelAndView(submission, papers, null, null);
             else {
                 submission = this.submissionService.reconstruct(submission, binding);
-                this.submissionService.save(submission);
+                Submission saved = this.submissionService.save(submission);
+                //TODO:REVISAR
+                this.messageService.notificationSubmissionConference(author, saved);
                 result = new ModelAndView("redirect:list.do");
             }
         } catch (final Throwable oops) {
