@@ -1,6 +1,8 @@
 package services;
 
 import domain.Actor;
+import domain.Comment;
+import domain.Section;
 import domain.Tutorial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import security.UserAccount;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,6 +32,12 @@ public class TutorialService {
 
     @Autowired
     private Validator validator;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private SectionService sectionService;
 
     public Tutorial create(){
         UserAccount userAccount;
@@ -56,9 +66,15 @@ public class TutorialService {
 
     public void delete(Tutorial tutorial){
         final Actor actor = this.actorService.getActorLogged();
+        List<Section> sections = new ArrayList<>();
 
         Assert.isTrue(actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
         Assert.notNull(tutorial);
+
+        sections = (List<Section>) this.sectionService.getSectionsByTutorial(tutorial.getId());
+
+        for(Section s: sections)
+            this.sectionService.delete(s);
 
         this.tutorialRepository.delete(tutorial);
     }
