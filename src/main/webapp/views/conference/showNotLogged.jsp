@@ -75,8 +75,22 @@
 
                     <display:column>
                         <a
-                                href="presentation/administrator/show.do?conferenceId=${row.id}">
+                                href="presentation/show.do?presentationId=${row.id}">
                             <spring:message code="conference.show"/>
+                        </a>
+                    </display:column>
+
+                    <display:column>
+                        <a
+                                href="presentation/administrator/edit.do?presentationId=${row.id}">
+                            <spring:message code="button.edit"/>
+                        </a>
+                    </display:column>
+
+                    <display:column>
+                        <a
+                                href="presentation/administrator/delete.do?presentationId=${row.id}">
+                            <spring:message code="button.delete"/>
                         </a>
                     </display:column>
 
